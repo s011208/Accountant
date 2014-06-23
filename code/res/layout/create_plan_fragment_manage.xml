@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/create_plan_buttons_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/create_plan_buttons_parent_margin_v"
+        android:layout_marginTop="@dimen/create_plan_buttons_parent_margin_v"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/create_plan"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_marginBottom="@dimen/main_entry_button_margin_v"
+            android:layout_marginLeft="@dimen/main_entry_button_margin_h"
+            android:layout_marginRight="@dimen/main_entry_button_margin_h"
+            android:layout_marginTop="@dimen/main_entry_button_margin_v"
+            android:layout_weight="1"
+            android:text="@string/create_plan" />
+
+        <Button
+            android:id="@+id/delete_plan"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_marginBottom="@dimen/main_entry_button_margin_v"
+            android:layout_marginLeft="@dimen/main_entry_button_margin_h"
+            android:layout_marginRight="@dimen/main_entry_button_margin_h"
+            android:layout_marginTop="@dimen/main_entry_button_margin_v"
+            android:layout_weight="1"
+            android:text="@string/delete_plan" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/plan_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/create_plan_buttons_parent"
+        android:layout_alignParentTop="true" >
+    </ListView>
+
+</RelativeLayout>

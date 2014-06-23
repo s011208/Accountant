@@ -2,7 +2,16 @@
 <resources>
 
     <string name="app_name">Accountant</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="main_entry_plan">My plan</string>
+    <string name="main_entry_test">Test</string>
+    <string name="main_entry_overview">Overview</string>
+    <string name="create_plan">Create new plan</string>
+    <string name="delete_plan">Delete plan</string>
+    <string name="law_name">Law name</string>
+    <string name="estimate_days">Plan finish day</string>
+    <string name="reading_order">Reading order</string>
+    <string name="ok">@android:string/ok</string>
+    <string name="cancel">@android:string/cancel</string>
 
 </resources>
