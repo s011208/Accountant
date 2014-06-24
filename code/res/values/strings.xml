@@ -13,5 +13,13 @@
     <string name="reading_order">Reading order</string>
     <string name="ok">@android:string/ok</string>
     <string name="cancel">@android:string/cancel</string>
+    <string name="tax_collection_law">Tax collection law</string>
+    <string name="land_law">Land law</string>
+    <string name="company_law">Company collection law</string>
+
+    <string-array name="reading_order">
+        <item>By chapter</item>
+        <item>Random</item>
+    </string-array>
 
 </resources>

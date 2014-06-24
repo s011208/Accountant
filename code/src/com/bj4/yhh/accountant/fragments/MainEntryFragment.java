@@ -23,6 +23,9 @@ public class MainEntryFragment extends Fragment {
 
     private MainActivity mMainActivity;
 
+    public MainEntryFragment() {
+    }
+
     public MainEntryFragment(MainActivity activity) {
         mContext = activity;
         mMainActivity = activity;
@@ -55,8 +58,7 @@ public class MainEntryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-
+                mMainActivity.switchFragment(MainActivity.OVER_VIEW_FRAGMENT);
             }
         });
     }

@@ -2,26 +2,30 @@
 package com.bj4.yhh.accountant;
 
 public class LawAttrs {
+    public String mPart;
+
     public String mChapter;
 
     public String mSection;
 
     public String mLine;
 
-    public String mMu;
+    public String mSubSection;
 
     public String mContent;
 
-    public LawAttrs(String chapter, String sec, String mu, String line, String content) {
+    public LawAttrs(String part, String chapter, String sec, String subsection, String line,
+            String content) {
+        mPart = part;
         mChapter = chapter;
         mSection = sec;
-        mMu = mu;
+        mSubSection = subsection;
         mLine = line;
         mContent = content;
     }
 
     public String toString() {
-        return "mChapter: " + mChapter + ", mSection: " + mSection + ", mMu: " + mMu + ", mLine: "
-                + mLine + ", mContent: " + mContent;
+        return "mPart: " + mPart + ", mChapter: " + mChapter + ", mSection: " + mSection
+                + ", mSubSection: " + mSubSection + ", mLine: " + mLine + ", mContent: " + mContent;
     }
 }
