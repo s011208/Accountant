@@ -8,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import com.bj4.yhh.accountant.AccountantApplication;
@@ -106,7 +108,7 @@ public class GovLawParser implements Runnable {
                     if (tempLine != null && "".equals(tempLine) == false) {
                         line = tempLine;
                     }
-                    content = data.select("pre").text().replace("\n", "").replace("\r", "");
+                    content = preProcessDataContent(data.select("pre").text());
                     if ("".equals(line) == false && content != null && "".equals(content) == false) {
                         mData.add(new LawAttrs(String.valueOf(currentPart), String
                                 .valueOf(currentChapter), String.valueOf(currentSection), String
@@ -119,6 +121,13 @@ public class GovLawParser implements Runnable {
         } finally {
             refreshTable();
         }
+    }
+
+    private static String preProcessDataContent(String content) {
+        content = content.replaceAll("¡C\n|¡C\r", "rrr").replaceAll("¡G\n|¡G\r", "bbb");
+        content = content.replace("\n", "").replace("\r", "").replaceAll(" ", "");
+        content = content.replace("rrr", "¡C\n").replace("bbb", "¡G\n");
+        return content;
     }
 
     private void refreshTable() {
@@ -141,8 +150,8 @@ public class GovLawParser implements Runnable {
             return 0;
         }
     }
-    
-    public static final String getTypeText(Context context, int type){
+
+    public static final String getTypeText(Context context, int type) {
         if (type == GovLawParser.PARSE_TYPE_COMPANY) {
             return context.getString(R.string.company_law);
         } else if (type == GovLawParser.PARSE_TYPE_LAND) {
