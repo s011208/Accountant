@@ -3,6 +3,7 @@ package com.bj4.yhh.accountant;
 
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.fragments.MainEntryFragment;
+import com.bj4.yhh.accountant.parser.BusinessLawParser;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -36,6 +37,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         switchFragment(MAIN_ENTRY_FRAGMENT);
+        new Thread(new BusinessLawParser(this)).start();
     }
 
     public void onBackPressed() {
