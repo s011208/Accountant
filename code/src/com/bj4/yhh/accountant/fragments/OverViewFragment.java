@@ -25,7 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-public class OverViewFragment extends Fragment {
+public class OverViewFragment extends Fragment implements DatabaseHelper.RefreshLawCallback {
     public static final int OVERVIEW_FRAGMENT_LAW_LIST = 0;
 
     public static final int OVERVIEW_FRAGMENT_LAW_CONTENT = 1;
@@ -57,7 +57,13 @@ public class OverViewFragment extends Fragment {
         mContext = activity;
         mMainActivity = activity;
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
+        mDatabaseHelper.addCallback(this);
         init();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        mDatabaseHelper.removeCallback(this);
     }
 
     private void init() {
@@ -150,7 +156,7 @@ public class OverViewFragment extends Fragment {
                     public void onClick(View v) {
                         mDisplayContentType = t;
                         mLawContentAdapter.notifyDataSetChanged();
-                        mLawContent.smoothScrollToPosition(0);
+                        mLawContent.setSelection(0);
                         setDisplayedChild(OVERVIEW_FRAGMENT_LAW_CONTENT);
                     }
                 });
@@ -172,5 +178,17 @@ public class OverViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mContentView;
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        mMainActivity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                initLawList();
+                mLawContentAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

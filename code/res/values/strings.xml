@@ -15,11 +15,13 @@
     <string name="cancel">@android:string/cancel</string>
     <string name="tax_collection_law">Tax collection law</string>
     <string name="land_law">Land law</string>
-    <string name="company_law">Company collection law</string>
+    <string name="company_law">Company law</string>
+    <string name="reading_order_chapter">By chapter</string>
+    <string name="reading_order_random">Random</string>
 
     <string-array name="reading_order">
-        <item>By chapter</item>
-        <item>Random</item>
+        <item>@string/reading_order_chapter</item>
+        <item>@string/reading_order_random</item>
     </string-array>
 
 </resources>

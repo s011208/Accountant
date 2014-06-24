@@ -4,6 +4,7 @@ package com.bj4.yhh.accountant.database;
 import java.util.ArrayList;
 
 import com.bj4.yhh.accountant.LawAttrs;
+import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 
 import android.content.ContentValues;
@@ -37,6 +38,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_READING_ORDER = "reading_order";
 
+    public static final String COLUMN_DATE = "date";
+
     // data related
     public static final String TABLE_NAME_LAW = "law";
 
@@ -55,6 +58,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
 
     public static final String COLUMN_TYPE = "law_type";
+
+    public interface RefreshLawCallback {
+        public void notifyDataChanged();
+    }
+
+    private final ArrayList<RefreshLawCallback> mRefreshLawCallback = new ArrayList<RefreshLawCallback>();
+
+    public interface RefreshPlanCallback {
+        public void notifyDataChanged();
+    }
+
+    private final ArrayList<RefreshPlanCallback> mRefreshPlanCallback = new ArrayList<RefreshPlanCallback>();
 
     private SQLiteDatabase mDb;
 
@@ -83,6 +98,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         createTables();
     }
 
+    public boolean isLawTableEmpty() {
+        boolean rtn = true;
+        Cursor c = getDataBase().rawQuery("select count(*) from " + TABLE_NAME_LAW, null);
+        if (c != null) {
+            c.moveToNext();
+            rtn = c.getInt(0) == 0;
+            c.close();
+        }
+        return rtn;
+    }
+
     public void createTables() {
         // law table
         getDataBase().execSQL(
@@ -93,11 +119,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // plan table
         getDataBase().execSQL(
                 "CREATE TABLE if not exists " + TABLE_NAME_PLAN + " (" + COLUMN_LAW_TYPE
-                        + " INTEGER PRIMARY KEY , " + COLUMN_TOTAL_PROGRESS + " TEXT, "
-                        + COLUMN_CURRENT_PROGRESS + " TEXT, " + COLUMN_READING_ORDER + " TEXT)");
+                        + " INTEGER PRIMARY KEY , " + COLUMN_DATE + " TEXT, "
+                        + COLUMN_TOTAL_PROGRESS + " TEXT, " + COLUMN_CURRENT_PROGRESS + " TEXT, "
+                        + COLUMN_READING_ORDER + " TEXT)");
     }
-    
-    public void addNewPlan(){}
+
+    public void addCallback(RefreshPlanCallback c) {
+        if (mRefreshPlanCallback.contains(c) == false)
+            mRefreshPlanCallback.add(c);
+    }
+
+    public void removeCallback(RefreshPlanCallback c) {
+        mRefreshPlanCallback.remove(c);
+    }
+
+    public ArrayList<PlanAttrs> getAllPlans() {
+        ArrayList<PlanAttrs> rtn = new ArrayList<PlanAttrs>();
+        Cursor data = getDataBase().query(TABLE_NAME_PLAN, null, null, null, null, null, null);
+        if (data != null) {
+            int typeI = data.getColumnIndex(COLUMN_LAW_TYPE);
+            int tProgressI = data.getColumnIndex(COLUMN_TOTAL_PROGRESS);
+            int cProgressI = data.getColumnIndex(COLUMN_CURRENT_PROGRESS);
+            int rOrderI = data.getColumnIndex(COLUMN_READING_ORDER);
+            int dateI = data.getColumnIndex(COLUMN_DATE);
+            while (data.moveToNext()) {
+                rtn.add(new PlanAttrs(data.getInt(typeI), data.getInt(rOrderI), data
+                        .getInt(tProgressI), data.getInt(cProgressI), data.getInt(dateI)));
+            }
+            data.close();
+        }
+        return rtn;
+    }
+
+    public void addNewPlan(PlanAttrs plan) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_LAW_TYPE, plan.mPlanType);
+        cv.put(COLUMN_TOTAL_PROGRESS, plan.mTotalProgress);
+        cv.put(COLUMN_CURRENT_PROGRESS, plan.mCurrentProgress);
+        cv.put(COLUMN_READING_ORDER, plan.mReadingOrder);
+        cv.put(COLUMN_DATE, plan.mDate);
+        getDataBase().insert(TABLE_NAME_PLAN, null, cv);
+        for (RefreshPlanCallback c : mRefreshPlanCallback) {
+            c.notifyDataChanged();
+        }
+    }
 
     public ArrayList<LawAttrs> query(int type) {
         ArrayList<LawAttrs> rtn = null;
@@ -106,6 +171,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null, null, null, null, null, null);
         rtn = convertFromCursorToLawAttrs(data);
         return rtn;
+    }
+
+    public void clearAllPlans() {
+        getDataBase().delete(TABLE_NAME_PLAN, null, null);
+        for (RefreshPlanCallback c : mRefreshPlanCallback) {
+            c.notifyDataChanged();
+        }
+    }
+
+    public ArrayList<Integer> getAvailableLawTypes() {
+        ArrayList<Integer> availableLawTypes = getAllLawTypes();
+        Cursor data = getDataBase().rawQuery(
+                "select " + COLUMN_LAW_TYPE + " from " + TABLE_NAME_PLAN, null);
+        if (data != null) {
+            while (data.moveToNext()) {
+                availableLawTypes.remove((Integer)data.getInt(0));
+            }
+            data.close();
+        }
+        return availableLawTypes;
     }
 
     public ArrayList<Integer> getAllLawTypes() {
@@ -167,6 +252,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rtn;
     }
 
+    public void addCallback(RefreshLawCallback c) {
+        if (mRefreshLawCallback.contains(c) == false)
+            mRefreshLawCallback.add(c);
+    }
+
+    public void removeCallback(RefreshLawCallback c) {
+        mRefreshLawCallback.remove(c);
+    }
+
     public void refreshLaw(ArrayList<LawAttrs> list, int type) {
         getDataBase().delete(TABLE_NAME_LAW, COLUMN_TYPE + "='" + type + "'", null);
         ArrayList<ContentValues> cvs = convertFromLawAttrsToContentValues(list, type);
@@ -178,6 +272,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             getDataBase().setTransactionSuccessful();
         } finally {
             getDataBase().endTransaction();
+        }
+        for (RefreshLawCallback c : mRefreshLawCallback) {
+            c.notifyDataChanged();
         }
     }
 

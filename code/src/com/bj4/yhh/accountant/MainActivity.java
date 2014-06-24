@@ -1,15 +1,19 @@
 
 package com.bj4.yhh.accountant;
 
+import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.fragments.MainEntryFragment;
 import com.bj4.yhh.accountant.fragments.OverViewFragment;
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.service.ParseService;
 
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,17 +38,26 @@ public class MainActivity extends Activity {
 
     private OverViewFragment mOverViewFragment;
 
+    private DatabaseHelper mDatabaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+        mDatabaseHelper = AccountantApplication.getDatabaseHelper(this);
         setContentView(R.layout.activity_main);
         switchFragment(MAIN_ENTRY_FRAGMENT);
-        new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_COMPANY)).start();
-        new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_LAND)).start();
-        new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_TEXT_COLLECTION)).start();
+        runParserIfNeeded();
+    }
+
+    private void runParserIfNeeded() {
+        if (mDatabaseHelper.isLawTableEmpty()) {
+            Intent intent = new Intent(this, ParseService.class);
+            intent.putExtra(ParseService.PARSE_ALL, true);
+            startService(intent);
+        }
     }
 
     public void onBackPressed() {

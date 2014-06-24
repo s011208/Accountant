@@ -40,6 +40,10 @@ public class GovLawParser implements Runnable {
 
     public static final int PARSE_TYPE_TEXT_COLLECTION = 2;
 
+    public static final String SEP_1 = "rrr";
+
+    public static final String SEP_2 = "bbb";
+
     private final ArrayList<LawAttrs> mData = new ArrayList<LawAttrs>();
 
     private Context mContext;
@@ -58,7 +62,7 @@ public class GovLawParser implements Runnable {
                 rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=J0080001";
                 break;
             case PARSE_TYPE_LAND:
-                rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0060001";
+                rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0340096";
                 break;
             case PARSE_TYPE_TEXT_COLLECTION:
                 rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0340001";
@@ -124,9 +128,9 @@ public class GovLawParser implements Runnable {
     }
 
     private static String preProcessDataContent(String content) {
-        content = content.replaceAll("¡C\n|¡C\r", "rrr").replaceAll("¡G\n|¡G\r", "bbb");
+        content = content.replaceAll("¡C\n|¡C\r", SEP_1).replaceAll("¡G\n|¡G\r", SEP_2);
         content = content.replace("\n", "").replace("\r", "").replaceAll(" ", "");
-        content = content.replace("rrr", "¡C\n").replace("bbb", "¡G\n");
+        content = content.replace(SEP_1, "¡C\n").replace(SEP_2, "¡G\n");
         return content;
     }
 
@@ -148,6 +152,18 @@ public class GovLawParser implements Runnable {
             return R.string.tax_collection_law;
         } else {
             return 0;
+        }
+    }
+
+    public static final int getTextType(Context context, String txt) {
+        if (txt.equals(context.getString(R.string.company_law))) {
+            return GovLawParser.PARSE_TYPE_COMPANY;
+        } else if (txt.equals(context.getString(R.string.land_law))) {
+            return GovLawParser.PARSE_TYPE_LAND;
+        } else if (txt.equals(context.getString(R.string.tax_collection_law))) {
+            return GovLawParser.PARSE_TYPE_TEXT_COLLECTION;
+        } else {
+            return GovLawParser.PARSE_TYPE_COMPANY;
         }
     }
 

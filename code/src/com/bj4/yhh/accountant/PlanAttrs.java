@@ -10,10 +10,13 @@ public class PlanAttrs {
 
     public int mCurrentProgress;
 
-    public PlanAttrs(int plan, int readingOrder, int tProgress, int cProgress) {
+    public int mDate;
+
+    public PlanAttrs(int plan, int readingOrder, int tProgress, int cProgress, int date) {
         mPlanType = plan;
         mReadingOrder = readingOrder;
         mTotalProgress = tProgress;
         mCurrentProgress = cProgress;
+        mDate = date;
     }
 }
