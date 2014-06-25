@@ -73,11 +73,21 @@
             android:visibility="gone" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/progress_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cancel_ok_ll"
+        android:layout_marginBottom="10dp"
+        android:textColor="#ffffff"
+        android:gravity="center" >
+    </TextView>
+
     <ScrollView
         android:id="@+id/question_scroller"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/cancel_ok_ll"
+        android:layout_above="@+id/progress_hint"
         android:layout_below="@+id/sep_1"
         android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/simple_test_activity_scroll_question_margin_v"

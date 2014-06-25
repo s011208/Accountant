@@ -38,7 +38,7 @@ public class SimpleTestActivity extends Activity {
 
     private DatabaseHelper mDatabaseHelper;
 
-    private TextView mTitle;
+    private TextView mTitle, mProgressHint;
 
     private TextView mQuestion, mAnswer;
 
@@ -123,6 +123,7 @@ public class SimpleTestActivity extends Activity {
         mComplete.setVisibility(View.VISIBLE);
         mQuestion.setVisibility(View.GONE);
         mAnswer.setVisibility(View.GONE);
+        mProgressHint.setVisibility(View.GONE);
         Toast.makeText(getBaseContext(), "done", Toast.LENGTH_SHORT).show();
     }
 
@@ -130,6 +131,7 @@ public class SimpleTestActivity extends Activity {
         mTitle = (TextView)findViewById(R.id.law_name);
         mQuestion = (TextView)findViewById(R.id.question);
         mAnswer = (TextView)findViewById(R.id.answer);
+        mProgressHint = (TextView)findViewById(R.id.progress_hint);
         mYes = (Button)findViewById(R.id.yes);
         mYes.setOnClickListener(new OnClickListener() {
             @Override
@@ -182,7 +184,7 @@ public class SimpleTestActivity extends Activity {
             finishTest();
             return;
         } else {
-            Log.d(TAG, "" + mLaws.size() + ", mUpperBound: " + mUpperBound);
+            mProgressHint.setText(getBaseContext().getString(R.string.rest_items) + mLaws.size());
         }
         int type = (int)((Math.random() * 100) % 2);
         mCurrentIndex = (int)((Math.random() * 10000) % mUpperBound);
