@@ -6,20 +6,24 @@ import java.util.Calendar;
 import java.util.Collections;
 
 import com.bj4.yhh.accountant.AccountantApplication;
-import com.bj4.yhh.accountant.MainActivity;
 import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.R;
+import com.bj4.yhh.accountant.activities.MainActivity;
+import com.bj4.yhh.accountant.activities.SimpleTestActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -146,6 +150,15 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
         mPlanList = (ListView)mContentView.findViewById(R.id.plan_listview);
         mPlanListAdapter = new PlanListAdapter();
         mPlanList.setAdapter(mPlanListAdapter);
+        mPlanList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PlanAttrs plan = mPlanListAdapter.getItem(position);
+                Intent start = new Intent(mContext, SimpleTestActivity.class);
+                start.putExtra(SimpleTestActivity.INTENT_PLAN_TYPE, plan.mPlanType);
+                mContext.startActivity(start);
+            }
+        });
     }
 
     class PlanListAdapter extends BaseAdapter {

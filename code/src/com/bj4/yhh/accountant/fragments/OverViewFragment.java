@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.LawAttrs;
-import com.bj4.yhh.accountant.MainActivity;
 import com.bj4.yhh.accountant.R;
+import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.MagicFuzzy;

@@ -133,6 +133,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mRefreshPlanCallback.remove(c);
     }
 
+    public PlanAttrs getPlan(int type) {
+        PlanAttrs rtn = null;
+        Cursor data = getDataBase().query(TABLE_NAME_PLAN, null,
+                COLUMN_LAW_TYPE + "='" + type + "'", null, null, null, null);
+        if (data != null) {
+            int typeI = data.getColumnIndex(COLUMN_LAW_TYPE);
+            int tProgressI = data.getColumnIndex(COLUMN_TOTAL_PROGRESS);
+            int cProgressI = data.getColumnIndex(COLUMN_CURRENT_PROGRESS);
+            int rOrderI = data.getColumnIndex(COLUMN_READING_ORDER);
+            int dateI = data.getColumnIndex(COLUMN_DATE);
+            while (data.moveToNext()) {
+                rtn = new PlanAttrs(data.getInt(typeI), data.getInt(rOrderI),
+                        data.getInt(tProgressI), data.getInt(cProgressI), data.getInt(dateI));
+            }
+            data.close();
+        }
+        return rtn;
+    }
+
     public ArrayList<PlanAttrs> getAllPlans() {
         ArrayList<PlanAttrs> rtn = new ArrayList<PlanAttrs>();
         Cursor data = getDataBase().query(TABLE_NAME_PLAN, null, null, null, null, null, null);

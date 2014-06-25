@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/simple_test_activity_margin" >
+
+    <TextView
+        android:id="@+id/law_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/simple_test_activity_title_margin"
+        android:gravity="center"
+        android:textSize="@dimen/simple_test_activity_title_textsize" />
+
+    <View
+        android:id="@+id/sep_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/law_name"
+        android:background="#ff000000" >
+    </View>
+
+    <LinearLayout
+        android:id="@+id/cancel_ok_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/simple_test_activity_ok_cancel_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/simple_test_activity_ok_cancel_margin_bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/yes"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/yes" />
+
+        <Button
+            android:id="@+id/no"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/no" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/question_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cancel_ok_ll"
+        android:layout_below="@+id/sep_1"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/simple_test_activity_scroll_question_margin_v"
+        android:layout_marginTop="@dimen/simple_test_activity_scroll_question_margin_v" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/question"
+                android:textSize="@dimen/simple_test_activity_question_textsize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

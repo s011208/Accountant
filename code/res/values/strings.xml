@@ -24,6 +24,8 @@
     <string name="reading_order_random">Random</string>
     <string name="search_button_next">Next</string>
     <string name="search_button_previous">Previous</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>

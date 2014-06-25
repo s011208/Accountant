@@ -13,5 +13,14 @@
     <dimen name="create_plan_edit_item_first_margin_top">50dp</dimen>
     <dimen name="create_plan_manage_listview_margin">20dp</dimen>
     <dimen name="create_plan_manage_listview_row_type_textsize">18sp</dimen>
-<dimen name="create_plan_manage_listview_row_progress_margin_h">10dp</dimen>
+    <dimen name="create_plan_manage_listview_row_progress_margin_h">10dp</dimen>
+    
+    <!-- simple test activity -->
+    <dimen name="simple_test_activity_title_textsize">20sp</dimen>
+    <dimen name="simple_test_activity_title_margin">10dp</dimen>
+	<dimen name="simple_test_activity_margin">10dp</dimen>
+	<dimen name="simple_test_activity_ok_cancel_margin_bottom">10dp</dimen>
+	<dimen name="simple_test_activity_ok_cancel_height">70dp</dimen>
+	<dimen name="simple_test_activity_scroll_question_margin_v">15dp</dimen>
+	<dimen name="simple_test_activity_question_textsize">16sp</dimen>
 </resources>

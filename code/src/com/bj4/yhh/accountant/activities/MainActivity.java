@@ -1,6 +1,10 @@
 
-package com.bj4.yhh.accountant;
+package com.bj4.yhh.accountant.activities;
 
+import com.bj4.yhh.accountant.AccountantApplication;
+import com.bj4.yhh.accountant.R;
+import com.bj4.yhh.accountant.R.id;
+import com.bj4.yhh.accountant.R.layout;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.fragments.MainEntryFragment;

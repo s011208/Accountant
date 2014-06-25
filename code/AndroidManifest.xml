@@ -19,13 +19,18 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.bj4.yhh.accountant.MainActivity"
+            android:name="com.bj4.yhh.accountant.activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.bj4.yhh.accountant.activities.SimpleTestActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance" >
         </activity>
 
         <service android:name="com.bj4.yhh.accountant.service.ParseService" />
