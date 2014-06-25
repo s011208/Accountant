@@ -8,6 +8,7 @@ import com.bj4.yhh.accountant.LawAttrs;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
+import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.MagicFuzzy;
 
@@ -25,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,9 +67,9 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
     private String mSearchingText = "";
 
-    private ImageButton mNextSearching, mPreviousSearching;
-
-    private int mCurrentSearchingPosition = 0;
+    // private ImageButton mNextSearching, mPreviousSearching;
+    //
+    // private int mCurrentSearchingPosition = 0;
 
     public OverViewFragment() {
     }
@@ -99,8 +102,10 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         initLawList();
         mLawContent = (ListView)mContentView.findViewById(R.id.over_view_law_content);
         mSearchContent = (EditText)mContentView.findViewById(R.id.search_content);
-//        mNextSearching = (ImageButton)mContentView.findViewById(R.id.search_next);
-//        mPreviousSearching = (ImageButton)mContentView.findViewById(R.id.search_previous);
+        // mNextSearching =
+        // (ImageButton)mContentView.findViewById(R.id.search_next);
+        // mPreviousSearching =
+        // (ImageButton)mContentView.findViewById(R.id.search_previous);
         initContentListView();
     }
 
@@ -153,16 +158,16 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
             if (mSearchingText.length() > 0) {
                 if (holder.mHasBeenSearched) {
                     holder.mLine.setBackgroundColor(0x88ff8f59);
-//                    convertView.setVisibility(View.VISIBLE);
+                    // convertView.setVisibility(View.VISIBLE);
                 } else if (MagicFuzzy.Magic(attr.mContent, mSearchingText, 0)) {
                     holder.mLine.setBackgroundColor(0x888cea00);
-//                    convertView.setVisibility(View.VISIBLE);
+                    // convertView.setVisibility(View.VISIBLE);
                 } else {
-//                    convertView.setVisibility(View.GONE);
+                    // convertView.setVisibility(View.GONE);
                     holder.mLine.setBackgroundColor(0x888080c0);
                 }
             } else {
-//                convertView.setVisibility(View.VISIBLE);
+                // convertView.setVisibility(View.VISIBLE);
                 holder.mLine.setBackgroundColor(0x888080c0);
             }
             return convertView;
@@ -196,6 +201,14 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         if (mLawContent != null) {
             mLawContentAdapter = new LawContentAdapter();
             mLawContent.setAdapter(mLawContentAdapter);
+            mLawContent.setOnItemClickListener(new OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    new EnlargeOverViewContentDialog(mLawContentAdapter.getItem(position),
+                            mDisplayContentType).show(getFragmentManager(), null);
+                }
+            });
             mSearchContent.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -218,14 +231,14 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
                 }
             });
             // mCurrentSearchingPosition
-//            mNextSearching.setOnClickListener(new OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    // TODO Auto-generated method stub
-//
-//                }
-//            });
+            // mNextSearching.setOnClickListener(new OnClickListener() {
+            //
+            // @Override
+            // public void onClick(View v) {
+            // // TODO Auto-generated method stub
+            //
+            // }
+            // });
         }
     }
 

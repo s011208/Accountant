@@ -101,7 +101,7 @@ public class SimpleTestActivity extends Activity {
 
     private void generateQuestion() {
         int type = (int)((Math.random() * 100) % 2);
-        int index = (int)((Math.random() * 100) % mLaws.size());
+        int index = (int)((Math.random() * 10000) % mLaws.size());
         String question = "";
         LawAttrs law = mLaws.get(index);
         StringBuilder title = new StringBuilder();
