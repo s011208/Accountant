@@ -59,6 +59,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_TYPE = "law_type";
 
+    public static final String COLUMN_WRONG_TIME = "wrong_time";
+
+    public static final String COLUMN_HAS_ANSWERED = "has_answered";
+
     public interface RefreshLawCallback {
         public void notifyDataChanged();
     }
@@ -115,7 +119,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE if not exists " + TABLE_NAME_LAW + " (" + COLUMN_CHAPTER + " TEXT, "
                         + COLUMN_SECTION + " TEXT, " + COLUMN_PART + " TEXT, " + COLUMN_SUBSECTION
                         + " TEXT, " + COLUMN_LINE + " TEXT, " + COLUMN_CONTENT + " TEXT, "
-                        + COLUMN_TYPE + " INTEGER)");
+                        + COLUMN_TYPE + " INTEGER," + COLUMN_HAS_ANSWERED + " INTEGER, "
+                        + COLUMN_WRONG_TIME + " INTEGER, PRIMARY KEY(" + COLUMN_LINE + ", "
+                        + COLUMN_TYPE + "))");
         // plan table
         getDataBase().execSQL(
                 "CREATE TABLE if not exists " + TABLE_NAME_PLAN + " (" + COLUMN_LAW_TYPE
@@ -234,10 +240,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int partIndex = c.getColumnIndex(COLUMN_PART);
             int sectionIndex = c.getColumnIndex(COLUMN_SECTION);
             int subSectionIndex = c.getColumnIndex(COLUMN_SUBSECTION);
+            int wrongIndex = c.getColumnIndex(COLUMN_WRONG_TIME);
+            int answeredIndex = c.getColumnIndex(COLUMN_HAS_ANSWERED);
             while (c.moveToNext()) {
                 rtn.add(new LawAttrs(c.getString(partIndex), c.getString(chapterIndex), c
                         .getString(sectionIndex), c.getString(subSectionIndex), c
-                        .getString(lineIndex), c.getString(contentIndex)));
+                        .getString(lineIndex), c.getString(contentIndex), c.getInt(wrongIndex), c
+                        .getInt(answeredIndex)));
             }
             c.close();
         }
@@ -255,6 +264,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put(COLUMN_SUBSECTION, attr.mSubSection);
             cv.put(COLUMN_SECTION, attr.mSection);
             cv.put(COLUMN_PART, attr.mPart);
+            cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
+            cv.put(COLUMN_HAS_ANSWERED, attr.mHasAnswered);
             cv.put(COLUMN_TYPE, type);
             cvs.add(cv);
         }
@@ -279,7 +290,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (ContentValues cv : cvs) {
             rtn.add(new LawAttrs(cv.getAsString(COLUMN_PART), cv.getAsString(COLUMN_CHAPTER), cv
                     .getAsString(COLUMN_SECTION), cv.getAsString(COLUMN_SUBSECTION), cv
-                    .getAsString(COLUMN_LINE), cv.getAsString(COLUMN_CONTENT)));
+                    .getAsString(COLUMN_LINE), cv.getAsString(COLUMN_CONTENT), cv
+                    .getAsInteger(COLUMN_WRONG_TIME), cv.getAsInteger(COLUMN_HAS_ANSWERED)));
         }
         return rtn;
     }
@@ -293,7 +305,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mRefreshLawCallback.remove(c);
     }
 
-    public void refreshLaw(ArrayList<LawAttrs> list, int type) {
+    public void updateTestStatus(LawAttrs attr, int type) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
+        cv.put(COLUMN_HAS_ANSWERED, attr.mHasAnswered);
+        getDataBase().update(TABLE_NAME_LAW, cv,
+                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
+    }
+
+    public void updateLawTable(ArrayList<LawAttrs> list, int type) {
+        try {
+            getDataBase().beginTransaction();
+            for (LawAttrs law : list) {
+                ContentValues cv = new ContentValues();
+                cv.put(COLUMN_CONTENT, law.mContent);
+                getDataBase()
+                        .update(TABLE_NAME_LAW,
+                                cv,
+                                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='"
+                                        + law.mLine + "'", null);
+            }
+            getDataBase().setTransactionSuccessful();
+        } finally {
+            getDataBase().endTransaction();
+        }
+    }
+
+    /**
+     * clear all type data and insert again
+     * 
+     * @param list
+     * @param type
+     */
+    public void createLawTable(ArrayList<LawAttrs> list, int type) {
         getDataBase().delete(TABLE_NAME_LAW, COLUMN_TYPE + "='" + type + "'", null);
         ArrayList<ContentValues> cvs = convertFromLawAttrsToContentValues(list, type);
         try {

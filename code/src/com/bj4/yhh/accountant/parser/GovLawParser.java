@@ -52,15 +52,22 @@ public class GovLawParser implements Runnable {
 
     public static final String SEP_2 = "bbb";
 
+    public static final int BEHAVIOR_INSERT = 1;
+
+    public static final int BEHAVIOR_UPDATE = 2;
+
+    private int mParseBehaviou = BEHAVIOR_INSERT;
+
     private final ArrayList<LawAttrs> mData = new ArrayList<LawAttrs>();
 
     private Context mContext;
 
     private int mParseType;
 
-    public GovLawParser(Context c, int type) {
+    public GovLawParser(Context c, int type, int behaviour) {
         mContext = c;
         mParseType = type;
+        mParseBehaviou = behaviour;
     }
 
     private static final String getParseUrl(int type) {
@@ -156,8 +163,13 @@ public class GovLawParser implements Runnable {
 
     private void refreshTable() {
         if (mData.isEmpty() == false) {
-            AccountantApplication.getDatabaseHelper(mContext).refreshLaw(mData, mParseType);
-            Log.d(TAG, "refreshLaw DONE, type: " + mParseType);
+            if (mParseBehaviou == BEHAVIOR_INSERT) {
+                AccountantApplication.getDatabaseHelper(mContext).createLawTable(mData, mParseType);
+                Log.d(TAG, "createLawTable DONE, type: " + mParseType);
+            } else if (mParseBehaviou == BEHAVIOR_UPDATE) {
+                AccountantApplication.getDatabaseHelper(mContext).updateLawTable(mData, mParseType);
+                Log.d(TAG, "updateLawTable DONE, type: " + mParseType);
+            }
         } else {
             Log.w(TAG, "data set is empty, type: " + mParseType);
         }

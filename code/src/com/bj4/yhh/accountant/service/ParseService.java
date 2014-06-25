@@ -13,6 +13,8 @@ import android.widget.Toast;
 public class ParseService extends Service {
     public static final String PARSE_ALL = "parse_all";
 
+    public static final String UPDATE_ALL = "update_all";
+
     public static final String TAG = "QQQQ";
 
     public void onCreate() {
@@ -25,19 +27,41 @@ public class ParseService extends Service {
             Bundle data = intent.getExtras();
             if (data != null) {
                 if (data.getBoolean(PARSE_ALL)) {
-                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_COMPANY)).start();
-                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_LAND)).start();
-                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_TAX_COLLECTION))
-                            .start();
-                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW))
-                            .start();
-                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX))
-                            .start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_COMPANY,
+                            GovLawParser.BEHAVIOR_INSERT)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_LAND,
+                            GovLawParser.BEHAVIOR_INSERT)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_TAX_COLLECTION,
+                            GovLawParser.BEHAVIOR_INSERT)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW,
+                            GovLawParser.BEHAVIOR_INSERT)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX,
+                            GovLawParser.BEHAVIOR_INSERT)).start();
                     new Thread(new GovLawParser(this,
-                            GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING)).start();
-                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE))
-                            .start();
-                    Toast.makeText(this, "Start to parse", Toast.LENGTH_LONG).show();
+                            GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING,
+                            GovLawParser.BEHAVIOR_INSERT)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE,
+                            GovLawParser.BEHAVIOR_INSERT)).start();
+                    Toast.makeText(this, "Start to generate data -- insert all", Toast.LENGTH_LONG)
+                            .show();
+                } else if (data.getBoolean(UPDATE_ALL)) {
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_COMPANY,
+                            GovLawParser.BEHAVIOR_UPDATE)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_LAND,
+                            GovLawParser.BEHAVIOR_UPDATE)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_TAX_COLLECTION,
+                            GovLawParser.BEHAVIOR_UPDATE)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW,
+                            GovLawParser.BEHAVIOR_UPDATE)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX,
+                            GovLawParser.BEHAVIOR_UPDATE)).start();
+                    new Thread(new GovLawParser(this,
+                            GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING,
+                            GovLawParser.BEHAVIOR_UPDATE)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE,
+                            GovLawParser.BEHAVIOR_UPDATE)).start();
+                    Toast.makeText(this, "Start to check update -- update all", Toast.LENGTH_LONG)
+                            .show();
                 }
             }
         }

@@ -8,6 +8,8 @@ import android.content.Context;
 
 public class AccountantApplication extends Application {
 
+    public static boolean sCheckForUpdate = true;
+
     private static DatabaseHelper sDatabaseHelper;
 
     public synchronized static final DatabaseHelper getDatabaseHelper(Context context) {

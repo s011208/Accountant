@@ -26,6 +26,7 @@
     <string name="search_button_previous">Previous</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="complete">Complete</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>
