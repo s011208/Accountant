@@ -16,6 +16,10 @@
     <string name="tax_collection_law">Tax collection law</string>
     <string name="land_law">Land law</string>
     <string name="company_law">Company law</string>
+    <string name="value_business_law">Value business law</string>
+    <string name="estate_gift_tax">Estate gift law</string>
+    <string name="business_entity_accounting">Business entity accounting</string>
+    <string name="security_exchange_accounting">Security exchange accounting</string>
     <string name="reading_order_chapter">By chapter</string>
     <string name="reading_order_random">Random</string>
 

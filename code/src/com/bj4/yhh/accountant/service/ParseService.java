@@ -27,7 +27,15 @@ public class ParseService extends Service {
                 if (data.getBoolean(PARSE_ALL)) {
                     new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_COMPANY)).start();
                     new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_LAND)).start();
-                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_TEXT_COLLECTION))
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_TAX_COLLECTION))
+                            .start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW))
+                            .start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX))
+                            .start();
+                    new Thread(new GovLawParser(this,
+                            GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING)).start();
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE))
                             .start();
                     Toast.makeText(this, "Start to parse", Toast.LENGTH_LONG).show();
                 }

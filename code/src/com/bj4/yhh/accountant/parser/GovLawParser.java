@@ -38,7 +38,15 @@ public class GovLawParser implements Runnable {
 
     public static final int PARSE_TYPE_LAND = 1;
 
-    public static final int PARSE_TYPE_TEXT_COLLECTION = 2;
+    public static final int PARSE_TYPE_TAX_COLLECTION = 2;
+
+    public static final int PARSE_TYPE_VALUE_BUSINESS_LAW = 3;
+
+    public static final int PARSE_TYPE_ESTATE_GIFT_TAX = 4;
+
+    public static final int PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING = 5;
+
+    public static final int PARSE_TYPE_SECURITY_EXCHANGE = 6;
 
     public static final String SEP_1 = "rrr";
 
@@ -64,8 +72,20 @@ public class GovLawParser implements Runnable {
             case PARSE_TYPE_LAND:
                 rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0340096";
                 break;
-            case PARSE_TYPE_TEXT_COLLECTION:
+            case PARSE_TYPE_TAX_COLLECTION:
                 rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0340001";
+                break;
+            case PARSE_TYPE_VALUE_BUSINESS_LAW:
+                rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0340080";
+                break;
+            case PARSE_TYPE_ESTATE_GIFT_TAX:
+                rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0340072";
+                break;
+            case PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING:
+                rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=J0080009";
+                break;
+            case PARSE_TYPE_SECURITY_EXCHANGE:
+                rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0400001";
                 break;
         }
         return rtn;
@@ -148,8 +168,16 @@ public class GovLawParser implements Runnable {
             return R.string.company_law;
         } else if (type == GovLawParser.PARSE_TYPE_LAND) {
             return R.string.land_law;
-        } else if (type == GovLawParser.PARSE_TYPE_TEXT_COLLECTION) {
+        } else if (type == GovLawParser.PARSE_TYPE_TAX_COLLECTION) {
             return R.string.tax_collection_law;
+        } else if (type == GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW) {
+            return R.string.value_business_law;
+        } else if (type == GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX) {
+            return R.string.estate_gift_tax;
+        } else if (type == GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING) {
+            return R.string.business_entity_accounting;
+        } else if (type == GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE) {
+            return R.string.security_exchange_accounting;
         } else {
             return 0;
         }
@@ -161,7 +189,15 @@ public class GovLawParser implements Runnable {
         } else if (txt.equals(context.getString(R.string.land_law))) {
             return GovLawParser.PARSE_TYPE_LAND;
         } else if (txt.equals(context.getString(R.string.tax_collection_law))) {
-            return GovLawParser.PARSE_TYPE_TEXT_COLLECTION;
+            return GovLawParser.PARSE_TYPE_TAX_COLLECTION;
+        } else if (txt.equals(context.getString(R.string.value_business_law))) {
+            return GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW;
+        } else if (txt.equals(context.getString(R.string.estate_gift_tax))) {
+            return GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX;
+        } else if (txt.equals(context.getString(R.string.business_entity_accounting))) {
+            return GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING;
+        } else if (txt.equals(context.getString(R.string.security_exchange_accounting))) {
+            return GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE;
         } else {
             return GovLawParser.PARSE_TYPE_COMPANY;
         }
@@ -172,8 +208,16 @@ public class GovLawParser implements Runnable {
             return context.getString(R.string.company_law);
         } else if (type == GovLawParser.PARSE_TYPE_LAND) {
             return context.getString(R.string.land_law);
-        } else if (type == GovLawParser.PARSE_TYPE_TEXT_COLLECTION) {
+        } else if (type == GovLawParser.PARSE_TYPE_TAX_COLLECTION) {
             return context.getString(R.string.tax_collection_law);
+        } else if (type == GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW) {
+            return context.getString(R.string.value_business_law);
+        } else if (type == GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX) {
+            return context.getString(R.string.estate_gift_tax);
+        } else if (type == GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING) {
+            return context.getString(R.string.business_entity_accounting);
+        } else if (type == GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE) {
+            return context.getString(R.string.security_exchange_accounting);
         } else {
             return "";
         }
