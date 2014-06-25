@@ -12,35 +12,38 @@
         <Button
             android:id="@+id/plan"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/main_entry_button_margin_v"
             android:layout_marginLeft="@dimen/main_entry_button_margin_h"
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
-            android:layout_weight="1"
-            android:text="@string/main_entry_plan" />
+            android:background="@drawable/general_btn_bg"
+            android:text="@string/main_entry_plan"
+            android:textSize="@dimen/general_btn_text_size" />
 
         <Button
             android:id="@+id/test"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/main_entry_button_margin_v"
             android:layout_marginLeft="@dimen/main_entry_button_margin_h"
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
-            android:layout_weight="1"
-            android:text="@string/main_entry_test" />
+            android:background="@drawable/general_btn_bg"
+            android:text="@string/main_entry_test"
+            android:textSize="@dimen/general_btn_text_size" />
 
         <Button
             android:id="@+id/overview"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/main_entry_button_margin_v"
             android:layout_marginLeft="@dimen/main_entry_button_margin_h"
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
-            android:layout_weight="1"
-            android:text="@string/main_entry_overview" />
+            android:background="@drawable/general_btn_bg"
+            android:text="@string/main_entry_overview"
+            android:textSize="@dimen/general_btn_text_size" />
     </LinearLayout>
 
 </RelativeLayout>

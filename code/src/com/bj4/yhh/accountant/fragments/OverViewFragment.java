@@ -157,18 +157,18 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
             holder.mLine.setText(attr.mLine);
             if (mSearchingText.length() > 0) {
                 if (holder.mHasBeenSearched) {
-                    holder.mLine.setBackgroundColor(0x88ff8f59);
+                    holder.mLine.setBackgroundColor(0xccff8f59);
                     // convertView.setVisibility(View.VISIBLE);
                 } else if (MagicFuzzy.Magic(attr.mContent, mSearchingText, 0)) {
-                    holder.mLine.setBackgroundColor(0x888cea00);
+                    holder.mLine.setBackgroundColor(0xcc8cea00);
                     // convertView.setVisibility(View.VISIBLE);
                 } else {
                     // convertView.setVisibility(View.GONE);
-                    holder.mLine.setBackgroundColor(0x888080c0);
+                    holder.mLine.setBackgroundColor(0xcc8080c0);
                 }
             } else {
                 // convertView.setVisibility(View.VISIBLE);
-                holder.mLine.setBackgroundColor(0x888080c0);
+                holder.mLine.setBackgroundColor(0xcc8080c0);
             }
             return convertView;
         }
@@ -248,6 +248,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
             ArrayList<Integer> types = mDatabaseHelper.getAllLawTypes();
             for (final int t : types) {
                 Button btn = new Button(mContext);
+                btn.setBackgroundResource(R.drawable.general_btn_bg);
                 btn.setText(GovLawParser.getTypeTextResource(t));
                 mLawListContainer.addView(btn);
                 btn.setOnClickListener(new OnClickListener() {

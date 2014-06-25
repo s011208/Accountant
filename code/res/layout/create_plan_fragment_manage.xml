@@ -22,7 +22,9 @@
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
             android:layout_weight="1"
-            android:text="@string/create_plan" />
+            android:background="@drawable/general_btn_bg"
+            android:text="@string/create_plan"
+            android:textSize="@dimen/general_btn_text_size" />
 
         <Button
             android:id="@+id/delete_plan"
@@ -33,19 +35,21 @@
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
             android:layout_weight="1"
-            android:text="@string/delete_plan" />
+            android:background="@drawable/general_btn_bg"
+            android:text="@string/delete_plan"
+            android:textSize="@dimen/general_btn_text_size" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/plan_listview"
-        android:scrollbarStyle="outsideInset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/create_plan_buttons_parent"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/create_plan_manage_listview_margin"
         android:divider="#33b5e5"
-        android:dividerHeight="1px" >
+        android:dividerHeight="1px"
+        android:scrollbarStyle="outsideInset" >
     </ListView>
 
 </RelativeLayout>
