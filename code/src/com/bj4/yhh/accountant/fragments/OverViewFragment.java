@@ -252,7 +252,6 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
-                    // TODO Auto-generated method stub
                     if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
                         mListShadowAnimator.reverse();
                     } else {
