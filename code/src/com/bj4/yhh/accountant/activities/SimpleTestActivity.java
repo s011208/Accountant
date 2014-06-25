@@ -44,6 +44,8 @@ public class SimpleTestActivity extends Activity {
 
     private ArrayList<LawAttrs> mLaws;
 
+    private String mFixedTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -51,6 +53,10 @@ public class SimpleTestActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simple_test_activity);
+        init();
+    }
+
+    private void refreshData() {
         Intent intent = getIntent();
         int planType = 0;
         if (intent != null) {
@@ -64,15 +70,20 @@ public class SimpleTestActivity extends Activity {
             finish();
         }
         mLaws = mDatabaseHelper.query(mPlan.mPlanType);
-        init();
+        mFixedTitle = getResources().getString(GovLawParser.getTypeTextResource(mPlan.mPlanType));
+        mTitle.setText(mFixedTitle);
+        generateQuestion();
+    }
+
+    public void onResume() {
+        super.onResume();
+        refreshData();
     }
 
     private void init() {
         mTitle = (TextView)findViewById(R.id.law_name);
-        mTitle.setText(GovLawParser.getTypeTextResource(mPlan.mPlanType));
         mQuestion = (TextView)findViewById(R.id.question);
         mYes = (Button)findViewById(R.id.yes);
-        generateQuestion();
         mYes.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,24 +103,25 @@ public class SimpleTestActivity extends Activity {
         int type = (int)((Math.random() * 100) % 2);
         int index = (int)((Math.random() * 100) % mLaws.size());
         String question = "";
+        LawAttrs law = mLaws.get(index);
+        StringBuilder title = new StringBuilder();
+        title.append("\n");
+        if (Integer.valueOf(law.mPart) != 0) {
+            title.append(" 第 " + law.mPart + " 編 ");
+        }
+        if (Integer.valueOf(law.mChapter) != 0) {
+            title.append(" 第 " + law.mChapter + " 章 ");
+        }
+        if (Integer.valueOf(law.mSection) != 0) {
+            title.append(" 第 " + law.mSection + " 節 ");
+        }
+        if (Integer.valueOf(law.mSubSection) != 0) {
+            title.append(" 第 " + law.mSubSection + " 目 ");
+        }
+        mTitle.setText(mFixedTitle + title);
         switch (type) {
             case QUESTION_TYPE_LINE:
-                LawAttrs law = mLaws.get(index);
-                StringBuilder sb = new StringBuilder();
-                if (Integer.valueOf(law.mPart) != 0) {
-                    sb.append(" 第 " + law.mPart + " 編 ");
-                }
-                if (Integer.valueOf(law.mChapter) != 0) {
-                    sb.append(" 第 " + law.mChapter + " 章 ");
-                }
-                if (Integer.valueOf(law.mSection) != 0) {
-                    sb.append(" 第 " + law.mSection + " 節 ");
-                }
-                if (Integer.valueOf(law.mSubSection) != 0) {
-                    sb.append(" 第 " + law.mSubSection + " 目 ");
-                }
-                sb.append(law.mLine);
-                question = sb.toString();
+                question = law.mLine;
                 mQuestion.setGravity(Gravity.CENTER);
                 break;
             case QUESTION_TYPE_CONTENT:
