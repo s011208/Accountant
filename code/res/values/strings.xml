@@ -22,6 +22,8 @@
     <string name="security_exchange_accounting">Security exchange accounting</string>
     <string name="reading_order_chapter">By chapter</string>
     <string name="reading_order_random">Random</string>
+    <string name="search_button_next">Next</string>
+    <string name="search_button_previous">Previous</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>

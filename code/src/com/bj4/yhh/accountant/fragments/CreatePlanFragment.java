@@ -25,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -93,6 +94,7 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
         mDatabaseHelper.addCallback(mRefreshLawCallback);
     }
@@ -106,6 +108,8 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
     private void init() {
         mInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContentView = (ViewSwitcher)mInflater.inflate(R.layout.create_plan_fragment, null);
+        mContentView.setInAnimation(mContext, R.anim.alpha_scale_switch_in);
+        mContentView.setOutAnimation(mContext, R.anim.alpha_scale_switch_out);
         // manage
         initManage();
         // edit
@@ -187,8 +191,10 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
                         .inflate(R.layout.create_plan_fragment_manage_list_row, null);
                 holder = new ViewHolder();
                 holder.mType = (TextView)convertView.findViewById(R.id.type);
-                holder.mProgress = (TextView)convertView.findViewById(R.id.progress);
+                holder.mProgressByDay = (TextView)convertView.findViewById(R.id.progress_by_day);
+                holder.mProgressByLine = (TextView)convertView.findViewById(R.id.progress_by_line);
                 holder.mOrder = (TextView)convertView.findViewById(R.id.order);
+                holder.mProgressBar = (ProgressBar)convertView.findViewById(R.id.progress);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder)convertView.getTag();
@@ -198,7 +204,13 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
             holder.mOrder
                     .setText(plan.mReadingOrder == READING_ORDER_CHAPTER ? R.string.reading_order_chapter
                             : R.string.reading_order_random);
-            holder.mProgress.setText(plan.mCurrentProgress + " / " + plan.mTotalProgress);
+            holder.mProgressByDay.setText(plan.mCurrentProgress + " / " + plan.mTotalProgress);
+            int totalLines = mDatabaseHelper.queryTypeCount(plan.mPlanType);
+            int currentLines = (int)Math.ceil(totalLines / plan.mTotalProgress)
+                    * plan.mCurrentProgress;
+            holder.mProgressBar.setMax(plan.mTotalProgress);
+            holder.mProgressBar.setProgress(plan.mCurrentProgress);
+            holder.mProgressByLine.setText(currentLines + " / " + totalLines);
             return convertView;
         }
 
@@ -207,7 +219,11 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
 
             TextView mOrder;
 
-            TextView mProgress;
+            TextView mProgressByDay;
+
+            TextView mProgressByLine;
+
+            ProgressBar mProgressBar;
         }
     }
 

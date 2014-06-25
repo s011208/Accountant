@@ -38,11 +38,14 @@
 
     <ListView
         android:id="@+id/plan_listview"
+        android:scrollbarStyle="outsideInset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/create_plan_buttons_parent"
         android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/create_plan_manage_listview_margin" >
+        android:layout_margin="@dimen/create_plan_manage_listview_margin"
+        android:divider="#33b5e5"
+        android:dividerHeight="1px" >
     </ListView>
 
 </RelativeLayout>

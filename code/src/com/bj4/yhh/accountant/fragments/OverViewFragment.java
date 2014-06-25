@@ -9,16 +9,26 @@ import com.bj4.yhh.accountant.MainActivity;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.utilities.MagicFuzzy;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.text.style.BackgroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -50,6 +60,14 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
     private LayoutInflater mInflater;
 
+    private EditText mSearchContent;
+
+    private String mSearchingText = "";
+
+    private ImageButton mNextSearching, mPreviousSearching;
+
+    private int mCurrentSearchingPosition = 0;
+
     public OverViewFragment() {
     }
 
@@ -62,6 +80,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
     }
 
@@ -73,10 +92,15 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
     private void init() {
         mInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContentView = (ViewSwitcher)mInflater.inflate(R.layout.over_view_fragment, null);
+        mContentView.setInAnimation(mContext, R.anim.alpha_scale_switch_in);
+        mContentView.setOutAnimation(mContext, R.anim.alpha_scale_switch_out);
         mLawListContainer = (LinearLayout)mContentView
                 .findViewById(R.id.overview_law_list_container);
         initLawList();
         mLawContent = (ListView)mContentView.findViewById(R.id.over_view_law_content);
+        mSearchContent = (EditText)mContentView.findViewById(R.id.search_content);
+//        mNextSearching = (ImageButton)mContentView.findViewById(R.id.search_next);
+//        mPreviousSearching = (ImageButton)mContentView.findViewById(R.id.search_previous);
         initContentListView();
     }
 
@@ -122,8 +146,25 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
                 holder = (ViewHolder)convertView.getTag();
             }
             LawAttrs attr = getItem(position);
+            SpannableString msp = new SpannableString(attr.mContent);
+            holder.mHasBeenSearched = getSpannableString(attr.mContent, msp, mSearchingText);
+            holder.mContent.setText(msp);
             holder.mLine.setText(attr.mLine);
-            holder.mContent.setText(attr.mContent);
+            if (mSearchingText.length() > 0) {
+                if (holder.mHasBeenSearched) {
+                    holder.mLine.setBackgroundColor(0x88ff8f59);
+//                    convertView.setVisibility(View.VISIBLE);
+                } else if (MagicFuzzy.Magic(attr.mContent, mSearchingText, 0)) {
+                    holder.mLine.setBackgroundColor(0x888cea00);
+//                    convertView.setVisibility(View.VISIBLE);
+                } else {
+//                    convertView.setVisibility(View.GONE);
+                    holder.mLine.setBackgroundColor(0x888080c0);
+                }
+            } else {
+//                convertView.setVisibility(View.VISIBLE);
+                holder.mLine.setBackgroundColor(0x888080c0);
+            }
             return convertView;
         }
 
@@ -131,6 +172,8 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
             TextView mLine;
 
             TextView mContent;
+
+            boolean mHasBeenSearched = false;
         }
 
         public void notifyDataSetChanged() {
@@ -139,10 +182,50 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         }
     }
 
+    private static boolean getSpannableString(String label, SpannableString msp,
+            String searchingText) {
+        int index = label.toLowerCase().indexOf(searchingText);
+        if (index != -1) {
+            msp.setSpan(new BackgroundColorSpan(0x66e1e100), index, index + searchingText.length(),
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        }
+        return index != -1;
+    }
+
     private void initContentListView() {
         if (mLawContent != null) {
             mLawContentAdapter = new LawContentAdapter();
             mLawContent.setAdapter(mLawContentAdapter);
+            mSearchContent.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // TODO Auto-generated method stub
+                    mSearchingText = s.toString();
+                    mLawContentAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+            // mCurrentSearchingPosition
+//            mNextSearching.setOnClickListener(new OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    // TODO Auto-generated method stub
+//
+//                }
+//            });
         }
     }
 

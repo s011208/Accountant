@@ -242,6 +242,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cvs;
     }
 
+    public int queryTypeCount(int type) {
+        int rtn = 0;
+        Cursor data = getDataBase().rawQuery(
+                "select count(*) from " + TABLE_NAME_LAW + " where " + COLUMN_TYPE + "='" + type
+                        + "'", null);
+        if (data != null) {
+            data.moveToNext();
+            rtn = data.getInt(0);
+            data.close();
+        }
+        return rtn;
+    }
+
     public ArrayList<LawAttrs> convertFromContentValuesToLawAttrs(ArrayList<ContentValues> cvs) {
         ArrayList<LawAttrs> rtn = new ArrayList<LawAttrs>();
         for (ContentValues cv : cvs) {
