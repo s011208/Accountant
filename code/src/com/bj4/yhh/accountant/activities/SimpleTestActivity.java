@@ -38,9 +38,9 @@ public class SimpleTestActivity extends Activity {
 
     private TextView mTitle;
 
-    private TextView mQuestion;
+    private TextView mQuestion, mAnswer;
 
-    private Button mYes, mNo;
+    private Button mYes, mNo, mNext;
 
     private ArrayList<LawAttrs> mLaws;
 
@@ -83,6 +83,7 @@ public class SimpleTestActivity extends Activity {
     private void init() {
         mTitle = (TextView)findViewById(R.id.law_name);
         mQuestion = (TextView)findViewById(R.id.question);
+        mAnswer = (TextView)findViewById(R.id.answer);
         mYes = (Button)findViewById(R.id.yes);
         mYes.setOnClickListener(new OnClickListener() {
             @Override
@@ -94,7 +95,20 @@ public class SimpleTestActivity extends Activity {
         mNo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAnswer.setVisibility(View.VISIBLE);
+                mNo.setVisibility(View.GONE);
+                mYes.setVisibility(View.GONE);
+                mNext.setVisibility(View.VISIBLE);
+            }
+        });
+        mNext =  (Button)findViewById(R.id.next);
+        mNext.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 generateQuestion();
+                mNext.setVisibility(View.GONE);
+                mNo.setVisibility(View.VISIBLE);
+                mYes.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -119,16 +133,21 @@ public class SimpleTestActivity extends Activity {
             title.append(" ²Ä " + law.mSubSection + " ¥Ø ");
         }
         mTitle.setText(mFixedTitle + title);
+        String answer = "";
         switch (type) {
             case QUESTION_TYPE_LINE:
                 question = law.mLine;
+                answer = mLaws.get(index).mContent;
                 mQuestion.setGravity(Gravity.CENTER);
                 break;
             case QUESTION_TYPE_CONTENT:
+                answer = law.mLine;
                 question = mLaws.get(index).mContent;
                 mQuestion.setGravity(Gravity.LEFT);
                 break;
         }
         mQuestion.setText(question);
+        mAnswer.setText(answer);
+        mAnswer.setVisibility(View.GONE);
     }
 }

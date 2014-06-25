@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/simple_test_activity_margin"
-    android:background="@drawable/main_paper_bg" >
+    android:background="@drawable/main_paper_bg"
+    android:padding="@dimen/simple_test_activity_margin" >
 
     <TextView
         android:id="@+id/law_name"
@@ -49,6 +49,17 @@
             android:gravity="center"
             android:text="@string/no"
             android:textSize="@dimen/general_btn_text_size" />
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:background="@drawable/general_btn_bg"
+            android:gravity="center"
+            android:text="@string/search_button_next"
+            android:textSize="@dimen/general_btn_text_size" />
     </LinearLayout>
 
     <ScrollView
@@ -70,6 +81,14 @@
                 android:id="@+id/question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/simple_test_activity_question_textsize" />
+
+            <TextView
+                android:id="@+id/answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="#ffff0000"
                 android:textSize="@dimen/simple_test_activity_question_textsize" />
         </LinearLayout>
     </ScrollView>
