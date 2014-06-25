@@ -198,8 +198,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rtn;
     }
 
+    public void clearPlan(int type) {
+        getDataBase().delete(TABLE_NAME_PLAN, COLUMN_LAW_TYPE + "='" + type + "'", null);
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_HAS_ANSWERED, LawAttrs.HAS_NOT_ANSWERED);
+        getDataBase().update(TABLE_NAME_LAW, cv, COLUMN_TYPE + "='" + type + "'", null);
+        for (RefreshPlanCallback c : mRefreshPlanCallback) {
+            c.notifyDataChanged();
+        }
+    }
+
     public void clearAllPlans() {
         getDataBase().delete(TABLE_NAME_PLAN, null, null);
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_HAS_ANSWERED, LawAttrs.HAS_NOT_ANSWERED);
+        getDataBase().update(TABLE_NAME_LAW, cv, null, null);
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
         }

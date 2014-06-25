@@ -91,24 +91,40 @@ public class SimpleTestActivity extends Activity {
         mLowerBound = mLowerBound < 0 ? 0 : mLowerBound;
         Iterator<LawAttrs> iter = mLaws.iterator();
         int counter = 0;
+        Log.d(TAG, "mUpperBound: " + mUpperBound + ", mLowerBound: " + mLowerBound
+                + ", mLaws.size(): " + mLaws.size());
+        int tempUpperBound = mUpperBound;
+        int tempLowerBound = mLowerBound;
+        int debugAnswered = 0;
+        int debugNotAnswered = 0;
         while (iter.hasNext()) {
             LawAttrs law = iter.next();
-            if (counter < mUpperBound) {
-                if (law.mHasAnswered == LawAttrs.HAS_ANSWERED) {
-                    iter.remove();
-                    mUpperBound--;
-                }
-            } else if (counter < mLowerBound) {
+            if (counter < mLowerBound) {
                 if ((Math.random() * 10) % 2 == 0) {
                     iter.remove();
-                    mUpperBound--;
+                    tempUpperBound--;
+                    tempLowerBound--;
                     // randomly remove lower bound
+                }
+            } else if (counter < mUpperBound) {
+                if (law.mHasAnswered == LawAttrs.HAS_ANSWERED) {
+                    ++debugAnswered;
+                    iter.remove();
+                    tempUpperBound--;
+                } else {
+                    ++debugNotAnswered;
                 }
             } else {
                 iter.remove();
             }
             ++counter;
         }
+        mUpperBound = tempUpperBound;
+        mLowerBound = tempLowerBound;
+
+        Log.i(TAG, "mUpperBound: " + mUpperBound + ", mLowerBound: " + mLowerBound
+                + ", mLaws.size(): " + mLaws.size() + ", debugAnswered: " + debugAnswered
+                + ", debugNotAnswered: " + debugNotAnswered);
     }
 
     public void onResume() {
@@ -211,11 +227,13 @@ public class SimpleTestActivity extends Activity {
                 question = law.mLine;
                 answer = mLaws.get(mCurrentIndex).mContent;
                 mQuestion.setGravity(Gravity.CENTER);
+                mAnswer.setGravity(Gravity.LEFT);
                 break;
             case QUESTION_TYPE_CONTENT:
                 answer = law.mLine;
                 question = mLaws.get(mCurrentIndex).mContent;
                 mQuestion.setGravity(Gravity.LEFT);
+                mAnswer.setGravity(Gravity.CENTER);
                 break;
         }
         mQuestion.setText(question);
