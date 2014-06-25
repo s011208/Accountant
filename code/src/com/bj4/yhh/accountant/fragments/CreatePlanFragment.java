@@ -13,17 +13,21 @@ import com.bj4.yhh.accountant.activities.SimpleTestActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -143,8 +147,28 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
 
             @Override
             public void onClick(View arg0) {
-                mDatabaseHelper.clearAllPlans();
-                initLawOptionSpinner();
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(
+                        mContext, android.R.style.Theme_Holo_Light_Dialog));
+                builder.setMessage(R.string.dialog_confirm_to_delete_all_msg);
+                builder.setTitle(R.string.dialog_confirm_to_delete_all_title);
+                builder.setCancelable(true);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDatabaseHelper.clearAllPlans();
+                        initLawOptionSpinner();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
             }
         });
         mPlanList = (ListView)mContentView.findViewById(R.id.plan_listview);
@@ -157,6 +181,36 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
                 Intent start = new Intent(mContext, SimpleTestActivity.class);
                 start.putExtra(SimpleTestActivity.INTENT_PLAN_TYPE, plan.mPlanType);
                 mContext.startActivity(start);
+            }
+        });
+        mPlanList.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position,
+                    long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(
+                        mContext, android.R.style.Theme_Holo_Light_Dialog));
+                builder.setMessage(R.string.dialog_confirm_to_delete_msg);
+                builder.setTitle(R.string.dialog_confirm_to_delete_title);
+                builder.setCancelable(true);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDatabaseHelper.deletePlan(mPlanListAdapter.getItem(position).mPlanType);
+                        initLawOptionSpinner();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                return true;
             }
         });
     }

@@ -7,7 +7,7 @@
     <string name="main_entry_test">Test</string>
     <string name="main_entry_overview">Overview</string>
     <string name="create_plan">Create new plan</string>
-    <string name="delete_plan">Delete plan</string>
+    <string name="delete_plan">Delete all plans</string>
     <string name="law_name">Law name</string>
     <string name="estimate_days">Plan finish day</string>
     <string name="reading_order">Reading order</string>
@@ -28,6 +28,11 @@
     <string name="no">No</string>
     <string name="complete">Complete</string>
     <string name="rest_items">"Rest items: "</string>
+    <string name="dialog_confirm_to_delete_msg">Click ok to delete this plan</string>
+    <string name="dialog_confirm_to_delete_title">Delete plan?</string>
+    <string name="dialog_confirm_to_delete_all_msg">Click ok to delete all plans</string>
+    <string name="dialog_confirm_to_delete_all_title">Delete all plans?</string>
+    
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>

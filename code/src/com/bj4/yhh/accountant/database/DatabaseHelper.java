@@ -189,6 +189,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void updatePlan(PlanAttrs plan) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_TOTAL_PROGRESS, plan.mTotalProgress);
+        cv.put(COLUMN_CURRENT_PROGRESS, plan.mCurrentProgress);
+        cv.put(COLUMN_DATE, plan.mDate);
+        getDataBase().update(TABLE_NAME_PLAN, cv, COLUMN_LAW_TYPE + "='" + plan.mPlanType + "'",
+                null);
+        for (RefreshPlanCallback c : mRefreshPlanCallback) {
+            c.notifyDataChanged();
+        }
+    }
+
     public ArrayList<LawAttrs> query(int type) {
         ArrayList<LawAttrs> rtn = null;
         Cursor data = null;
@@ -198,7 +210,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rtn;
     }
 
-    public void clearPlan(int type) {
+    public void deletePlan(int type) {
         getDataBase().delete(TABLE_NAME_PLAN, COLUMN_LAW_TYPE + "='" + type + "'", null);
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_HAS_ANSWERED, LawAttrs.HAS_NOT_ANSWERED);
