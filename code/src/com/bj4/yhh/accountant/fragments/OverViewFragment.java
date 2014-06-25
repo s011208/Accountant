@@ -12,6 +12,10 @@ import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.MagicFuzzy;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
@@ -26,6 +30,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -67,6 +73,8 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
     private String mSearchingText = "";
 
+    private View mOverViewShadow;
+
     // private ImageButton mNextSearching, mPreviousSearching;
     //
     // private int mCurrentSearchingPosition = 0;
@@ -102,6 +110,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         initLawList();
         mLawContent = (ListView)mContentView.findViewById(R.id.over_view_law_content);
         mSearchContent = (EditText)mContentView.findViewById(R.id.search_content);
+        mOverViewShadow = mContentView.findViewById(R.id.over_view_shadow);
         // mNextSearching =
         // (ImageButton)mContentView.findViewById(R.id.search_next);
         // mPreviousSearching =
@@ -197,10 +206,67 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         return index != -1;
     }
 
+    private ValueAnimator mListShadowAnimator;
+
     private void initContentListView() {
         if (mLawContent != null) {
             mLawContentAdapter = new LawContentAdapter();
             mLawContent.setAdapter(mLawContentAdapter);
+            mListShadowAnimator = ValueAnimator.ofFloat(0, 1);
+            mListShadowAnimator.addUpdateListener(new AnimatorUpdateListener() {
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    // TODO Auto-generated method stub
+                    float v = (Float)animation.getAnimatedValue();
+                    mOverViewShadow.setAlpha(v);
+                }
+            });
+            mListShadowAnimator.addListener(new AnimatorListener() {
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    // TODO Auto-generated method stub
+                    mOverViewShadow.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+            mLawContent.setOnScrollListener(new OnScrollListener() {
+
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    // TODO Auto-generated method stub
+                    if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+                        mListShadowAnimator.reverse();
+                    } else {
+                        mListShadowAnimator.start();
+                    }
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                        int totalItemCount) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
             mLawContent.setOnItemClickListener(new OnItemClickListener() {
 
                 @Override

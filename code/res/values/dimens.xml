@@ -24,4 +24,7 @@
 	<dimen name="simple_test_activity_ok_cancel_height">70dp</dimen>
 	<dimen name="simple_test_activity_scroll_question_margin_v">15dp</dimen>
 	<dimen name="simple_test_activity_question_textsize">16sp</dimen>
+	
+	<!-- overview fragment -->
+	<dimen name="over_view_shadow_height">20dp</dimen>
 </resources>
