@@ -31,26 +31,6 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/yes"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/general_btn_bg"
-            android:gravity="center"
-            android:text="@string/yes"
-            android:textSize="@dimen/general_btn_text_size" />
-
-        <Button
-            android:id="@+id/no"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/general_btn_bg"
-            android:gravity="center"
-            android:text="@string/no"
-            android:textSize="@dimen/general_btn_text_size" />
-
-        <Button
             android:id="@+id/next"
             android:layout_width="0dip"
             android:layout_height="match_parent"
@@ -58,8 +38,7 @@
             android:background="@drawable/general_btn_bg"
             android:gravity="center"
             android:text="@string/search_button_next"
-            android:textSize="@dimen/general_btn_text_size"
-            android:visibility="gone" />
+            android:textSize="@dimen/general_btn_text_size" />
 
         <Button
             android:id="@+id/complete"
@@ -68,7 +47,7 @@
             android:layout_weight="1"
             android:background="@drawable/general_btn_bg"
             android:gravity="center"
-            android:text="@string/start_composite_test"
+            android:text="@string/complete"
             android:textSize="@dimen/general_btn_text_size"
             android:visibility="gone" />
     </LinearLayout>
@@ -79,8 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/cancel_ok_ll"
         android:layout_marginBottom="10dp"
-        android:textColor="#ffffff"
-        android:gravity="center" >
+        android:gravity="center"
+        android:textColor="#ffffff" >
     </TextView>
 
     <ScrollView
@@ -102,14 +81,41 @@
                 android:id="@+id/question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/simple_test_activity_question_textsize" />
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:textSize="@dimen/simple_test_activity_question_textsize" >
+            </TextView>
 
-            <TextView
-                android:id="@+id/answer"
+            <Button
+                android:id="@+id/option1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textColor="#ffff0000"
+                android:background="@drawable/question_button_btn"
+                android:gravity="center_vertical|left"
+                android:textSize="@dimen/simple_test_activity_question_textsize" />
+
+            <Button
+                android:id="@+id/option2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/question_button_btn"
+                android:gravity="center_vertical|left"
+                android:textSize="@dimen/simple_test_activity_question_textsize" />
+
+            <Button
+                android:id="@+id/option3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/question_button_btn"
+                android:gravity="center_vertical|left"
+                android:textSize="@dimen/simple_test_activity_question_textsize" />
+
+            <Button
+                android:id="@+id/option4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/question_button_btn"
+                android:gravity="center_vertical|left"
                 android:textSize="@dimen/simple_test_activity_question_textsize" />
         </LinearLayout>
     </ScrollView>

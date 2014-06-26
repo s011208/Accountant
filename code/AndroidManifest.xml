@@ -32,8 +32,12 @@
             android:label="@string/app_name"
             android:launchMode="singleInstance" >
         </activity>
-
-        <service android:name="com.bj4.yhh.accountant.service.ParseService" />
+        <activity
+            android:name="com.bj4.yhh.accountant.activities.CompositeTestActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance" >
+        </activity>
+        <service android:name="com.bj4.yhh.accountant.service.ParseService" />
     </application>
 
 </manifest>

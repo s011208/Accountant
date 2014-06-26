@@ -31,4 +31,6 @@
 	<dimen name="over_view_shadow_height">20dp</dimen>
 	<dimen name="over_view_law_list_text_size">20sp</dimen>
 	<dimen name="over_view_law_list_row_margin_v">10dp</dimen>
+	
+	<!-- composite test activity -->
 </resources>

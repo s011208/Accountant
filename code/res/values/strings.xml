@@ -28,6 +28,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="complete">Complete</string>
+    <string name="start_composite_test">Start full test</string>
     <string name="rest_items">"Rest items: "</string>
     <string name="dialog_confirm_to_delete_msg">Click ok to delete this plan</string>
     <string name="dialog_confirm_to_delete_title">Delete plan?</string>

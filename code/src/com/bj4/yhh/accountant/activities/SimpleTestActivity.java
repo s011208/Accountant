@@ -4,6 +4,7 @@ package com.bj4.yhh.accountant.activities;
 import com.bj4.yhh.accountant.LawAttrs;
 import com.bj4.yhh.accountant.R;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -38,7 +39,6 @@ public class SimpleTestActivity extends BaseTestActivity {
         mQuestion.setVisibility(View.GONE);
         mAnswer.setVisibility(View.GONE);
         mProgressHint.setVisibility(View.GONE);
-        Toast.makeText(getBaseContext(), "done", Toast.LENGTH_SHORT).show();
     }
 
     private void init() {
@@ -89,6 +89,11 @@ public class SimpleTestActivity extends BaseTestActivity {
         mComplete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent start = new Intent(getApplicationContext(), CompositeTestActivity.class);
+                start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                start.putExtra(BaseTestActivity.INTENT_PLAN_TYPE, mPlan.mPlanType);
+                getApplicationContext().startActivity(start);
+                finish();
             }
         });
     }
