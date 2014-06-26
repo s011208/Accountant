@@ -15,7 +15,7 @@ public class ParseService extends Service {
 
     public static final String UPDATE_ALL = "update_all";
 
-    public static final String TAG = "QQQQ";
+    public static final String TAG = "ParseService";
 
     public void onCreate() {
         super.onCreate();

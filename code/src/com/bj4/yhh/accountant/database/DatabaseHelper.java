@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "law.db";
 
-    private static final String TAG = "QQQQ";
+    private static final String TAG = "DatabaseHelper";
 
     // plan related
     public static final String TABLE_NAME_PLAN = "plan";

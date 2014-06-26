@@ -20,7 +20,7 @@ import android.content.Context;
 import android.util.Log;
 
 public class GovLawParser implements Runnable {
-    private static final String TAG = "QQQQ";
+    private static final String TAG = "GovLawParser";
 
     private static final boolean DEBUG = false;
 
