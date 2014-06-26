@@ -57,7 +57,9 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
     private MainActivity mMainActivity;
 
-    private LinearLayout mLawListContainer;
+    private ListView mLawList;
+
+    private LawListAdapter mLawListAdapter;
 
     private DatabaseHelper mDatabaseHelper;
 
@@ -105,8 +107,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         mContentView = (ViewSwitcher)mInflater.inflate(R.layout.over_view_fragment, null);
         mContentView.setInAnimation(mContext, R.anim.alpha_scale_switch_in);
         mContentView.setOutAnimation(mContext, R.anim.alpha_scale_switch_out);
-        mLawListContainer = (LinearLayout)mContentView
-                .findViewById(R.id.overview_law_list_container);
+        mLawList = (ListView)mContentView.findViewById(R.id.overview_law_list);
         initLawList();
         mLawContent = (ListView)mContentView.findViewById(R.id.over_view_law_content);
         mSearchContent = (EditText)mContentView.findViewById(R.id.search_content);
@@ -308,25 +309,72 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
     }
 
     private void initLawList() {
-        if (mLawListContainer != null) {
-            mLawListContainer.removeAllViews();
-            ArrayList<Integer> types = mDatabaseHelper.getAllLawTypes();
-            for (final int t : types) {
-                Button btn = new Button(mContext);
-                btn.setBackgroundResource(R.drawable.general_btn_bg);
-                btn.setText(GovLawParser.getTypeTextResource(t));
-                mLawListContainer.addView(btn);
-                btn.setOnClickListener(new OnClickListener() {
+        if (mLawList != null) {
+            mLawListAdapter = new LawListAdapter();
+            mLawList.setAdapter(mLawListAdapter);
+            mLawList.setOnItemClickListener(new OnItemClickListener() {
 
-                    @Override
-                    public void onClick(View v) {
-                        mDisplayContentType = t;
-                        mLawContentAdapter.notifyDataSetChanged();
-                        mLawContent.setSelection(0);
-                        setDisplayedChild(OVERVIEW_FRAGMENT_LAW_CONTENT);
-                    }
-                });
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    mDisplayContentType = mLawListAdapter.getItem(position);
+                    mLawContentAdapter.notifyDataSetChanged();
+                    mLawContent.setSelection(0);
+                    setDisplayedChild(OVERVIEW_FRAGMENT_LAW_CONTENT);
+                }
+            });
+        }
+    }
+
+    private class LawListAdapter extends BaseAdapter {
+        private ArrayList<Integer> mTypeData;
+
+        public LawListAdapter() {
+            init();
+        }
+
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            init();
+        }
+
+        private void init() {
+            mTypeData = mDatabaseHelper.getAllLawTypes();
+        }
+
+        @Override
+        public int getCount() {
+            return mTypeData.size();
+        }
+
+        @Override
+        public Integer getItem(int position) {
+            return mTypeData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.over_view_fragment_law_list_row, null);
+                holder = new ViewHolder();
+                holder.mLawText = (TextView)convertView
+                        .findViewById(R.id.overview_law_list_type_txt);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder)convertView.getTag();
             }
+            int type = getItem(position);
+            holder.mLawText.setText(GovLawParser.getTypeTextResource(type));
+            return convertView;
+        }
+
+        private class ViewHolder {
+            TextView mLawText;
         }
     }
 
@@ -352,7 +400,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
             @Override
             public void run() {
-                initLawList();
+                mLawListAdapter.notifyDataSetChanged();
                 mLawContentAdapter.notifyDataSetChanged();
             }
         });

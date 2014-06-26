@@ -1,8 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/overview_law_list_container"
+    android:id="@+id/overview_law_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_margin="10dp"
+    android:divider="#33b5e5"
+    android:dividerHeight="1px" >
 
-</LinearLayout>
+</ListView>
