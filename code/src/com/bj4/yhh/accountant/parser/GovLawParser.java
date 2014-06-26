@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
-import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import com.bj4.yhh.accountant.AccountantApplication;

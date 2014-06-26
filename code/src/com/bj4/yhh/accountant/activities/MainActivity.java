@@ -3,29 +3,18 @@ package com.bj4.yhh.accountant.activities;
 
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.R;
-import com.bj4.yhh.accountant.R.id;
-import com.bj4.yhh.accountant.R.layout;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.fragments.MainEntryFragment;
 import com.bj4.yhh.accountant.fragments.OverViewFragment;
-import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.service.ParseService;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.os.Build;
 
 public class MainActivity extends Activity {
     public static final int MAIN_ENTRY_FRAGMENT = 1;

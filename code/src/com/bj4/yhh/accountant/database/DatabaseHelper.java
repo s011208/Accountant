@@ -5,20 +5,15 @@ import java.util.ArrayList;
 
 import com.bj4.yhh.accountant.LawAttrs;
 import com.bj4.yhh.accountant.PlanAttrs;
-import com.bj4.yhh.accountant.parser.GovLawParser;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteFullException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -77,8 +72,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase mDb;
 
-    private Context mContext;
-
     private SQLiteDatabase getDataBase() {
         if ((mDb == null) || (mDb != null && mDb.isOpen() == false)) {
             try {
@@ -96,7 +89,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        mContext = context;
         getDataBase().execSQL("PRAGMA synchronous = 1");
         setWriteAheadLoggingEnabled(true);
         createTables();

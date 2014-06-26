@@ -50,8 +50,6 @@ public class MainEntryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-
             }
         });
         mOverview.setOnClickListener(new OnClickListener() {

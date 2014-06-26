@@ -1,25 +1,15 @@
 
 package com.bj4.yhh.accountant.activities;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.LawAttrs;
-import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.R;
-import com.bj4.yhh.accountant.database.DatabaseHelper;
-import com.bj4.yhh.accountant.parser.GovLawParser;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Gravity;
-import android.view.Window;
-import android.view.WindowManager;
+
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,10 +28,6 @@ public class SimpleTestActivity extends BaseTestActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simple_test_activity);
         init();
-    }
-
-    public void onResume() {
-        super.onResume();
     }
 
     private void finishTest() {

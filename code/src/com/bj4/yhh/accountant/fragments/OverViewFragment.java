@@ -18,7 +18,6 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -28,19 +27,14 @@ import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -77,10 +71,6 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
     private View mOverViewShadow;
 
-    // private ImageButton mNextSearching, mPreviousSearching;
-    //
-    // private int mCurrentSearchingPosition = 0;
-
     public OverViewFragment() {
     }
 
@@ -112,10 +102,6 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         mLawContent = (ListView)mContentView.findViewById(R.id.over_view_law_content);
         mSearchContent = (EditText)mContentView.findViewById(R.id.search_content);
         mOverViewShadow = mContentView.findViewById(R.id.over_view_shadow);
-        // mNextSearching =
-        // (ImageButton)mContentView.findViewById(R.id.search_next);
-        // mPreviousSearching =
-        // (ImageButton)mContentView.findViewById(R.id.search_previous);
         initContentListView();
     }
 
@@ -132,19 +118,16 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return mData.size();
         }
 
         @Override
         public LawAttrs getItem(int position) {
-            // TODO Auto-generated method stub
             return mData.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
@@ -168,16 +151,12 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
             if (mSearchingText.length() > 0) {
                 if (holder.mHasBeenSearched) {
                     holder.mLine.setBackgroundColor(0xccff8f59);
-                    // convertView.setVisibility(View.VISIBLE);
                 } else if (MagicFuzzy.Magic(attr.mContent, mSearchingText, 0)) {
                     holder.mLine.setBackgroundColor(0xcc8cea00);
-                    // convertView.setVisibility(View.VISIBLE);
                 } else {
-                    // convertView.setVisibility(View.GONE);
                     holder.mLine.setBackgroundColor(0xcc8080c0);
                 }
             } else {
-                // convertView.setVisibility(View.VISIBLE);
                 holder.mLine.setBackgroundColor(0xcc8080c0);
             }
             return convertView;
@@ -218,7 +197,6 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    // TODO Auto-generated method stub
                     float v = (Float)animation.getAnimatedValue();
                     mOverViewShadow.setAlpha(v);
                 }
@@ -227,26 +205,19 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
                 @Override
                 public void onAnimationStart(Animator animation) {
-                    // TODO Auto-generated method stub
                     mOverViewShadow.setVisibility(View.VISIBLE);
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    // TODO Auto-generated method stub
-
                 }
 
                 @Override
                 public void onAnimationCancel(Animator animation) {
-                    // TODO Auto-generated method stub
-
                 }
 
                 @Override
                 public void onAnimationRepeat(Animator animation) {
-                    // TODO Auto-generated method stub
-
                 }
             });
             mLawContent.setOnScrollListener(new OnScrollListener() {
@@ -263,8 +234,6 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
                 @Override
                 public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
                         int totalItemCount) {
-                    // TODO Auto-generated method stub
-
                 }
             });
             mLawContent.setOnItemClickListener(new OnItemClickListener() {
@@ -279,32 +248,18 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    // TODO Auto-generated method stub
-
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    // TODO Auto-generated method stub
                     mSearchingText = s.toString();
                     mLawContentAdapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    // TODO Auto-generated method stub
-
                 }
             });
-            // mCurrentSearchingPosition
-            // mNextSearching.setOnClickListener(new OnClickListener() {
-            //
-            // @Override
-            // public void onClick(View v) {
-            // // TODO Auto-generated method stub
-            //
-            // }
-            // });
         }
     }
 

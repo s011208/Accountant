@@ -2,12 +2,12 @@
 package com.bj4.yhh.accountant.fragments;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.R;
+import com.bj4.yhh.accountant.activities.BaseTestActivity;
 import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.activities.SimpleTestActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
@@ -31,11 +31,9 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,7 +82,7 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
                 mMainActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        initEdit();
+                        initLawOptionSpinner();
                     }
                 });
             }
@@ -123,6 +121,7 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
         initManage();
         // edit
         initEdit();
+        initLawOptionSpinner();
         setDisplayedChild(CREATE_PLAN_MANAGE_PAGE);
     }
 
@@ -180,7 +179,7 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PlanAttrs plan = mPlanListAdapter.getItem(position);
                 Intent start = new Intent(mContext, SimpleTestActivity.class);
-                start.putExtra(SimpleTestActivity.INTENT_PLAN_TYPE, plan.mPlanType);
+                start.putExtra(BaseTestActivity.INTENT_PLAN_TYPE, plan.mPlanType);
                 mContext.startActivity(start);
             }
         });
@@ -234,25 +233,21 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return mData.size();
         }
 
         @Override
         public PlanAttrs getItem(int position) {
-            // TODO Auto-generated method stub
             return mData.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             ViewHolder holder = null;
             if (convertView == null) {
                 convertView = mInflater
@@ -322,10 +317,9 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
         });
         mEstimateDays = (NumberPicker)mContentView.findViewById(R.id.estimate_days);
         mEstimateDays.setMinValue(3);
-        mEstimateDays.setMaxValue(60);
+        mEstimateDays.setMaxValue(20);
         mEstimateDays.setValue(7);// set 7 as default
         mLawOptions = (Spinner)mContentView.findViewById(R.id.law_options);
-        initLawOptionSpinner();
         mReadingOrder = (Spinner)mContentView.findViewById(R.id.reading_order);
         ArrayAdapter<String> readingOrderAdapter = new ArrayAdapter<String>(mContext,
                 android.R.layout.simple_spinner_dropdown_item, mContext.getResources()
