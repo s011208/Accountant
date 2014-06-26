@@ -65,7 +65,7 @@ public abstract class BaseTestActivity extends Activity {
             Log.w(TAG, "should not be null");
             finish();
         }
-        mLaws = mDatabaseHelper.query(mPlan.mPlanType);
+        mLaws = mDatabaseHelper.getPlanData(mPlan);
         mFixedTitle = getResources().getString(GovLawParser.getTypeTextResource(mPlan.mPlanType));
         if (mTitle != null) {
             mTitle.setText(mFixedTitle);

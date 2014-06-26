@@ -2,13 +2,16 @@
 package com.bj4.yhh.accountant.database;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.bj4.yhh.accountant.LawAttrs;
 import com.bj4.yhh.accountant.PlanAttrs;
+import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteFullException;
@@ -21,6 +24,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "law.db";
 
     private static final String TAG = "DatabaseHelper";
+
+    // test related
+    public static final String TABLE_NAME_TEST = "test";
 
     // plan related
     public static final String TABLE_NAME_PLAN = "plan";
@@ -57,6 +63,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_WRONG_TIME = "wrong_time";
 
     public static final String COLUMN_HAS_ANSWERED = "has_answered";
+
+    public static final String COLUMN_ORDER = "c_order";
+
+    public static final String LAW_TABLE_COLUMN = " (" + COLUMN_CHAPTER + " TEXT, "
+            + COLUMN_SECTION + " TEXT, " + COLUMN_PART + " TEXT, " + COLUMN_SUBSECTION + " TEXT, "
+            + COLUMN_LINE + " TEXT, " + COLUMN_CONTENT + " TEXT, " + COLUMN_TYPE + " INTEGER,"
+            + COLUMN_HAS_ANSWERED + " INTEGER, " + COLUMN_ORDER + " INTEGER, " + COLUMN_WRONG_TIME
+            + " INTEGER, PRIMARY KEY(" + COLUMN_LINE + ", " + COLUMN_TYPE + "))";
 
     public interface RefreshLawCallback {
         public void notifyDataChanged();
@@ -106,20 +120,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void createTables() {
+
         // law table
-        getDataBase().execSQL(
-                "CREATE TABLE if not exists " + TABLE_NAME_LAW + " (" + COLUMN_CHAPTER + " TEXT, "
-                        + COLUMN_SECTION + " TEXT, " + COLUMN_PART + " TEXT, " + COLUMN_SUBSECTION
-                        + " TEXT, " + COLUMN_LINE + " TEXT, " + COLUMN_CONTENT + " TEXT, "
-                        + COLUMN_TYPE + " INTEGER," + COLUMN_HAS_ANSWERED + " INTEGER, "
-                        + COLUMN_WRONG_TIME + " INTEGER, PRIMARY KEY(" + COLUMN_LINE + ", "
-                        + COLUMN_TYPE + "))");
+        getDataBase().execSQL("CREATE TABLE if not exists " + TABLE_NAME_LAW + LAW_TABLE_COLUMN);
         // plan table
         getDataBase().execSQL(
                 "CREATE TABLE if not exists " + TABLE_NAME_PLAN + " (" + COLUMN_LAW_TYPE
                         + " INTEGER PRIMARY KEY , " + COLUMN_DATE + " TEXT, "
                         + COLUMN_TOTAL_PROGRESS + " TEXT, " + COLUMN_CURRENT_PROGRESS + " TEXT, "
                         + COLUMN_READING_ORDER + " TEXT)");
+        // test table (copy all column from TABLE_NAME_LAW)
+        getDataBase().execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TEST + LAW_TABLE_COLUMN);
     }
 
     public void addCallback(RefreshPlanCallback c) {
@@ -168,6 +179,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rtn;
     }
 
+    public ArrayList<LawAttrs> getPlanData(PlanAttrs plan) {
+        ArrayList<LawAttrs> rtn = null;
+        Cursor data = null;
+        data = getDataBase().query(true, TABLE_NAME_TEST, null,
+                COLUMN_TYPE + "='" + plan.mPlanType + "'", null, null, null, COLUMN_ORDER, null,
+                null);
+        rtn = convertFromCursorToLawAttrs(data);
+        return rtn;
+    }
+
     public void addNewPlan(PlanAttrs plan) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_LAW_TYPE, plan.mPlanType);
@@ -178,6 +199,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getDataBase().insert(TABLE_NAME_PLAN, null, cv);
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
+        }
+        Cursor data = getDataBase().query(TABLE_NAME_LAW, null,
+                COLUMN_TYPE + "='" + plan.mPlanType + "'", null, null, null, null);
+        ArrayList<ContentValues> randomList = new ArrayList<ContentValues>();
+        ArrayList<Integer> order = new ArrayList<Integer>();
+        int rCount = 0;
+        if (data != null) {
+            while (data.moveToNext()) {
+                cv = new ContentValues();
+                DatabaseUtils.cursorRowToContentValues(data, cv);
+                order.add(rCount++);
+                randomList.add(cv);
+            }
+            data.close();
+        }
+        if (randomList.isEmpty() == false) {
+            if (plan.mReadingOrder == CreatePlanFragment.READING_ORDER_RANDOM) {
+                Collections.shuffle(order);
+            }
+            try {
+                getDataBase().beginTransaction();
+                for (int i = 0; i < randomList.size(); i++) {
+                    ContentValues c = randomList.get(i);
+                    c.put(COLUMN_ORDER, order.get(i));
+                    getDataBase().insert(TABLE_NAME_TEST, null, c);
+                }
+                getDataBase().setTransactionSuccessful();
+            } finally {
+                getDataBase().endTransaction();
+            }
         }
     }
 
@@ -210,6 +261,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
         }
+        getDataBase().delete(TABLE_NAME_TEST, COLUMN_TYPE + "='" + type + "'", null);
     }
 
     public void clearAllPlans() {
@@ -220,6 +272,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
         }
+        getDataBase().delete(TABLE_NAME_TEST, null, null);
     }
 
     public ArrayList<Integer> getAvailableLawTypes() {
@@ -326,7 +379,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
         cv.put(COLUMN_HAS_ANSWERED, attr.mHasAnswered);
-        getDataBase().update(TABLE_NAME_LAW, cv,
+        getDataBase().update(TABLE_NAME_TEST, cv,
                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
     }
 
@@ -341,6 +394,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                                 cv,
                                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='"
                                         + law.mLine + "'", null);
+                getDataBase()
+                .update(TABLE_NAME_TEST,
+                        cv,
+                        COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='"
+                                + law.mLine + "'", null);
             }
             getDataBase().setTransactionSuccessful();
         } finally {

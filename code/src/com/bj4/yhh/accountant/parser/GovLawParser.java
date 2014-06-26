@@ -17,9 +17,19 @@ import android.content.Context;
 import android.util.Log;
 
 public class GovLawParser implements Runnable {
+    public interface ResultCallback {
+        public void parseDone(int result, Exception e);
+    }
+
+    private ResultCallback mCallback;
+
     private static final String TAG = "GovLawParser";
 
     private static final boolean DEBUG = false;
+
+    public static final int RESULT_OK = 0;
+
+    public static final int RESULT_FAIL = 1;
 
     private static final String PART_UNIT = "½s";
 
@@ -61,10 +71,11 @@ public class GovLawParser implements Runnable {
 
     private int mParseType;
 
-    public GovLawParser(Context c, int type, int behaviour) {
+    public GovLawParser(Context c, int type, int behaviour, ResultCallback cb) {
         mContext = c;
         mParseType = type;
         mParseBehaviou = behaviour;
+        mCallback = cb;
     }
 
     private static final String getParseUrl(int type) {
@@ -97,6 +108,8 @@ public class GovLawParser implements Runnable {
 
     @Override
     public void run() {
+        int result = RESULT_OK;
+        Exception failException = null;
         String url = getParseUrl(mParseType);
         try {
             Document doc = Jsoup.connect(url).get();
@@ -144,10 +157,15 @@ public class GovLawParser implements Runnable {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
+            result = RESULT_FAIL;
+            failException = e;
             Log.w(TAG, "failed", e);
         } finally {
             refreshTable();
+            if (mCallback != null) {
+                mCallback.parseDone(result, failException);
+            }
         }
     }
 
