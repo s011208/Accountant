@@ -33,6 +33,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -65,7 +66,7 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
 
     private Spinner mLawOptions, mReadingOrder;
 
-    private EditText mEstimateDays;
+    private NumberPicker mEstimateDays;
 
     private DatabaseHelper mDatabaseHelper;
 
@@ -314,14 +315,15 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
             public void onClick(View v) {
                 int planType = getPlanType(mLawOptions.getSelectedItem().toString());
                 mDatabaseHelper.addNewPlan(new PlanAttrs(planType, mReadingOrder
-                        .getSelectedItemPosition(), Integer.valueOf(mEstimateDays.getText()
-                        .toString()), 0, 0));
+                        .getSelectedItemPosition(), mEstimateDays.getValue(), 0, 0));
                 initLawOptionSpinner();
                 setDisplayedChild(CREATE_PLAN_MANAGE_PAGE);
             }
         });
-        mEstimateDays = (EditText)mContentView.findViewById(R.id.estimate_days);
-        mEstimateDays.setText("7");// set 7 as default
+        mEstimateDays = (NumberPicker)mContentView.findViewById(R.id.estimate_days);
+        mEstimateDays.setMinValue(3);
+        mEstimateDays.setMaxValue(60);
+        mEstimateDays.setValue(7);// set 7 as default
         mLawOptions = (Spinner)mContentView.findViewById(R.id.law_options);
         initLawOptionSpinner();
         mReadingOrder = (Spinner)mContentView.findViewById(R.id.reading_order);

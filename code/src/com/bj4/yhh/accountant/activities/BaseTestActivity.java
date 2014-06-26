@@ -34,6 +34,8 @@ public abstract class BaseTestActivity extends Activity {
 
     public static final int QUESTION_TYPE_CONTENT = 1;
 
+    protected TextView mTitle;
+
     protected PlanAttrs mPlan;
 
     protected DatabaseHelper mDatabaseHelper;
@@ -71,6 +73,9 @@ public abstract class BaseTestActivity extends Activity {
         }
         mLaws = mDatabaseHelper.query(mPlan.mPlanType);
         mFixedTitle = getResources().getString(GovLawParser.getTypeTextResource(mPlan.mPlanType));
+        if (mTitle != null) {
+            mTitle.setText(mFixedTitle);
+        }
         setBound();
         generateQuestion();
     }

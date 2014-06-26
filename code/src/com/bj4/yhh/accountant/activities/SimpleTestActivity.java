@@ -27,7 +27,7 @@ import android.widget.Toast;
 public class SimpleTestActivity extends BaseTestActivity {
     public static final String TAG = "SimpleTestActivity";
 
-    private TextView mTitle, mProgressHint;
+    private TextView mProgressHint;
 
     private TextView mQuestion, mAnswer;
 
@@ -38,11 +38,6 @@ public class SimpleTestActivity extends BaseTestActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simple_test_activity);
         init();
-    }
-
-    public void refreshData() {
-        super.refreshData();
-        mTitle.setText(mFixedTitle);
     }
 
     public void onResume() {
