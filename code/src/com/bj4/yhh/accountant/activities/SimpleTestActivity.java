@@ -51,8 +51,8 @@ public class SimpleTestActivity extends BaseTestActivity {
             @Override
             public void onClick(View v) {
                 LawAttrs law = mLaws.get(mCurrentIndex);
-                law.mHasAnswered = LawAttrs.HAS_ANSWERED;
-                mDatabaseHelper.updateTestStatus(law, mPlan.mPlanType);
+                law.mHasAnsweredSimple = LawAttrs.HAS_ANSWERED;
+                mDatabaseHelper.updateSimpleTestStatus(law, mPlan.mPlanType);
                 mLaws.remove(mCurrentIndex);
                 --mUpperBound;
                 if (mLaws.isEmpty()) {
@@ -68,7 +68,7 @@ public class SimpleTestActivity extends BaseTestActivity {
             public void onClick(View v) {
                 LawAttrs law = mLaws.get(mCurrentIndex);
                 ++law.mWrongTime;
-                mDatabaseHelper.updateTestStatus(law, mPlan.mPlanType);
+                mDatabaseHelper.updateSimpleTestStatus(law, mPlan.mPlanType);
                 mAnswer.setVisibility(View.VISIBLE);
                 mNo.setVisibility(View.GONE);
                 mYes.setVisibility(View.GONE);

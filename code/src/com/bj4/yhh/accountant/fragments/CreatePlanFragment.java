@@ -101,6 +101,9 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (mContext == null) {
+            mContext = getActivity();
+        }
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
         mDatabaseHelper.addCallback(mRefreshLawCallback);

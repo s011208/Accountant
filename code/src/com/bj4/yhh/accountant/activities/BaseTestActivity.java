@@ -97,7 +97,7 @@ public abstract class BaseTestActivity extends Activity {
                     // randomly remove lower bound
                 }
             } else if (counter < mUpperBound) {
-                if (law.mHasAnswered == LawAttrs.HAS_ANSWERED) {
+                if (law.mHasAnsweredSimple == LawAttrs.HAS_ANSWERED) {
                     ++debugAnswered;
                     iter.remove();
                     tempUpperBound--;

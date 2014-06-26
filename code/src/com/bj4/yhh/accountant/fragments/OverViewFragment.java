@@ -83,6 +83,9 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (mContext == null) {
+            mContext = getActivity();
+        }
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
     }

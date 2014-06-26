@@ -62,14 +62,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_WRONG_TIME = "wrong_time";
 
-    public static final String COLUMN_HAS_ANSWERED = "has_answered";
+    public static final String COLUMN_HAS_ANSWERED_SIMPLE = "has_answered_simple";
+
+    public static final String COLUMN_HAS_ANSWERED_COMPOSITE = "has_answered_composite";
 
     public static final String COLUMN_ORDER = "c_order";
 
     public static final String LAW_TABLE_COLUMN = " (" + COLUMN_CHAPTER + " TEXT, "
             + COLUMN_SECTION + " TEXT, " + COLUMN_PART + " TEXT, " + COLUMN_SUBSECTION + " TEXT, "
             + COLUMN_LINE + " TEXT, " + COLUMN_CONTENT + " TEXT, " + COLUMN_TYPE + " INTEGER,"
-            + COLUMN_HAS_ANSWERED + " INTEGER, " + COLUMN_ORDER + " INTEGER, " + COLUMN_WRONG_TIME
+            + COLUMN_HAS_ANSWERED_SIMPLE + " INTEGER, " + COLUMN_HAS_ANSWERED_COMPOSITE
+            + " INTEGER, " + COLUMN_ORDER + " INTEGER, " + COLUMN_WRONG_TIME
             + " INTEGER, PRIMARY KEY(" + COLUMN_LINE + ", " + COLUMN_TYPE + "))";
 
     public interface RefreshLawCallback {
@@ -256,7 +259,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deletePlan(int type) {
         getDataBase().delete(TABLE_NAME_PLAN, COLUMN_LAW_TYPE + "='" + type + "'", null);
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_HAS_ANSWERED, LawAttrs.HAS_NOT_ANSWERED);
+        cv.put(COLUMN_HAS_ANSWERED_SIMPLE, LawAttrs.HAS_NOT_ANSWERED);
         getDataBase().update(TABLE_NAME_LAW, cv, COLUMN_TYPE + "='" + type + "'", null);
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
@@ -267,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void clearAllPlans() {
         getDataBase().delete(TABLE_NAME_PLAN, null, null);
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_HAS_ANSWERED, LawAttrs.HAS_NOT_ANSWERED);
+        cv.put(COLUMN_HAS_ANSWERED_SIMPLE, LawAttrs.HAS_NOT_ANSWERED);
         getDataBase().update(TABLE_NAME_LAW, cv, null, null);
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
@@ -311,12 +314,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int sectionIndex = c.getColumnIndex(COLUMN_SECTION);
             int subSectionIndex = c.getColumnIndex(COLUMN_SUBSECTION);
             int wrongIndex = c.getColumnIndex(COLUMN_WRONG_TIME);
-            int answeredIndex = c.getColumnIndex(COLUMN_HAS_ANSWERED);
+            int answeredIndex = c.getColumnIndex(COLUMN_HAS_ANSWERED_SIMPLE);
+            int answeredCompositeIndex = c.getColumnIndex(COLUMN_HAS_ANSWERED_COMPOSITE);
             while (c.moveToNext()) {
                 rtn.add(new LawAttrs(c.getString(partIndex), c.getString(chapterIndex), c
                         .getString(sectionIndex), c.getString(subSectionIndex), c
                         .getString(lineIndex), c.getString(contentIndex), c.getInt(wrongIndex), c
-                        .getInt(answeredIndex)));
+                        .getInt(answeredIndex), c.getInt(answeredCompositeIndex)));
             }
             c.close();
         }
@@ -335,7 +339,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put(COLUMN_SECTION, attr.mSection);
             cv.put(COLUMN_PART, attr.mPart);
             cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
-            cv.put(COLUMN_HAS_ANSWERED, attr.mHasAnswered);
+            cv.put(COLUMN_HAS_ANSWERED_SIMPLE, attr.mHasAnsweredSimple);
             cv.put(COLUMN_TYPE, type);
             cvs.add(cv);
         }
@@ -361,7 +365,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             rtn.add(new LawAttrs(cv.getAsString(COLUMN_PART), cv.getAsString(COLUMN_CHAPTER), cv
                     .getAsString(COLUMN_SECTION), cv.getAsString(COLUMN_SUBSECTION), cv
                     .getAsString(COLUMN_LINE), cv.getAsString(COLUMN_CONTENT), cv
-                    .getAsInteger(COLUMN_WRONG_TIME), cv.getAsInteger(COLUMN_HAS_ANSWERED)));
+                    .getAsInteger(COLUMN_WRONG_TIME), cv.getAsInteger(COLUMN_HAS_ANSWERED_SIMPLE),
+                    cv.getAsInteger(COLUMN_HAS_ANSWERED_COMPOSITE)));
         }
         return rtn;
     }
@@ -375,10 +380,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mRefreshLawCallback.remove(c);
     }
 
-    public void updateTestStatus(LawAttrs attr, int type) {
+    public void updateSimpleTestStatus(LawAttrs attr, int type) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
-        cv.put(COLUMN_HAS_ANSWERED, attr.mHasAnswered);
+        cv.put(COLUMN_HAS_ANSWERED_SIMPLE, attr.mHasAnsweredSimple);
+        getDataBase().update(TABLE_NAME_TEST, cv,
+                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
+    }
+
+    public void updateCompositeTestStatus(LawAttrs attr, int type) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
+        cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, attr.mHasAnsweredComposite);
         getDataBase().update(TABLE_NAME_TEST, cv,
                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
     }
@@ -395,10 +408,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='"
                                         + law.mLine + "'", null);
                 getDataBase()
-                .update(TABLE_NAME_TEST,
-                        cv,
-                        COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='"
-                                + law.mLine + "'", null);
+                        .update(TABLE_NAME_TEST,
+                                cv,
+                                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='"
+                                        + law.mLine + "'", null);
             }
             getDataBase().setTransactionSuccessful();
         } finally {

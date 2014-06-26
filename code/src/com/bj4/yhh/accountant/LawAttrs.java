@@ -20,7 +20,9 @@ public class LawAttrs {
 
     public static final int HAS_NOT_ANSWERED = 1;
 
-    public int mHasAnswered = HAS_NOT_ANSWERED;
+    public int mHasAnsweredSimple = HAS_NOT_ANSWERED;
+    
+    public int mHasAnsweredComposite = HAS_NOT_ANSWERED;
 
     public LawAttrs(String part, String chapter, String sec, String subsection, String line,
             String content) {
@@ -33,7 +35,7 @@ public class LawAttrs {
     }
 
     public LawAttrs(String part, String chapter, String sec, String subsection, String line,
-            String content, int wrongTime, int answered) {
+            String content, int wrongTime, int answeredSimple, int answeredComposite) {
         mPart = part;
         mChapter = chapter;
         mSection = sec;
@@ -41,12 +43,13 @@ public class LawAttrs {
         mLine = line;
         mContent = content;
         mWrongTime = wrongTime;
-        mHasAnswered = answered;
+        mHasAnsweredSimple = answeredSimple;
+        mHasAnsweredComposite = answeredComposite;
     }
 
     public String toString() {
         return "mPart: " + mPart + ", mChapter: " + mChapter + ", mSection: " + mSection
                 + ", mSubSection: " + mSubSection + ", mLine: " + mLine + ", mContent: " + mContent
-                + ", mWrongTime: " + mWrongTime + ", mHasAnswered: " + mHasAnswered;
+                + ", mWrongTime: " + mWrongTime + ", mHasAnsweredSimple: " + mHasAnsweredSimple;
     }
 }

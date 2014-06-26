@@ -1,6 +1,7 @@
 
 package com.bj4.yhh.accountant.fragments;
 
+import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.activities.MainActivity;
 
@@ -30,6 +31,13 @@ public class MainEntryFragment extends Fragment {
         mContext = activity;
         mMainActivity = activity;
         init();
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (mContext == null) {
+            mContext = getActivity();
+        }
     }
 
     private void init() {
