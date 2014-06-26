@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="main_title">To be an Accountant!</string>
     <string name="app_name">Accountant</string>
     <string name="action_settings">Settings</string>
     <string name="main_entry_plan">My plan</string>

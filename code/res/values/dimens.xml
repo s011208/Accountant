@@ -7,6 +7,8 @@
     <!-- main entry fragment -->
     <dimen name="main_entry_button_margin_h">10dp</dimen>
     <dimen name="main_entry_button_margin_v">15dp</dimen>
+    <dimen name="main_entry_title_margin_top">60dp</dimen>
+    <dimen name="main_entry_title_text_size">30sp</dimen>
 
     <!-- create plan fragment -->
     <dimen name="create_plan_buttons_parent_margin_v">10dp</dimen>

@@ -3,6 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <TextView
+        android:id="@+id/main_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/main_entry_title_margin_top"
+        android:gravity="center"
+        android:text="@string/main_title"
+        android:textSize="@dimen/main_entry_title_text_size" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
