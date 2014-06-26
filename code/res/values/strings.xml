@@ -34,7 +34,8 @@
     <string name="dialog_confirm_to_delete_title">Delete plan?</string>
     <string name="dialog_confirm_to_delete_all_msg">Click ok to delete all plans</string>
     <string name="dialog_confirm_to_delete_all_title">Delete all plans?</string>
-    
+    <string name="test_type_review">Review</string>
+    <string name="test_type_by_law">By law</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>

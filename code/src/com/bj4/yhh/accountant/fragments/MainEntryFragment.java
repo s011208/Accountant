@@ -58,6 +58,7 @@ public class MainEntryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                mMainActivity.switchFragment(MainActivity.TEST_FRAGMENT);
             }
         });
         mOverview.setOnClickListener(new OnClickListener() {

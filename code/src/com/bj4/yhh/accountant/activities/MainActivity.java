@@ -7,6 +7,7 @@ import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.fragments.MainEntryFragment;
 import com.bj4.yhh.accountant.fragments.OverViewFragment;
+import com.bj4.yhh.accountant.fragments.TestFragment;
 import com.bj4.yhh.accountant.service.ParseService;
 
 import android.app.Activity;
@@ -23,6 +24,8 @@ public class MainActivity extends Activity {
 
     public static final int OVER_VIEW_FRAGMENT = 3;
 
+    public static final int TEST_FRAGMENT = 4;
+
     private int mCurrentFragment = MAIN_ENTRY_FRAGMENT;
 
     private MainEntryFragment mMainEntryFragment;
@@ -30,6 +33,8 @@ public class MainActivity extends Activity {
     private CreatePlanFragment mCreatePlanFragment;
 
     private OverViewFragment mOverViewFragment;
+
+    private TestFragment mTestFragment;
 
     private DatabaseHelper mDatabaseHelper;
 
@@ -75,6 +80,12 @@ public class MainActivity extends Activity {
             } else {
                 switchFragment(MAIN_ENTRY_FRAGMENT);
             }
+        } else if (mCurrentFragment == TEST_FRAGMENT) {
+            if (getTestFragment().getDisplayedChild() == TestFragment.TEST_FRAGMENT_LAW_LIST) {
+                getTestFragment().setDisplayedChild(TestFragment.TEST_FRAGMENT_TEST_TYPE);
+            } else {
+                switchFragment(MAIN_ENTRY_FRAGMENT);
+            }
         } else {
             super.onBackPressed();
         }
@@ -95,8 +106,20 @@ public class MainActivity extends Activity {
                 target = getOverViewFragment();
                 mCurrentFragment = OVER_VIEW_FRAGMENT;
                 break;
+            case TEST_FRAGMENT:
+                target = getTestFragment();
+                mCurrentFragment = TEST_FRAGMENT;
+                break;
+
         }
         getFragmentManager().beginTransaction().replace(R.id.main_fragment, target).commit();
+    }
+
+    private synchronized TestFragment getTestFragment() {
+        if (mTestFragment == null) {
+            mTestFragment = new TestFragment(this);
+        }
+        return mTestFragment;
     }
 
     private synchronized OverViewFragment getOverViewFragment() {
