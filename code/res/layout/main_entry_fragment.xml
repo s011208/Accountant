@@ -28,7 +28,7 @@
             android:layout_marginLeft="@dimen/main_entry_button_margin_h"
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
-            android:background="@drawable/general_btn_bg"
+            android:background="@drawable/blue_btn_bg"
             android:singleLine="true"
             android:text="@string/main_entry_plan"
             android:textSize="@dimen/general_btn_text_size" />
@@ -41,7 +41,7 @@
             android:layout_marginLeft="@dimen/main_entry_button_margin_h"
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
-            android:background="@drawable/general_btn_bg"
+            android:background="@drawable/blue_btn_bg"
             android:singleLine="true"
             android:text="@string/main_entry_test"
             android:textSize="@dimen/general_btn_text_size" />
@@ -54,7 +54,7 @@
             android:layout_marginLeft="@dimen/main_entry_button_margin_h"
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
-            android:background="@drawable/general_btn_bg"
+            android:background="@drawable/blue_btn_bg"
             android:singleLine="true"
             android:text="@string/main_entry_overview"
             android:textSize="@dimen/general_btn_text_size" />
@@ -67,7 +67,7 @@
             android:layout_marginLeft="@dimen/main_entry_button_margin_h"
             android:layout_marginRight="@dimen/main_entry_button_margin_h"
             android:layout_marginTop="@dimen/main_entry_button_margin_v"
-            android:background="@drawable/general_btn_bg"
+            android:background="@drawable/blue_btn_bg"
             android:singleLine="true"
             android:text="@string/check_update"
             android:textSize="@dimen/general_btn_text_size" />

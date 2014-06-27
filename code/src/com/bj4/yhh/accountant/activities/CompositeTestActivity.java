@@ -125,10 +125,10 @@ public class CompositeTestActivity extends Activity {
         mOption3.setVisibility(View.VISIBLE);
         mOption4.setVisibility(View.VISIBLE);
         mNext.setVisibility(View.GONE);
-        mOption1.setBackgroundResource(R.drawable.question_button_btn);
-        mOption2.setBackgroundResource(R.drawable.question_button_btn);
-        mOption3.setBackgroundResource(R.drawable.question_button_btn);
-        mOption4.setBackgroundResource(R.drawable.question_button_btn);
+        mOption1.setBackgroundResource(R.drawable.blue_question_button_btn);
+        mOption2.setBackgroundResource(R.drawable.blue_question_button_btn);
+        mOption3.setBackgroundResource(R.drawable.blue_question_button_btn);
+        mOption4.setBackgroundResource(R.drawable.blue_question_button_btn);
         mOption1.setEnabled(true);
         mOption2.setEnabled(true);
         mOption3.setEnabled(true);

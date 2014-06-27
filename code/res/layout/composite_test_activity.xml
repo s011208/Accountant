@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_paper_bg"
+    android:background="@drawable/blue_main_paper_bg"
     android:padding="@dimen/simple_test_activity_margin" >
 
     <TextView
@@ -35,7 +35,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/general_btn_bg"
+            android:background="@drawable/blue_btn_bg"
             android:gravity="center"
             android:text="@string/search_button_next"
             android:textSize="@dimen/general_btn_text_size" />
@@ -45,7 +45,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/general_btn_bg"
+            android:background="@drawable/blue_btn_bg"
             android:gravity="center"
             android:text="@string/complete"
             android:textSize="@dimen/general_btn_text_size"
@@ -90,7 +90,7 @@
                 android:id="@+id/option1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/question_button_btn"
+                android:background="@drawable/blue_question_button_btn"
                 android:gravity="center_vertical|left"
                 android:textSize="@dimen/simple_test_activity_question_textsize" />
 
@@ -98,7 +98,7 @@
                 android:id="@+id/option2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/question_button_btn"
+                android:background="@drawable/blue_question_button_btn"
                 android:gravity="center_vertical|left"
                 android:textSize="@dimen/simple_test_activity_question_textsize" />
 
@@ -106,7 +106,7 @@
                 android:id="@+id/option3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/question_button_btn"
+                android:background="@drawable/blue_question_button_btn"
                 android:gravity="center_vertical|left"
                 android:textSize="@dimen/simple_test_activity_question_textsize" />
 
@@ -114,7 +114,7 @@
                 android:id="@+id/option4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/question_button_btn"
+                android:background="@drawable/blue_question_button_btn"
                 android:gravity="center_vertical|left"
                 android:textSize="@dimen/simple_test_activity_question_textsize" />
         </LinearLayout>

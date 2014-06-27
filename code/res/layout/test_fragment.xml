@@ -21,7 +21,7 @@
                 android:layout_marginLeft="@dimen/main_entry_button_margin_h"
                 android:layout_marginRight="@dimen/main_entry_button_margin_h"
                 android:layout_marginTop="@dimen/main_entry_button_margin_v"
-                android:background="@drawable/general_btn_bg"
+                android:background="@drawable/blue_btn_bg"
                 android:text="@string/test_type_review"
                 android:textSize="@dimen/general_btn_text_size" />
 
@@ -33,7 +33,7 @@
                 android:layout_marginLeft="@dimen/main_entry_button_margin_h"
                 android:layout_marginRight="@dimen/main_entry_button_margin_h"
                 android:layout_marginTop="@dimen/main_entry_button_margin_v"
-                android:background="@drawable/general_btn_bg"
+                android:background="@drawable/blue_btn_bg"
                 android:text="@string/test_type_by_law"
                 android:textSize="@dimen/general_btn_text_size" />
         </LinearLayout>

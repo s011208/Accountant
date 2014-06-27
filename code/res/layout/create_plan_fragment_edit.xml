@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="@drawable/general_btn_bg"
+            android:background="@drawable/blue_btn_bg"
             android:text="@string/cancel"
             android:textSize="@dimen/general_btn_text_size" />
 
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="@drawable/general_btn_bg"
+            android:background="@drawable/blue_btn_bg"
             android:text="@string/ok"
             android:textSize="@dimen/general_btn_text_size" />
     </LinearLayout>
