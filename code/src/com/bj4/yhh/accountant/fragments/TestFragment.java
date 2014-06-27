@@ -68,7 +68,7 @@ public class TestFragment extends Fragment implements DatabaseHelper.RefreshLawC
 
     public static final int TEST_TYPE_BY_LAW = 1;
 
-    private int mTestType = TEST_TYPE_BY_LAW;
+    private static int sTestType = TEST_TYPE_BY_LAW;
 
     public TestFragment() {
     }
@@ -105,7 +105,7 @@ public class TestFragment extends Fragment implements DatabaseHelper.RefreshLawC
         mTypeReview.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                mTestType = TEST_TYPE_REVIEW;
+                sTestType = TEST_TYPE_REVIEW;
                 mLawListAdapter.notifyDataSetChanged();
                 setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
             }
@@ -113,7 +113,7 @@ public class TestFragment extends Fragment implements DatabaseHelper.RefreshLawC
         mTypeByLaw.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                mTestType = TEST_TYPE_BY_LAW;
+                sTestType = TEST_TYPE_BY_LAW;
                 mLawListAdapter.notifyDataSetChanged();
                 setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
             }
@@ -149,9 +149,9 @@ public class TestFragment extends Fragment implements DatabaseHelper.RefreshLawC
         }
 
         private void init() {
-            if (mTestType == TEST_TYPE_BY_LAW) {
+            if (sTestType == TEST_TYPE_BY_LAW) {
                 mTypeData = mDatabaseHelper.getAllLawTypes();
-            } else if (mTestType == TEST_TYPE_REVIEW) {
+            } else if (sTestType == TEST_TYPE_REVIEW) {
                 ArrayList<PlanAttrs> data = mDatabaseHelper.getAllPlans();
                 mTypeData = new ArrayList<Integer>();
                 for (PlanAttrs attr : data) {

@@ -59,7 +59,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
     private ListView mLawContent;
 
-    private int mDisplayContentType = -1;
+    private static int sDisplayContentType = -1;
 
     private LawContentAdapter mLawContentAdapter;
 
@@ -116,7 +116,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         }
 
         private void initData() {
-            mData = mDatabaseHelper.query(mDisplayContentType);
+            mData = mDatabaseHelper.query(sDisplayContentType);
         }
 
         @Override
@@ -244,7 +244,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     new EnlargeOverViewContentDialog(mLawContentAdapter.getItem(position),
-                            mDisplayContentType).show(getFragmentManager(), null);
+                            sDisplayContentType).show(getFragmentManager(), null);
                 }
             });
             mSearchContent.addTextChangedListener(new TextWatcher() {
@@ -274,7 +274,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    mDisplayContentType = mLawListAdapter.getItem(position);
+                    sDisplayContentType = mLawListAdapter.getItem(position);
                     mLawContentAdapter.notifyDataSetChanged();
                     mLawContent.setSelection(0);
                     setDisplayedChild(OVERVIEW_FRAGMENT_LAW_CONTENT);

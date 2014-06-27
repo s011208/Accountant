@@ -29,6 +29,14 @@ public class MainActivity extends Activity {
 
     private int mCurrentFragment = MAIN_ENTRY_FRAGMENT;
 
+    private static final String BUNDLE_PREVIOUS_FRAGMENT = "previous_frgment";
+
+    private static final String BUNDLE_PREVIOUD_DISPLAYED_CHILD = "previous_displayed_child";
+
+    private int mPreviousFragment = MAIN_ENTRY_FRAGMENT;
+
+    private int mPreviousDisplayChild = -1;
+
     private MainEntryFragment mMainEntryFragment;
 
     private CreatePlanFragment mCreatePlanFragment;
@@ -45,10 +53,28 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mPreviousFragment = savedInstanceState.getInt(BUNDLE_PREVIOUS_FRAGMENT);
+            mPreviousDisplayChild = savedInstanceState.getInt(BUNDLE_PREVIOUD_DISPLAYED_CHILD);
+        }
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(this);
         setContentView(R.layout.activity_main);
-        switchFragment(MAIN_ENTRY_FRAGMENT, false);
+        switchFragment(mPreviousFragment, false);
         runParserIfNeeded();
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(BUNDLE_PREVIOUS_FRAGMENT, mCurrentFragment);
+        int displayedChild = -1;
+        if (mCurrentFragment == CREATE_PLAN_FRAGMENT) {
+            displayedChild = getCreatePlanFragment().getDisplayedChild();
+        } else if (mCurrentFragment == OVER_VIEW_FRAGMENT) {
+            displayedChild = getOverViewFragment().getDisplayedChild();
+        } else if (mCurrentFragment == TEST_FRAGMENT) {
+            displayedChild = getTestFragment().getDisplayedChild();
+        }
+        outState.putInt(BUNDLE_PREVIOUD_DISPLAYED_CHILD, displayedChild);
     }
 
     private void runParserIfNeeded() {
@@ -109,14 +135,23 @@ public class MainActivity extends Activity {
                 break;
             case CREATE_PLAN_FRAGMENT:
                 target = getCreatePlanFragment();
+                if (animated == false && mPreviousDisplayChild != -1) {
+                    getCreatePlanFragment().setDisplayedChild(mPreviousDisplayChild);
+                }
                 mCurrentFragment = CREATE_PLAN_FRAGMENT;
                 break;
             case OVER_VIEW_FRAGMENT:
                 target = getOverViewFragment();
+                if (animated == false && mPreviousDisplayChild != -1) {
+                    getOverViewFragment().setDisplayedChild(mPreviousDisplayChild);
+                }
                 mCurrentFragment = OVER_VIEW_FRAGMENT;
                 break;
             case TEST_FRAGMENT:
                 target = getTestFragment();
+                if (animated == false && mPreviousDisplayChild != -1) {
+                    getTestFragment().setDisplayedChild(mPreviousDisplayChild);
+                }
                 mCurrentFragment = TEST_FRAGMENT;
                 break;
 
@@ -128,6 +163,7 @@ public class MainActivity extends Activity {
         } else {
             transaction.replace(R.id.main_fragment, target).commit();
         }
+        mPreviousDisplayChild = -1;
     }
 
     private synchronized TestFragment getTestFragment() {
