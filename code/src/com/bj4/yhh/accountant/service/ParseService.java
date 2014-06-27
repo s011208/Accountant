@@ -4,6 +4,7 @@ package com.bj4.yhh.accountant.service;
 import java.util.ArrayList;
 
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.utilities.ToastHelper;
 
 import android.app.Service;
 import android.content.Intent;
@@ -58,8 +59,8 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
                     new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE,
                             GovLawParser.BEHAVIOR_INSERT, this)).start();
                     ++mLoaderCount;
-                    Toast.makeText(this, "Start to generate data -- insert all", Toast.LENGTH_LONG)
-                            .show();
+                    ToastHelper.makeToast(getApplicationContext(),
+                            ToastHelper.TOAST_TYPE_START_LOAD).show();
                 } else if (data.getBoolean(UPDATE_ALL)) {
                     new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_COMPANY,
                             GovLawParser.BEHAVIOR_UPDATE, this)).start();
@@ -83,8 +84,8 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
                     new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE,
                             GovLawParser.BEHAVIOR_UPDATE, this)).start();
                     ++mLoaderCount;
-                    Toast.makeText(this, "Start to check update -- update all", Toast.LENGTH_LONG)
-                            .show();
+                    ToastHelper.makeToast(getApplicationContext(),
+                            ToastHelper.TOAST_TYPE_START_UPDATE).show();
                 }
             }
         }
@@ -105,9 +106,13 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            mHasFailed ? "Internet not stable" : "Retrieve data success",
-                            Toast.LENGTH_LONG).show();
+                    if (mHasFailed) {
+                        ToastHelper.makeToast(getApplicationContext(),
+                                ToastHelper.TOAST_TYPE_UPDATE_RESULT_FAIL).show();
+                    } else {
+                        ToastHelper.makeToast(getApplicationContext(),
+                                ToastHelper.TOAST_TYPE_UPDATE_RESULT_OK).show();
+                    }
                     mHasFailed = false;
                 }
             });

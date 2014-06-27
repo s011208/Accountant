@@ -13,7 +13,6 @@ import android.view.Gravity;
 
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SimpleTestActivity extends BaseTestActivity {
     public static final String TAG = "SimpleTestActivity";

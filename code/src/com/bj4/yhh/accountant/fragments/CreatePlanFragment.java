@@ -12,6 +12,7 @@ import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.activities.SimpleTestActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.utilities.ToastHelper;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -135,12 +136,12 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
             @Override
             public void onClick(View v) {
                 if (mDatabaseHelper.getAllLawTypes().isEmpty()) {
-                    Toast.makeText(mContext, "download some laws in advance", Toast.LENGTH_LONG)
+                    ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_DOWNLOAD_LAWS_INADVANCE)
                             .show();
                 } else if (mLawOptions != null && mLawOptions.getAdapter().getCount() > 0) {
                     setDisplayedChild(CREATE_PLAIN_EDIT);
                 } else {
-                    Toast.makeText(mContext, "remove some plans in advance", Toast.LENGTH_LONG)
+                    ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_REMOVE_PLANS_INADVANCE)
                             .show();
                 }
             }

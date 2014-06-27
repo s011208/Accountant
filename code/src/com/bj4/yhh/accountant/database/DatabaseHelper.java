@@ -260,6 +260,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getDataBase().delete(TABLE_NAME_PLAN, COLUMN_LAW_TYPE + "='" + type + "'", null);
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_HAS_ANSWERED_SIMPLE, LawAttrs.HAS_NOT_ANSWERED);
+        cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, LawAttrs.HAS_NOT_ANSWERED);
         getDataBase().update(TABLE_NAME_LAW, cv, COLUMN_TYPE + "='" + type + "'", null);
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
@@ -271,6 +272,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getDataBase().delete(TABLE_NAME_PLAN, null, null);
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_HAS_ANSWERED_SIMPLE, LawAttrs.HAS_NOT_ANSWERED);
+        cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, LawAttrs.HAS_NOT_ANSWERED);
         getDataBase().update(TABLE_NAME_LAW, cv, null, null);
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
