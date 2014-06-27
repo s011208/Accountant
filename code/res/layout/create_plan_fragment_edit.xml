@@ -48,8 +48,8 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:inputType="numberDecimal"
-            android:gravity="center" />
+            android:gravity="center"
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <LinearLayout
@@ -89,6 +89,8 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/create_plan_edit_ok_cancel_margin_h"
+            android:layout_marginRight="@dimen/create_plan_edit_ok_cancel_margin_h"
             android:layout_weight="1"
             android:background="@drawable/blue_btn_bg"
             android:text="@string/cancel"
@@ -99,6 +101,8 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/create_plan_edit_ok_cancel_margin_h"
+            android:layout_marginRight="@dimen/create_plan_edit_ok_cancel_margin_h"
             android:layout_weight="1"
             android:background="@drawable/blue_btn_bg"
             android:text="@string/ok"

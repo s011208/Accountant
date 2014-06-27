@@ -22,6 +22,7 @@
     <dimen name="create_plan_manage_listview_margin">20dp</dimen>
     <dimen name="create_plan_manage_listview_row_type_textsize">18sp</dimen>
     <dimen name="create_plan_manage_listview_row_progress_margin_h">10dp</dimen>
+    <dimen name="create_plan_edit_ok_cancel_margin_h">10dp</dimen>
     
     <!-- simple test activity -->
     <dimen name="simple_test_activity_title_textsize">20sp</dimen>
@@ -36,6 +37,12 @@
 	<dimen name="over_view_shadow_height">20dp</dimen>
 	<dimen name="over_view_law_list_text_size">20sp</dimen>
 	<dimen name="over_view_law_list_row_margin_v">10dp</dimen>
+	
+	<!-- setting dialog -->
+	<dimen name="color_theme_view_size">40dp</dimen>
+	<dimen name="setting_title_margin_bottom">10dp</dimen>
+	<dimen name="setting_title_textsize">18sp</dimen>
+	<dimen name="setting_item_margin">10dp</dimen>
 	
 	<!-- composite test activity -->
 </resources>

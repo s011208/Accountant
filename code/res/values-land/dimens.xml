@@ -5,4 +5,5 @@
     <dimen name="main_entry_button_margin_h">40dp</dimen>
     <dimen name="main_entry_button_margin_v">20dp</dimen>
     <dimen name="create_plan_edit_item_first_margin_top">5dp</dimen>
+    <dimen name="create_plan_edit_ok_cancel_margin_h">30dp</dimen>
 </resources>

@@ -1,0 +1,100 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/setting_item_margin"
+            android:background="@drawable/setting_item_bg" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/setting_title_margin_bottom"
+                android:text="@string/app_color_theme"
+                android:textSize="@dimen/setting_title_textsize" >
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/title"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <FrameLayout
+                    android:layout_width="0dip"
+                    android:layout_height="@dimen/color_theme_view_size"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/color_blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/blue_main_paper_bg" />
+
+                    <ImageView
+                        android:id="@+id/color_blue_selected"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/color_theme_selected"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dip"
+                    android:layout_height="@dimen/color_theme_view_size"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/color_black"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/black_main_paper_bg" />
+
+                    <ImageView
+                        android:id="@+id/color_black_selected"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/color_theme_selected"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dip"
+                    android:layout_height="@dimen/color_theme_view_size"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/color_green"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/green_main_paper_bg" />
+
+                    <ImageView
+                        android:id="@+id/color_green_selected"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/color_theme_selected"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

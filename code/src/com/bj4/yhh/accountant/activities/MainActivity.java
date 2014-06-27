@@ -2,6 +2,7 @@
 package com.bj4.yhh.accountant.activities;
 
 import com.bj4.yhh.accountant.AccountantApplication;
+import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
@@ -18,7 +19,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
     public static final int MAIN_ENTRY_FRAGMENT = 1;
 
     public static final int CREATE_PLAN_FRAGMENT = 2;
@@ -192,6 +193,12 @@ public class MainActivity extends Activity {
             mCreatePlanFragment = new CreatePlanFragment(this);
         }
         return mCreatePlanFragment;
+    }
+
+    @Override
+    public void themeColorChanged(int newTheme) {
+        // TODO Auto-generated method stub
+
     }
 
 }

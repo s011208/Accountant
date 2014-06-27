@@ -4,15 +4,19 @@ package com.bj4.yhh.accountant.fragments;
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.activities.MainActivity;
+import com.bj4.yhh.accountant.dialogs.SettingDialog;
 import com.bj4.yhh.accountant.service.ParseService;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -25,6 +29,8 @@ public class MainEntryFragment extends Fragment {
     private Button mPlan, mTest, mOverview, mCheckUpdate;
 
     private MainActivity mMainActivity;
+
+    private Vibrator mVibrator;
 
     public MainEntryFragment() {
     }
@@ -40,12 +46,23 @@ public class MainEntryFragment extends Fragment {
         if (mContext == null) {
             mContext = getActivity();
         }
+        mVibrator = (Vibrator)mContext.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     private void init() {
         LayoutInflater inflater = (LayoutInflater)mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContentView = (RelativeLayout)inflater.inflate(R.layout.main_entry_fragment, null);
+        mContentView.setOnLongClickListener(new OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                mVibrator.vibrate(50);
+                SettingDialog sd = new SettingDialog();
+                sd.show(getFragmentManager(), null);
+                return true;
+            }
+        });
         mPlan = (Button)mContentView.findViewById(R.id.plan);
         mTest = (Button)mContentView.findViewById(R.id.test);
         mOverview = (Button)mContentView.findViewById(R.id.overview);
