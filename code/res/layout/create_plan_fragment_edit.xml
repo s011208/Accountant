@@ -43,11 +43,12 @@
             android:gravity="center"
             android:text="@string/estimate_days" />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/estimate_days"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:inputType="numberDecimal"
             android:gravity="center" />
     </LinearLayout>
 

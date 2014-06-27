@@ -32,6 +32,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
@@ -65,7 +66,7 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
 
     private Spinner mLawOptions, mReadingOrder;
 
-    private NumberPicker mEstimateDays;
+    private EditText mEstimateDays;
 
     private DatabaseHelper mDatabaseHelper;
 
@@ -312,17 +313,32 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
 
             @Override
             public void onClick(View v) {
+                int totalDay = 3;
+                try {
+                    totalDay = Integer.valueOf(mEstimateDays.getText().toString());
+                    if (totalDay < 3) {
+                        ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_WRONG_ESTIMATE_DAY)
+                                .show();
+                        mEstimateDays.setText("3");
+                        return;
+                    }
+                } catch (Exception e) {
+                    // using default
+                    totalDay = 3;
+                    ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_WRONG_ESTIMATE_DAY)
+                            .show();
+                    mEstimateDays.setText("3");
+                    return;
+                }
                 int planType = getPlanType(mLawOptions.getSelectedItem().toString());
                 mDatabaseHelper.addNewPlan(new PlanAttrs(planType, mReadingOrder
-                        .getSelectedItemPosition(), mEstimateDays.getValue(), 0, 0));
+                        .getSelectedItemPosition(), totalDay, 0, 0));
                 initLawOptionSpinner();
                 setDisplayedChild(CREATE_PLAN_MANAGE_PAGE);
             }
         });
-        mEstimateDays = (NumberPicker)mContentView.findViewById(R.id.estimate_days);
-        mEstimateDays.setMinValue(3);
-        mEstimateDays.setMaxValue(20);
-        mEstimateDays.setValue(7);// set 7 as default
+        mEstimateDays = (EditText)mContentView.findViewById(R.id.estimate_days);
+        mEstimateDays.setText("7");
         mLawOptions = (Spinner)mContentView.findViewById(R.id.law_options);
         mReadingOrder = (Spinner)mContentView.findViewById(R.id.reading_order);
         ArrayAdapter<String> readingOrderAdapter = new ArrayAdapter<String>(mContext,

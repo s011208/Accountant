@@ -51,5 +51,5 @@
         <item>@string/reading_order_random</item>
     </string-array>
     <!-- not translated -->
-
+	<string name="toast_wrong_estimate_day">Invalidated estimate day,\nthe minimum estimate day is 3</string>
 </resources>
