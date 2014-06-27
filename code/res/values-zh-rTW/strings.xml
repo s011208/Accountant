@@ -37,6 +37,13 @@
     <string name="dialog_confirm_to_delete_all_title">刪除全部計畫？</string>
     <string name="test_type_review">計畫複習模式</string>
     <string name="test_type_by_law">條文複習模式</string>
+    <string name="toast_start_loading">開始下載資料</string>
+    <string name="toast_start_updating">開始檢查更新</string>
+    <string name="toast_result_ok">資料下載完成</string>
+    <string name="toast_result_failed">資料下載失敗</string>
+    <string name="toast_download_laws_in_advance">請先連上網路下載資料</string>
+    <string name="toast_remove_plans_in_advance">請先刪除任一計畫</string>
+    <string name="check_update">檢查更新</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>

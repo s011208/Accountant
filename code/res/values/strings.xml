@@ -37,12 +37,6 @@
     <string name="dialog_confirm_to_delete_all_title">Delete all plans?</string>
     <string name="test_type_review">Review</string>
     <string name="test_type_by_law">By law</string>
-
-    <string-array name="reading_order">
-        <item>@string/reading_order_chapter</item>
-        <item>@string/reading_order_random</item>
-    </string-array>
-    <!-- not translated -->
     <string name="toast_start_loading">Start to load data</string>
     <string name="toast_start_updating">Start to update data</string>
     <string name="toast_result_ok">Retrieve data successed</string>
@@ -50,6 +44,11 @@
     <string name="toast_download_laws_in_advance">Download some laws in advance</string>
     <string name="toast_remove_plans_in_advance">Remove any plans in advance</string>
     <string name="check_update">Check update</string>
-        
+
+    <string-array name="reading_order">
+        <item>@string/reading_order_chapter</item>
+        <item>@string/reading_order_random</item>
+    </string-array>
+    <!-- not translated -->
 
 </resources>
