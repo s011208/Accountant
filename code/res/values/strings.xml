@@ -45,10 +45,11 @@
     <!-- not translated -->
     <string name="toast_start_loading">Start to load data</string>
     <string name="toast_start_updating">Start to update data</string>
-    <string name="toast_result_ok">Loading successed</string>
-    <string name="toast_result_failed">Loading failed</string>
+    <string name="toast_result_ok">Retrieve data successed</string>
+    <string name="toast_result_failed">Retrieve data failed</string>
     <string name="toast_download_laws_in_advance">Download some laws in advance</string>
     <string name="toast_remove_plans_in_advance">Remove any plans in advance</string>
+    <string name="check_update">Check update</string>
         
 
 </resources>

@@ -57,10 +57,11 @@ public class MainActivity extends Activity {
             startService(intent);
         } else {
             if (AccountantApplication.sCheckForUpdate) {
-                Intent intent = new Intent(this, ParseService.class);
-                intent.putExtra(ParseService.UPDATE_ALL, true);
-                startService(intent);
-                AccountantApplication.sCheckForUpdate = false;
+                // left to update button
+                // Intent intent = new Intent(this, ParseService.class);
+                // intent.putExtra(ParseService.UPDATE_ALL, true);
+                // startService(intent);
+                // AccountantApplication.sCheckForUpdate = false;
             }
         }
     }

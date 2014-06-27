@@ -4,9 +4,11 @@ package com.bj4.yhh.accountant.fragments;
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.activities.MainActivity;
+import com.bj4.yhh.accountant.service.ParseService;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,7 @@ public class MainEntryFragment extends Fragment {
 
     private RelativeLayout mContentView;
 
-    private Button mPlan, mTest, mOverview;
+    private Button mPlan, mTest, mOverview, mCheckUpdate;
 
     private MainActivity mMainActivity;
 
@@ -47,6 +49,7 @@ public class MainEntryFragment extends Fragment {
         mPlan = (Button)mContentView.findViewById(R.id.plan);
         mTest = (Button)mContentView.findViewById(R.id.test);
         mOverview = (Button)mContentView.findViewById(R.id.overview);
+        mCheckUpdate = (Button)mContentView.findViewById(R.id.check_update);
         mPlan.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -66,6 +69,16 @@ public class MainEntryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mMainActivity.switchFragment(MainActivity.OVER_VIEW_FRAGMENT);
+            }
+        });
+        mCheckUpdate.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ParseService.class);
+                intent.putExtra(ParseService.UPDATE_ALL, true);
+                mContext.startService(intent);
+                AccountantApplication.sCheckForUpdate = false;
             }
         });
     }
