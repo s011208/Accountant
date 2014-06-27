@@ -33,6 +33,11 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        if (mLoaderCount != 0) {
+            ToastHelper.makeToast(getApplicationContext(),
+                    ToastHelper.TOAST_TYPE_WAITING_FOR_PREVIOUS_PARSING).show();
+            return Service.START_NOT_STICKY;
+        }
         if (intent != null) {
             Bundle data = intent.getExtras();
             if (data != null) {

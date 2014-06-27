@@ -43,6 +43,7 @@
     <string name="toast_result_failed">資料下載失敗</string>
     <string name="toast_download_laws_in_advance">請先連上網路下載資料</string>
     <string name="toast_remove_plans_in_advance">請先刪除任一計畫</string>
+    <string name="toast_waiting_for_previous_parsing">資料下載中</string>
     <string name="check_update">檢查更新</string>
 
     <string-array name="reading_order">

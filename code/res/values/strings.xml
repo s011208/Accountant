@@ -43,6 +43,7 @@
     <string name="toast_result_failed">Retrieve data failed</string>
     <string name="toast_download_laws_in_advance">Download some laws in advance</string>
     <string name="toast_remove_plans_in_advance">Remove any plans in advance</string>
+    <string name="toast_waiting_for_previous_parsing">Waiting for previous result</string>
     <string name="check_update">Check update</string>
 
     <string-array name="reading_order">
