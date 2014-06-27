@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- translated -->
+    <string name="main_title">我要成為會計師</string>
+    <string name="app_name">我要成為會計師</string>
+    <string name="action_settings">設定</string>
+    <string name="main_entry_plan">我的背誦計畫</string>
+    <string name="main_entry_test">條文大會考</string>
+    <string name="main_entry_overview">條文大匯集</string>
+    <string name="create_plan">新增背誦計畫</string>
+    <string name="delete_plan">刪除所有計畫</string>
+    <string name="law_name">條文名稱</string>
+    <string name="estimate_days">計畫完成天數</string>
+    <string name="reading_order">背誦順序</string>
+    <string name="ok">@android:string/ok</string>
+    <string name="cancel">@android:string/cancel</string>
+    <string name="tax_collection_law">稅捐稽徵法</string>
+    <string name="land_law">土地稅法</string>
+    <string name="company_law">公司法</string>
+    <string name="value_business_law">加值型及非加值型營業稅法</string>
+    <string name="estate_gift_tax">遺產及贈與稅法</string>
+    <string name="business_entity_accounting">商業會計法</string>
+    <string name="security_exchange_accounting">證券交易法</string>
+    <string name="reading_order_chapter">章節順序</string>
+    <string name="reading_order_random">隨機順序</string>
+    <string name="search_button_next">下一個</string>
+    <string name="search_button_previous">上一個</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="complete">完成</string>
+    <string name="start_composite_test">開始測驗</string>
+    <string name="rest_items">"剩餘時間： "</string>
+    <string name="dialog_confirm_to_delete_msg">點擊來刪除計畫</string>
+    <string name="dialog_confirm_to_delete_title">刪除計畫？</string>
+    <string name="dialog_confirm_to_delete_all_msg">點擊來刪除全部計畫</string>
+    <string name="dialog_confirm_to_delete_all_title">刪除全部計畫？</string>
+    <string name="test_type_review">計畫複習模式</string>
+    <string name="test_type_by_law">條文複習模式</string>
+
+    <string-array name="reading_order">
+        <item>@string/reading_order_chapter</item>
+        <item>@string/reading_order_random</item>
+    </string-array>
+    <!-- not translated -->
+
+</resources>
