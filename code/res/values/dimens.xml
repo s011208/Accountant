@@ -4,6 +4,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="general_btn_text_size">22sp</dimen>
+    <integer name="fragment_animation_duration">250</integer>
     <!-- toast size -->
     <dimen name="updating_toast_img_size">40dp</dimen>
     <dimen name="updating_toast_y_offset">50dp</dimen>

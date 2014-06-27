@@ -12,6 +12,7 @@ import com.bj4.yhh.accountant.service.ParseService;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
@@ -46,7 +47,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(this);
         setContentView(R.layout.activity_main);
-        switchFragment(MAIN_ENTRY_FRAGMENT);
+        switchFragment(MAIN_ENTRY_FRAGMENT, false);
         runParserIfNeeded();
     }
 
@@ -93,11 +94,18 @@ public class MainActivity extends Activity {
     }
 
     public void switchFragment(int targetFragment) {
+        switchFragment(targetFragment, true);
+    }
+
+    public void switchFragment(int targetFragment, boolean animated) {
         Fragment target = getMainEntryFragment();
+        int animationIn = R.anim.fragment_slide_in_r_to_l, animationOut = R.anim.fragment_slide_out_r_to_l;
         switch (targetFragment) {
             case MAIN_ENTRY_FRAGMENT:
                 target = getMainEntryFragment();
                 mCurrentFragment = MAIN_ENTRY_FRAGMENT;
+                animationIn = R.anim.fragment_slide_in_l_to_r;
+                animationOut = R.anim.fragment_slide_out_l_to_r;
                 break;
             case CREATE_PLAN_FRAGMENT:
                 target = getCreatePlanFragment();
@@ -113,7 +121,13 @@ public class MainActivity extends Activity {
                 break;
 
         }
-        getFragmentManager().beginTransaction().replace(R.id.main_fragment, target).commit();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if (animated) {
+            transaction.setCustomAnimations(animationIn, animationOut)
+                    .replace(R.id.main_fragment, target).commit();
+        } else {
+            transaction.replace(R.id.main_fragment, target).commit();
+        }
     }
 
     private synchronized TestFragment getTestFragment() {
