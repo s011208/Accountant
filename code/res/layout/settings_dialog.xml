@@ -58,14 +58,14 @@
                     android:layout_weight="1" >
 
                     <ImageView
-                        android:id="@+id/color_black"
+                        android:id="@+id/color_gray"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerInside"
                         android:src="@drawable/black_main_paper_bg" />
 
                     <ImageView
-                        android:id="@+id/color_black_selected"
+                        android:id="@+id/color_gray_selected"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerInside"

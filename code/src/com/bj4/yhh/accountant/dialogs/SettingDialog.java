@@ -46,11 +46,11 @@ public class SettingDialog extends BaseDialog {
                         mBlackCheck.setVisibility(View.GONE);
                         newTheme = SettingManager.VALUE_THEME_BLUE;
                         break;
-                    case R.id.color_black:
+                    case R.id.color_gray:
                         mBlueCheck.setVisibility(View.GONE);
                         mGreenCheck.setVisibility(View.GONE);
                         mBlackCheck.setVisibility(View.VISIBLE);
-                        newTheme = SettingManager.VALUE_THEME_BLACK;
+                        newTheme = SettingManager.VALUE_THEME_GRAY;
                         break;
                     case R.id.color_green:
                         mBlueCheck.setVisibility(View.GONE);
@@ -63,20 +63,20 @@ public class SettingDialog extends BaseDialog {
             }
         };
         mBlueTheme = (ImageView)mContentView.findViewById(R.id.color_blue);
-        mBlackTheme = (ImageView)mContentView.findViewById(R.id.color_black);
+        mBlackTheme = (ImageView)mContentView.findViewById(R.id.color_gray);
         mGreenTheme = (ImageView)mContentView.findViewById(R.id.color_green);
         mBlueTheme.setOnClickListener(themeClickListener);
         mBlackTheme.setOnClickListener(themeClickListener);
         mGreenTheme.setOnClickListener(themeClickListener);
         mBlueCheck = (ImageView)mContentView.findViewById(R.id.color_blue_selected);
         mGreenCheck = (ImageView)mContentView.findViewById(R.id.color_green_selected);
-        mBlackCheck = (ImageView)mContentView.findViewById(R.id.color_black_selected);
+        mBlackCheck = (ImageView)mContentView.findViewById(R.id.color_gray_selected);
         int themeColor = mSettingManager.getThemeColor();
         if (themeColor == SettingManager.VALUE_THEME_BLUE) {
             mBlueCheck.setVisibility(View.VISIBLE);
             mGreenCheck.setVisibility(View.GONE);
             mBlackCheck.setVisibility(View.GONE);
-        } else if (themeColor == SettingManager.VALUE_THEME_BLACK) {
+        } else if (themeColor == SettingManager.VALUE_THEME_GRAY) {
             mBlueCheck.setVisibility(View.GONE);
             mGreenCheck.setVisibility(View.GONE);
             mBlackCheck.setVisibility(View.VISIBLE);

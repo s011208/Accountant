@@ -14,7 +14,7 @@ public class SettingManager {
 
     public static final int VALUE_THEME_BLUE = 0;
 
-    public static final int VALUE_THEME_BLACK = 1;
+    public static final int VALUE_THEME_GRAY = 1;
 
     public static final int VALUE_THEME_GREEN = 2;
 
