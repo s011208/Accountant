@@ -7,9 +7,10 @@ import java.util.Collections;
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.R;
-import com.bj4.yhh.accountant.activities.BaseTestActivity;
+import com.bj4.yhh.accountant.SettingManager;
+import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.activities.MainActivity;
-import com.bj4.yhh.accountant.activities.SimpleTestActivity;
+import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.ToastHelper;
@@ -41,7 +42,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-public class CreatePlanFragment extends Fragment implements DatabaseHelper.RefreshPlanCallback {
+public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.RefreshPlanCallback {
     public static final int CREATE_PLAN_MANAGE_PAGE = 0;
 
     public static final int CREATE_PLAIN_EDIT = 1;
@@ -109,6 +110,7 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
         mDatabaseHelper.addCallback(mRefreshLawCallback);
+        themeColorChanged(SettingManager.getInstance(mContext).getThemeColor());
     }
 
     public void onDestroy() {
@@ -183,8 +185,8 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PlanAttrs plan = mPlanListAdapter.getItem(position);
-                Intent start = new Intent(mContext, SimpleTestActivity.class);
-                start.putExtra(BaseTestActivity.INTENT_PLAN_TYPE, plan.mPlanType);
+                Intent start = new Intent(mContext, TestActivity.class);
+                start.putExtra(TestActivity.INTENT_PLAN_TYPE, plan.mPlanType);
                 mContext.startActivity(start);
             }
         });
@@ -384,5 +386,29 @@ public class CreatePlanFragment extends Fragment implements DatabaseHelper.Refre
                 mPlanListAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void themeColorChanged(int newColor) {
+        switch (newColor) {
+            case SettingManager.VALUE_THEME_BLUE:
+                mCreatePlan.setBackgroundResource(R.drawable.blue_btn_bg);
+                mDeletePlan.setBackgroundResource(R.drawable.blue_btn_bg);
+                mCancel.setBackgroundResource(R.drawable.blue_btn_bg);
+                mOk.setBackgroundResource(R.drawable.blue_btn_bg);
+                break;
+            case SettingManager.VALUE_THEME_GRAY:
+                mCreatePlan.setBackgroundResource(R.drawable.gray_btn_bg);
+                mDeletePlan.setBackgroundResource(R.drawable.gray_btn_bg);
+                mCancel.setBackgroundResource(R.drawable.gray_btn_bg);
+                mOk.setBackgroundResource(R.drawable.gray_btn_bg);
+                break;
+            case SettingManager.VALUE_THEME_GREEN:
+                mCreatePlan.setBackgroundResource(R.drawable.green_btn_bg);
+                mDeletePlan.setBackgroundResource(R.drawable.green_btn_bg);
+                mCancel.setBackgroundResource(R.drawable.green_btn_bg);
+                mOk.setBackgroundResource(R.drawable.green_btn_bg);
+                break;
+        }
     }
 }

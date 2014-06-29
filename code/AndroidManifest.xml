@@ -29,14 +29,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bj4.yhh.accountant.activities.SimpleTestActivity"
+            android:name="com.bj4.yhh.accountant.activities.TestActivity"
             android:label="@string/app_name"
-            android:launchMode="singleInstance" >
-        </activity>
-        <activity
-            android:name="com.bj4.yhh.accountant.activities.CompositeTestActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleInstance" >
+            android:launchMode="singleTask" >
         </activity>
 
         <service android:name="com.bj4.yhh.accountant.service.ParseService" />

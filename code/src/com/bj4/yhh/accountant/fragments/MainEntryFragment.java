@@ -3,6 +3,7 @@ package com.bj4.yhh.accountant.fragments;
 
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.R;
+import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.dialogs.SettingDialog;
 import com.bj4.yhh.accountant.service.ParseService;
@@ -21,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-public class MainEntryFragment extends Fragment {
+public class MainEntryFragment extends BaseFragment {
     private Context mContext;
 
     private RelativeLayout mContentView;
@@ -47,6 +48,7 @@ public class MainEntryFragment extends Fragment {
             mContext = getActivity();
         }
         mVibrator = (Vibrator)mContext.getSystemService(Context.VIBRATOR_SERVICE);
+        themeColorChanged(SettingManager.getInstance(mContext).getThemeColor());
     }
 
     private void init() {
@@ -103,5 +105,29 @@ public class MainEntryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mContentView;
+    }
+
+    @Override
+    public void themeColorChanged(int newColor) {
+        switch (newColor) {
+            case SettingManager.VALUE_THEME_BLUE:
+                mPlan.setBackgroundResource(R.drawable.blue_btn_bg);
+                mTest.setBackgroundResource(R.drawable.blue_btn_bg);
+                mOverview.setBackgroundResource(R.drawable.blue_btn_bg);
+                mCheckUpdate.setBackgroundResource(R.drawable.blue_btn_bg);
+                break;
+            case SettingManager.VALUE_THEME_GRAY:
+                mPlan.setBackgroundResource(R.drawable.gray_btn_bg);
+                mTest.setBackgroundResource(R.drawable.gray_btn_bg);
+                mOverview.setBackgroundResource(R.drawable.gray_btn_bg);
+                mCheckUpdate.setBackgroundResource(R.drawable.gray_btn_bg);
+                break;
+            case SettingManager.VALUE_THEME_GREEN:
+                mPlan.setBackgroundResource(R.drawable.green_btn_bg);
+                mTest.setBackgroundResource(R.drawable.green_btn_bg);
+                mOverview.setBackgroundResource(R.drawable.green_btn_bg);
+                mCheckUpdate.setBackgroundResource(R.drawable.green_btn_bg);
+                break;
+        }
     }
 }

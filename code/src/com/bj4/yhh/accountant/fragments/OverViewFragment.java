@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.LawAttrs;
 import com.bj4.yhh.accountant.R;
+import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
@@ -38,7 +39,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-public class OverViewFragment extends Fragment implements DatabaseHelper.RefreshLawCallback {
+public class OverViewFragment extends BaseFragment implements DatabaseHelper.RefreshLawCallback {
     public static final int OVERVIEW_FRAGMENT_LAW_LIST = 0;
 
     public static final int OVERVIEW_FRAGMENT_LAW_CONTENT = 1;
@@ -88,6 +89,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         }
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
+        themeColorChanged(SettingManager.getInstance(mContext).getThemeColor());
     }
 
     public void onDestroy() {
@@ -116,7 +118,7 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
         }
 
         private void initData() {
-            mData = mDatabaseHelper.query(sDisplayContentType);
+            mData = mDatabaseHelper.getPlanDataFromLawTable(sDisplayContentType, false);
         }
 
         @Override
@@ -362,5 +364,11 @@ public class OverViewFragment extends Fragment implements DatabaseHelper.Refresh
                 mLawContentAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void themeColorChanged(int newColor) {
+        // TODO Auto-generated method stub
+        
     }
 }

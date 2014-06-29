@@ -68,6 +68,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_ORDER = "c_order";
 
+    public static final String IGNORE_CONTENT = "¡]§R°£¡^";
+
     public static final String LAW_TABLE_COLUMN = " (" + COLUMN_CHAPTER + " TEXT, "
             + COLUMN_SECTION + " TEXT, " + COLUMN_PART + " TEXT, " + COLUMN_SUBSECTION + " TEXT, "
             + COLUMN_LINE + " TEXT, " + COLUMN_CONTENT + " TEXT, " + COLUMN_TYPE + " INTEGER,"
@@ -182,12 +184,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rtn;
     }
 
-    public ArrayList<LawAttrs> getPlanData(PlanAttrs plan) {
+    public ArrayList<LawAttrs> getPlanDataFromLawTable(int planType, boolean ignoreContent) {
         ArrayList<LawAttrs> rtn = null;
         Cursor data = null;
-        data = getDataBase().query(true, TABLE_NAME_TEST, null,
-                COLUMN_TYPE + "='" + plan.mPlanType + "'", null, null, null, COLUMN_ORDER, null,
-                null);
+        String whereClause = "";
+        if (ignoreContent) {
+            whereClause = COLUMN_TYPE + "='" + planType + "' and " + COLUMN_CONTENT + " !='"
+                    + IGNORE_CONTENT + "'";
+        } else {
+            whereClause = COLUMN_TYPE + "='" + planType + "'";
+        }
+        data = getDataBase().query(true, TABLE_NAME_LAW, null, whereClause, null, null, null,
+                COLUMN_ORDER, null, null);
+        rtn = convertFromCursorToLawAttrs(data);
+        return rtn;
+    }
+
+    public ArrayList<LawAttrs> getPlanData(PlanAttrs plan, boolean ignoreContent) {
+        return getPlanData(plan.mPlanType, ignoreContent);
+    }
+
+    public ArrayList<LawAttrs> getPlanData(int planType, boolean ignoreContent) {
+        ArrayList<LawAttrs> rtn = null;
+        Cursor data = null;
+        String whereClause = "";
+        if (ignoreContent) {
+            whereClause = COLUMN_TYPE + "='" + planType + "' and " + COLUMN_CONTENT + " !='"
+                    + IGNORE_CONTENT + "'";
+        } else {
+            whereClause = COLUMN_TYPE + "='" + planType + "'";
+        }
+        data = getDataBase().query(true, TABLE_NAME_TEST, null, whereClause, null, null, null,
+                COLUMN_ORDER, null, null);
         rtn = convertFromCursorToLawAttrs(data);
         return rtn;
     }
@@ -245,15 +273,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (RefreshPlanCallback c : mRefreshPlanCallback) {
             c.notifyDataChanged();
         }
-    }
-
-    public ArrayList<LawAttrs> query(int type) {
-        ArrayList<LawAttrs> rtn = null;
-        Cursor data = null;
-        data = getDataBase().query(true, TABLE_NAME_LAW, null, COLUMN_TYPE + "='" + type + "'",
-                null, null, null, null, null, null);
-        rtn = convertFromCursorToLawAttrs(data);
-        return rtn;
     }
 
     public void deletePlan(int type) {
@@ -380,6 +399,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void removeCallback(RefreshLawCallback c) {
         mRefreshLawCallback.remove(c);
+    }
+
+    public void resetSimpleTestStatus(int type) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_HAS_ANSWERED_SIMPLE, LawAttrs.HAS_NOT_ANSWERED);
+        getDataBase().update(TABLE_NAME_TEST, cv, COLUMN_TYPE + "='" + type + "'", null);
+    }
+
+    public void resetCompositeTestStatus(int type) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, LawAttrs.HAS_NOT_ANSWERED);
+        getDataBase().update(TABLE_NAME_TEST, cv, COLUMN_TYPE + "='" + type + "'", null);
     }
 
     public void updateSimpleTestStatus(LawAttrs attr, int type) {

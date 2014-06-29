@@ -5,6 +5,7 @@ import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
+import com.bj4.yhh.accountant.fragments.BaseFragment;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.fragments.MainEntryFragment;
 import com.bj4.yhh.accountant.fragments.OverViewFragment;
@@ -18,6 +19,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends BaseActivity {
     public static final int MAIN_ENTRY_FRAGMENT = 1;
@@ -48,6 +50,8 @@ public class MainActivity extends BaseActivity {
 
     private DatabaseHelper mDatabaseHelper;
 
+    private RelativeLayout mMainBackground;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -60,8 +64,10 @@ public class MainActivity extends BaseActivity {
         }
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(this);
         setContentView(R.layout.activity_main);
+        mMainBackground = (RelativeLayout)findViewById(R.id.main_bg);
         switchFragment(mPreviousFragment, false);
         runParserIfNeeded();
+        themeColorChanged(SettingManager.getInstance(this).getThemeColor());
     }
 
     public void onSaveInstanceState(Bundle outState) {
@@ -155,7 +161,6 @@ public class MainActivity extends BaseActivity {
                 }
                 mCurrentFragment = TEST_FRAGMENT;
                 break;
-
         }
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         if (animated) {
@@ -165,6 +170,25 @@ public class MainActivity extends BaseActivity {
             transaction.replace(R.id.main_fragment, target).commit();
         }
         mPreviousDisplayChild = -1;
+    }
+
+    private BaseFragment getCurrentFragment() {
+        BaseFragment target = getMainEntryFragment();
+        switch (mCurrentFragment) {
+            case MAIN_ENTRY_FRAGMENT:
+                target = getMainEntryFragment();
+                break;
+            case CREATE_PLAN_FRAGMENT:
+                target = getCreatePlanFragment();
+                break;
+            case OVER_VIEW_FRAGMENT:
+                target = getOverViewFragment();
+                break;
+            case TEST_FRAGMENT:
+                target = getTestFragment();
+                break;
+        }
+        return target;
     }
 
     private synchronized TestFragment getTestFragment() {
@@ -197,8 +221,18 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void themeColorChanged(int newTheme) {
-        // TODO Auto-generated method stub
-
+        getCurrentFragment().themeColorChanged(newTheme);
+        switch (newTheme) {
+            case SettingManager.VALUE_THEME_BLUE:
+                mMainBackground.setBackgroundResource(R.drawable.blue_main_paper_bg);
+                break;
+            case SettingManager.VALUE_THEME_GRAY:
+                mMainBackground.setBackgroundResource(R.drawable.gray_main_paper_bg);
+                break;
+            case SettingManager.VALUE_THEME_GREEN:
+                mMainBackground.setBackgroundResource(R.drawable.green_main_paper_bg);
+                break;
+        }
     }
 
 }

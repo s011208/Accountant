@@ -7,6 +7,7 @@ import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.LawAttrs;
 import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.R;
+import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
@@ -41,7 +42,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-public class TestFragment extends Fragment implements DatabaseHelper.RefreshLawCallback {
+public class TestFragment extends BaseFragment implements DatabaseHelper.RefreshLawCallback {
     public static final int TEST_FRAGMENT_TEST_TYPE = 0;
 
     public static final int TEST_FRAGMENT_LAW_LIST = 1;
@@ -87,6 +88,7 @@ public class TestFragment extends Fragment implements DatabaseHelper.RefreshLawC
         }
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
+        themeColorChanged(SettingManager.getInstance(mContext).getThemeColor());
     }
 
     public void onDestroy() {
@@ -222,5 +224,23 @@ public class TestFragment extends Fragment implements DatabaseHelper.RefreshLawC
                 mLawListAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void themeColorChanged(int newColor) {
+        switch (newColor) {
+            case SettingManager.VALUE_THEME_BLUE:
+                mTypeReview.setBackgroundResource(R.drawable.blue_btn_bg);
+                mTypeByLaw.setBackgroundResource(R.drawable.blue_btn_bg);
+                break;
+            case SettingManager.VALUE_THEME_GRAY:
+                mTypeReview.setBackgroundResource(R.drawable.gray_btn_bg);
+                mTypeByLaw.setBackgroundResource(R.drawable.gray_btn_bg);
+                break;
+            case SettingManager.VALUE_THEME_GREEN:
+                mTypeReview.setBackgroundResource(R.drawable.green_btn_bg);
+                mTypeByLaw.setBackgroundResource(R.drawable.green_btn_bg);
+                break;
+        }
     }
 }

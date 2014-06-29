@@ -54,4 +54,5 @@
 	<string name="toast_wrong_estimate_day">Invalidated estimate day,\nthe minimum estimate day is 3</string>
 	<string name="basic_setting_title">Settings</string>
 	<string name="app_color_theme">App color theme</string>
+	<string name="test_activity_finish_real_test">Finish test!</string>
 </resources>

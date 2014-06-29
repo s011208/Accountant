@@ -25,9 +25,9 @@
     <LinearLayout
         android:id="@+id/cancel_ok_ll"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/simple_test_activity_ok_cancel_height"
+        android:layout_height="@dimen/composite_test_activity_ok_cancel_height"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/simple_test_activity_ok_cancel_margin_bottom"
+        android:layout_marginBottom="@dimen/composite_test_activity_ok_cancel_margin_bottom"
         android:orientation="horizontal" >
 
         <Button
@@ -62,62 +62,77 @@
         android:textColor="#ffffff" >
     </TextView>
 
-    <ScrollView
-        android:id="@+id/question_scroller"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/progress_hint"
         android:layout_below="@+id/sep_1"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="@dimen/simple_test_activity_scroll_question_margin_v"
-        android:layout_marginTop="@dimen/simple_test_activity_scroll_question_margin_v" >
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="0dip"
+            android:layout_weight="1" >
 
-            <TextView
-                android:id="@+id/question"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:textSize="@dimen/simple_test_activity_question_textsize" >
-            </TextView>
+                android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/option1"
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/simple_test_activity_question_textsize" >
+                </TextView>
+            </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/question_scroller"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="3" >
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/blue_question_button_btn"
-                android:gravity="center_vertical|left"
-                android:textSize="@dimen/simple_test_activity_question_textsize" />
+                android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/option2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/blue_question_button_btn"
-                android:gravity="center_vertical|left"
-                android:textSize="@dimen/simple_test_activity_question_textsize" />
+                <Button
+                    android:id="@+id/option1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/blue_question_button_btn"
+                    android:gravity="center_vertical|left"
+                    android:textSize="@dimen/simple_test_activity_question_textsize" />
 
-            <Button
-                android:id="@+id/option3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/blue_question_button_btn"
-                android:gravity="center_vertical|left"
-                android:textSize="@dimen/simple_test_activity_question_textsize" />
+                <Button
+                    android:id="@+id/option2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/blue_question_button_btn"
+                    android:gravity="center_vertical|left"
+                    android:textSize="@dimen/simple_test_activity_question_textsize" />
 
-            <Button
-                android:id="@+id/option4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/blue_question_button_btn"
-                android:gravity="center_vertical|left"
-                android:textSize="@dimen/simple_test_activity_question_textsize" />
-        </LinearLayout>
-    </ScrollView>
+                <Button
+                    android:id="@+id/option3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/blue_question_button_btn"
+                    android:gravity="center_vertical|left"
+                    android:textSize="@dimen/simple_test_activity_question_textsize" />
+
+                <Button
+                    android:id="@+id/option4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/blue_question_button_btn"
+                    android:gravity="center_vertical|left"
+                    android:textSize="@dimen/simple_test_activity_question_textsize" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
 </RelativeLayout>

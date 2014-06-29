@@ -33,7 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/order"
         android:layout_marginLeft="@dimen/create_plan_manage_listview_row_progress_margin_h"
-        android:layout_marginRight="@dimen/create_plan_manage_listview_row_progress_margin_h" />
+        android:layout_marginRight="@dimen/create_plan_manage_listview_row_progress_margin_h"
+        android:progressDrawable="@drawable/custom_progressbar" />
 
     <TextView
         android:id="@+id/progress_by_day"
