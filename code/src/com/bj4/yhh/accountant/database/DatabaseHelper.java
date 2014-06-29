@@ -416,6 +416,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateSimpleTestStatus(LawAttrs attr, int type) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
+        getDataBase().update(TABLE_NAME_LAW, cv,
+                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
         cv.put(COLUMN_HAS_ANSWERED_SIMPLE, attr.mHasAnsweredSimple);
         getDataBase().update(TABLE_NAME_TEST, cv,
                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
@@ -424,6 +426,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateCompositeTestStatus(LawAttrs attr, int type) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
+        getDataBase().update(TABLE_NAME_LAW, cv,
+                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
         cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, attr.mHasAnsweredComposite);
         getDataBase().update(TABLE_NAME_TEST, cv,
                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);

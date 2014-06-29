@@ -5,10 +5,13 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class SettingManager {
 
     private static final String SHARE_PREF_NAME = "settings";
+
+    private static final String KEY_SHOW_TEST_ACTIVITY_EXIT_DIALOG = "key_test_activity_exit_dialog";
 
     private static final String KEY_THEME_COLOR = "theme_color";
 
@@ -46,6 +49,14 @@ public class SettingManager {
             mPref = mContext.getSharedPreferences(SHARE_PREF_NAME, Context.MODE_PRIVATE);
         }
         return mPref;
+    }
+
+    public boolean showTestActivityExitDialog() {
+        return getSharPref().getBoolean(KEY_SHOW_TEST_ACTIVITY_EXIT_DIALOG, true);
+    }
+
+    public void setShowTestActivityExitDialog(boolean show) {
+        getSharPref().edit().putBoolean(KEY_SHOW_TEST_ACTIVITY_EXIT_DIALOG, show).apply();
     }
 
     public void addThemeColorChangeCallback(ThemeColorChangeCallback cb) {
