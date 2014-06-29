@@ -36,6 +36,8 @@ public class TestActivity extends BaseActivity {
     public static final String INTENT_PLAN_TYPE = "intent_plan_type";
 
     public static final String INTENT_DISPLAY_CHILD = "intent_displayed_child";
+    
+    public static final String INTENT_FULL_TEST = "intent_full_test";
 
     public static final int QUESTION_TYPE_LINE = 0;
 
@@ -45,6 +47,7 @@ public class TestActivity extends BaseActivity {
 
     public static final int DISPLAY_CHILD_REAL_TEST = 1;
 
+    private boolean mFullTest = false;
     private RelativeLayout mMainBackground;
 
     private TextView mTitle;
@@ -109,6 +112,7 @@ public class TestActivity extends BaseActivity {
         if (intent != null) {
             planType = intent.getIntExtra(INTENT_PLAN_TYPE, -1);
             mDisplayChild = intent.getIntExtra(INTENT_DISPLAY_CHILD, DISPLAY_CHILD_SIMPLE_TEST);
+            mFullTest = intent.getBooleanExtra(INTENT_FULL_TEST, false);
         }
         if (mDisplayChild == DISPLAY_CHILD_SIMPLE_TEST) {
             mComplete.setText(R.string.start_composite_test);
@@ -150,7 +154,11 @@ public class TestActivity extends BaseActivity {
         int bound[] = getTestBound(laws.size(), mPlan.mTotalProgress, mPlan.mCurrentProgress);
         int upperBound = bound[0];
         int lowerBound = bound[1];
-
+        if (mFullTest) {
+            upperBound = laws.size();
+            lowerBound = 0;
+            // test all laws at last day
+        }
         for (int i = lowerBound; i <= upperBound; i++) {
             LawAttrs law = laws.get(i);
             if (mDisplayChild == DISPLAY_CHILD_SIMPLE_TEST) {
@@ -303,6 +311,7 @@ public class TestActivity extends BaseActivity {
                     Intent start = new Intent(getApplicationContext(), TestActivity.class);
                     start.putExtra(INTENT_PLAN_TYPE, mPlan.mPlanType);
                     start.putExtra(INTENT_DISPLAY_CHILD, DISPLAY_CHILD_REAL_TEST);
+                    start.putExtra(INTENT_FULL_TEST, mFullTest);
                     start.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     getApplicationContext().startActivity(start);
                 } else {
@@ -483,14 +492,14 @@ public class TestActivity extends BaseActivity {
             switch (mAnswerOption) {
                 case 0:
                     mOption0.setText(answer);
-//                    mOption0.setTextColor(Color.MAGENTA);
+                    // mOption0.setTextColor(Color.MAGENTA);
                     mOption1.setText(confusedOption0);
                     mOption2.setText(confusedOption1);
                     mOption3.setText(confusedOption2);
                     break;
                 case 1:
                     mOption0.setText(confusedOption0);
-//                    mOption1.setTextColor(Color.MAGENTA);
+                    // mOption1.setTextColor(Color.MAGENTA);
                     mOption1.setText(answer);
                     mOption2.setText(confusedOption1);
                     mOption3.setText(confusedOption2);
@@ -498,7 +507,7 @@ public class TestActivity extends BaseActivity {
                 case 2:
                     mOption0.setText(confusedOption0);
                     mOption1.setText(confusedOption1);
-//                    mOption2.setTextColor(Color.MAGENTA);
+                    // mOption2.setTextColor(Color.MAGENTA);
                     mOption2.setText(answer);
                     mOption3.setText(confusedOption2);
                     break;
@@ -506,7 +515,7 @@ public class TestActivity extends BaseActivity {
                     mOption0.setText(confusedOption0);
                     mOption1.setText(confusedOption1);
                     mOption2.setText(confusedOption2);
-//                    mOption3.setTextColor(Color.MAGENTA);
+                    // mOption3.setTextColor(Color.MAGENTA);
                     mOption3.setText(answer);
                     break;
             }
