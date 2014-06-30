@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +26,8 @@ public class SettingDialog extends BaseDialog {
     private Context mContext;
 
     private SettingManager mSettingManager;
+
+    private CheckBox mConfirmWhenExitTest;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         init();
@@ -85,6 +90,7 @@ public class SettingDialog extends BaseDialog {
             mGreenCheck.setVisibility(View.VISIBLE);
             mBlackCheck.setVisibility(View.GONE);
         }
+
     }
 
     private void init() {
@@ -94,6 +100,22 @@ public class SettingDialog extends BaseDialog {
         mContentView = inflater.inflate(R.layout.settings_dialog, null);
         mSettingManager = SettingManager.getInstance(mContext);
         initTheme();
+        initConfirmWhenExitTest();
+    }
+
+    private void initConfirmWhenExitTest() {
+        // confirm when exit
+        mConfirmWhenExitTest = (CheckBox)mContentView
+                .findViewById(R.id.settings_confirm_when_exit_test_activity);
+        mConfirmWhenExitTest.setChecked(mSettingManager.showTestActivityExitDialog());
+        mConfirmWhenExitTest.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO Auto-generated method stub
+                mSettingManager.setShowTestActivityExitDialog(isChecked);
+            }
+        });
     }
 
 }
