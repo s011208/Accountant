@@ -64,6 +64,9 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
                     new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE,
                             GovLawParser.BEHAVIOR_INSERT, this)).start();
                     ++mLoaderCount;
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_INCOME_TAX,
+                            GovLawParser.BEHAVIOR_INSERT, this)).start();
+                    ++mLoaderCount;
                     ToastHelper.makeToast(getApplicationContext(),
                             ToastHelper.TOAST_TYPE_START_LOAD).show();
                 } else if (data.getBoolean(UPDATE_ALL)) {
@@ -87,6 +90,9 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
                             GovLawParser.BEHAVIOR_UPDATE, this)).start();
                     ++mLoaderCount;
                     new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE,
+                            GovLawParser.BEHAVIOR_UPDATE, this)).start();
+                    ++mLoaderCount;
+                    new Thread(new GovLawParser(this, GovLawParser.PARSE_TYPE_INCOME_TAX,
                             GovLawParser.BEHAVIOR_UPDATE, this)).start();
                     ++mLoaderCount;
                     ToastHelper.makeToast(getApplicationContext(),

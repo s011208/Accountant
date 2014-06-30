@@ -22,6 +22,7 @@
     <string name="estate_gift_tax">遺產及贈與稅法</string>
     <string name="business_entity_accounting">商業會計法</string>
     <string name="security_exchange_accounting">證券交易法</string>
+    <string name="income_tax_law">所得稅法</string>
     <string name="reading_order_chapter">章節順序</string>
     <string name="reading_order_random">隨機順序</string>
     <string name="search_button_next">下一個</string>
@@ -36,7 +37,8 @@
     <string name="dialog_confirm_to_delete_all_msg">點擊來刪除全部計畫</string>
     <string name="dialog_confirm_to_delete_all_title">刪除全部計畫？</string>
     <string name="test_type_review">計畫複習模式</string>
-    <string name="test_type_by_law">條文複習模式</string>
+    <string name="test_type_by_law">條文總複習模式</string>
+    <string name="test_type_by_law_random">條文隨機模式</string>
     <string name="toast_start_loading">開始下載資料</string>
     <string name="toast_start_updating">開始檢查更新</string>
     <string name="toast_result_ok">資料下載完成</string>

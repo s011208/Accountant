@@ -66,11 +66,13 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
 
     private LayoutInflater mInflater;
 
-    private Button mTypeReview, mTypeByLaw, mKeepPreviousTest;
+    private Button mTypeReview, mTypeByLaw, mKeepPreviousTest, mTypeByLawRandom;
 
     public static final int TEST_TYPE_REVIEW = 0;
 
     public static final int TEST_TYPE_BY_LAW = 1;
+
+    public static final int TEST_TYPE_BY_LAW_RANDOM = 2;
 
     private static int sTestType = TEST_TYPE_BY_LAW;
 
@@ -98,6 +100,7 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         mContentView.setInAnimation(mContext, R.anim.alpha_scale_switch_in);
         mContentView.setOutAnimation(mContext, R.anim.alpha_scale_switch_out);
         // test type
+        mTypeByLawRandom = (Button)mContentView.findViewById(R.id.test_type_by_law_random);
         mTypeReview = (Button)mContentView.findViewById(R.id.test_type_review);
         mTypeByLaw = (Button)mContentView.findViewById(R.id.test_type_by_law);
         mTypeReview.setOnClickListener(new OnClickListener() {
@@ -112,6 +115,14 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
             @Override
             public void onClick(View arg0) {
                 sTestType = TEST_TYPE_BY_LAW;
+                mLawListAdapter.notifyDataSetChanged();
+                setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
+            }
+        });
+        mTypeByLawRandom.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                sTestType = TEST_TYPE_BY_LAW_RANDOM;
                 mLawListAdapter.notifyDataSetChanged();
                 setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
             }
@@ -151,7 +162,7 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
 
     private void startTestActivity(int planType) {
         mDatabaseHelper.clearTestFragmentData();
-        mDatabaseHelper.setTestFragmentData(planType, sTestType == TEST_TYPE_BY_LAW);
+        mDatabaseHelper.setTestFragmentData(planType, sTestType);
         Intent start = new Intent(mContext, TestActivity.class);
         start.putExtra(TestActivity.INTENT_PLAN_TYPE, planType);
         start.putExtra(TestActivity.INTENT_FROM_TEST_FRAGMENT, true);
@@ -172,7 +183,7 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         }
 
         private void init() {
-            if (sTestType == TEST_TYPE_BY_LAW) {
+            if (sTestType == TEST_TYPE_BY_LAW || sTestType == TEST_TYPE_BY_LAW_RANDOM) {
                 mTypeData = mDatabaseHelper.getAllLawTypes();
             } else if (sTestType == TEST_TYPE_REVIEW) {
                 ArrayList<PlanAttrs> data = mDatabaseHelper.getAllPlans();
@@ -254,16 +265,19 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
                 mTypeReview.setBackgroundResource(R.drawable.blue_btn_bg);
                 mTypeByLaw.setBackgroundResource(R.drawable.blue_btn_bg);
                 mKeepPreviousTest.setBackgroundResource(R.drawable.blue_btn_bg);
+                mTypeByLawRandom.setBackgroundResource(R.drawable.blue_btn_bg);
                 break;
             case SettingManager.VALUE_THEME_GRAY:
                 mTypeReview.setBackgroundResource(R.drawable.gray_btn_bg);
                 mTypeByLaw.setBackgroundResource(R.drawable.gray_btn_bg);
                 mKeepPreviousTest.setBackgroundResource(R.drawable.gray_btn_bg);
+                mTypeByLawRandom.setBackgroundResource(R.drawable.gray_btn_bg);
                 break;
             case SettingManager.VALUE_THEME_GREEN:
                 mTypeReview.setBackgroundResource(R.drawable.green_btn_bg);
                 mTypeByLaw.setBackgroundResource(R.drawable.green_btn_bg);
                 mKeepPreviousTest.setBackgroundResource(R.drawable.green_btn_bg);
+                mTypeByLawRandom.setBackgroundResource(R.drawable.green_btn_bg);
                 break;
         }
     }

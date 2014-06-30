@@ -55,6 +55,8 @@ public class GovLawParser implements Runnable {
 
     public static final int PARSE_TYPE_SECURITY_EXCHANGE = 6;
 
+    public static final int PARSE_TYPE_INCOME_TAX = 7;
+
     public static final String SEP_1 = "rrr";
 
     public static final String SEP_2 = "bbb";
@@ -103,6 +105,9 @@ public class GovLawParser implements Runnable {
                 break;
             case PARSE_TYPE_SECURITY_EXCHANGE:
                 rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0400001";
+                break;
+            case PARSE_TYPE_INCOME_TAX:
+                rtn = "http://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=G0340003";
                 break;
         }
         return rtn;
@@ -219,6 +224,8 @@ public class GovLawParser implements Runnable {
             return R.string.business_entity_accounting;
         } else if (type == GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE) {
             return R.string.security_exchange_accounting;
+        } else if (type == GovLawParser.PARSE_TYPE_INCOME_TAX) {
+            return R.string.income_tax_law;
         } else {
             return 0;
         }
@@ -239,6 +246,8 @@ public class GovLawParser implements Runnable {
             return GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING;
         } else if (txt.equals(context.getString(R.string.security_exchange_accounting))) {
             return GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE;
+        } else if (txt.equals(context.getString(R.string.income_tax_law))) {
+            return GovLawParser.PARSE_TYPE_INCOME_TAX;
         } else {
             return GovLawParser.PARSE_TYPE_COMPANY;
         }
@@ -259,6 +268,8 @@ public class GovLawParser implements Runnable {
             return context.getString(R.string.business_entity_accounting);
         } else if (type == GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE) {
             return context.getString(R.string.security_exchange_accounting);
+        } else if (type == GovLawParser.PARSE_TYPE_INCOME_TAX) {
+            return context.getString(R.string.income_tax_law);
         } else {
             return "";
         }

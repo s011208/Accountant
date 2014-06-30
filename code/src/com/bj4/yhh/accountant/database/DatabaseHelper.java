@@ -8,6 +8,7 @@ import com.bj4.yhh.accountant.LawAttrs;
 import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
+import com.bj4.yhh.accountant.fragments.TestFragment;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -189,12 +190,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rtn;
     }
 
-    public void setTestFragmentData(int type, boolean addAll) {
-        if (addAll) {
+    public void setTestFragmentData(int type, int testType) {
+        if (testType == TestFragment.TEST_TYPE_BY_LAW) {
             getDataBase().execSQL(
                     "insert into " + TABLE_NAME_TEST_FRAGMENT + " select * from " + TABLE_NAME_LAW
                             + " where " + COLUMN_TYPE + "='" + type + "'");
-        } else {
+        } else if (testType == TestFragment.TEST_TYPE_REVIEW) {
             PlanAttrs plan = getPlan(type);
             int count = getPlanTypeCount(type);
             int[] bounds = TestActivity.getTestBound(count, plan.mTotalProgress,
@@ -204,6 +205,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "insert into " + TABLE_NAME_TEST_FRAGMENT + "  select * from "
                             + TABLE_NAME_TEST + " where " + COLUMN_TYPE + "='" + type + "' and "
                             + COLUMN_ORDER + " <" + upperBound + " order by " + COLUMN_ORDER + " ");
+        } else if (testType == TestFragment.TEST_TYPE_BY_LAW_RANDOM) {
+            getDataBase().execSQL(
+                    "insert into " + TABLE_NAME_TEST_FRAGMENT + " select * from " + TABLE_NAME_LAW
+                            + " where " + COLUMN_TYPE + "='" + type
+                            + "' order by RANDOM() LIMIT 50");
         }
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, LawAttrs.HAS_NOT_ANSWERED);
