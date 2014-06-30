@@ -71,6 +71,8 @@ public class GovLawParser implements Runnable {
 
     private int mParseType;
 
+    private String mUpdateTime;
+
     public GovLawParser(Context c, int type, int behaviour, ResultCallback cb) {
         mContext = c;
         mParseType = type;
@@ -112,6 +114,7 @@ public class GovLawParser implements Runnable {
         Exception failException = null;
         String url = getParseUrl(mParseType);
         try {
+            // parse law
             Document doc = Jsoup.connect(url).get();
             int currentChapter = 0;
             int currentPart = 0;
@@ -157,6 +160,15 @@ public class GovLawParser implements Runnable {
                     }
                 }
             }
+            // parse update time
+            String updateTimeUrl = url.replace("LawAll.aspx", "LawContent.aspx");
+            doc = Jsoup.connect(updateTimeUrl).get();
+            Elements date = doc.select("span[id]");
+            for (Element e : date) {
+                if ("LawBasicData1_lblModDate".equals(e.attr("id"))) {
+                    mUpdateTime = e.text();
+                }
+            }
         } catch (Exception e) {
             result = RESULT_FAIL;
             failException = e;
@@ -188,6 +200,8 @@ public class GovLawParser implements Runnable {
         } else {
             Log.w(TAG, "data set is empty, type: " + mParseType);
         }
+        AccountantApplication.getDatabaseHelper(mContext).insertLawUpdateTime(mParseType,
+                mUpdateTime);
     }
 
     public static final int getTypeTextResource(int type) {

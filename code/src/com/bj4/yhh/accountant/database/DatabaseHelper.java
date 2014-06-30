@@ -26,6 +26,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
 
+    // update time table
+    public static final String TABLE_NAME_LAW_UPDATE_TIME = "law_update_time";
+
+    public static final String COLUMN_LAW_UPDATE_TIME = "update_time";
+
     // test related
     /**
      * for test activity
@@ -147,6 +152,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getDataBase().execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TEST + LAW_TABLE_COLUMN);
         getDataBase().execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TEST_FRAGMENT + LAW_TABLE_COLUMN);
+
+        // law update time table
+        getDataBase().execSQL(
+                "CREATE TABLE if not exists " + TABLE_NAME_LAW_UPDATE_TIME + " (" + COLUMN_LAW_TYPE
+                        + " INTEGER PRIMARY KEY , " + COLUMN_LAW_UPDATE_TIME + " TEXT)");
+    }
+
+    public void insertLawUpdateTime(int type, String time) {
+        getDataBase().delete(TABLE_NAME_LAW_UPDATE_TIME, COLUMN_LAW_TYPE + "='" + type + "'", null);
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_LAW_TYPE, type);
+        cv.put(COLUMN_LAW_UPDATE_TIME, time);
+        getDataBase().insert(TABLE_NAME_LAW_UPDATE_TIME, null, cv);
+    }
+
+    public Cursor getLawUpdateTime() {
+        return getDataBase().query(TABLE_NAME_LAW_UPDATE_TIME, null, null, null, null, null, null);
     }
 
     public void clearTestFragmentData() {
@@ -179,9 +201,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     plan.mCurrentProgress);
             int upperBound = bounds[0];
             getDataBase().execSQL(
-                    "insert into " + TABLE_NAME_TEST_FRAGMENT + "  select * from " + TABLE_NAME_TEST
-                            + " where " + COLUMN_TYPE + "='" + type + "' and " + COLUMN_ORDER
-                            + " <" + upperBound + " order by " + COLUMN_ORDER + " ");
+                    "insert into " + TABLE_NAME_TEST_FRAGMENT + "  select * from "
+                            + TABLE_NAME_TEST + " where " + COLUMN_TYPE + "='" + type + "' and "
+                            + COLUMN_ORDER + " <" + upperBound + " order by " + COLUMN_ORDER + " ");
         }
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, LawAttrs.HAS_NOT_ANSWERED);

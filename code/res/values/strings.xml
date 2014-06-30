@@ -57,7 +57,7 @@
     <string name="setting_confirm_when_exit_test_title">Test alert dialog</string>
     <string name="test_fragment_keep_previous_test">Continue previous test</string>
     <string name="test_fragment_none_previous_test_data">None previous test data</string>
-
+	<string name="law_update_time_dialog_title">Update time</string>
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>
         <item>@string/reading_order_random</item>

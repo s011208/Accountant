@@ -5,6 +5,7 @@ import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
+import com.bj4.yhh.accountant.dialogs.LawVersionDialog;
 import com.bj4.yhh.accountant.dialogs.SettingDialog;
 import com.bj4.yhh.accountant.service.ParseService;
 
@@ -91,6 +92,14 @@ public class MainEntryFragment extends BaseFragment {
                 intent.putExtra(ParseService.UPDATE_ALL, true);
                 mContext.startService(intent);
                 AccountantApplication.sCheckForUpdate = false;
+            }
+        });
+        mCheckUpdate.setOnLongClickListener(new OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                new LawVersionDialog().show(getFragmentManager(), null);
+                return true;
             }
         });
     }

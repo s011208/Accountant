@@ -253,14 +253,17 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
             case SettingManager.VALUE_THEME_BLUE:
                 mTypeReview.setBackgroundResource(R.drawable.blue_btn_bg);
                 mTypeByLaw.setBackgroundResource(R.drawable.blue_btn_bg);
+                mKeepPreviousTest.setBackgroundResource(R.drawable.blue_btn_bg);
                 break;
             case SettingManager.VALUE_THEME_GRAY:
                 mTypeReview.setBackgroundResource(R.drawable.gray_btn_bg);
                 mTypeByLaw.setBackgroundResource(R.drawable.gray_btn_bg);
+                mKeepPreviousTest.setBackgroundResource(R.drawable.gray_btn_bg);
                 break;
             case SettingManager.VALUE_THEME_GREEN:
                 mTypeReview.setBackgroundResource(R.drawable.green_btn_bg);
                 mTypeByLaw.setBackgroundResource(R.drawable.green_btn_bg);
+                mKeepPreviousTest.setBackgroundResource(R.drawable.green_btn_bg);
                 break;
         }
     }
