@@ -1,0 +1,84 @@
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/test_type_review"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/main_entry_button_margin_v"
+                    android:layout_marginLeft="@dimen/main_entry_button_margin_h"
+                    android:layout_marginRight="@dimen/main_entry_button_margin_h"
+                    android:layout_marginTop="@dimen/main_entry_button_margin_v"
+                    android:layout_weight="1"
+                    android:background="@drawable/blue_btn_bg"
+                    android:text="@string/test_type_review"
+                    android:textSize="@dimen/general_btn_text_size" />
+
+                <Button
+                    android:id="@+id/test_type_by_law"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/main_entry_button_margin_v"
+                    android:layout_marginLeft="@dimen/main_entry_button_margin_h"
+                    android:layout_marginRight="@dimen/main_entry_button_margin_h"
+                    android:layout_marginTop="@dimen/main_entry_button_margin_v"
+                    android:layout_weight="1"
+                    android:background="@drawable/blue_btn_bg"
+                    android:text="@string/test_type_by_law"
+                    android:textSize="@dimen/general_btn_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/test_type_by_law_random"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/main_entry_button_margin_v"
+                    android:layout_marginLeft="@dimen/main_entry_button_margin_h"
+                    android:layout_marginRight="@dimen/main_entry_button_margin_h"
+                    android:layout_marginTop="@dimen/main_entry_button_margin_v"
+                    android:layout_weight="1"
+                    android:background="@drawable/blue_btn_bg"
+                    android:text="@string/test_type_by_law_random"
+                    android:textSize="@dimen/general_btn_text_size" />
+
+                <Button
+                    android:id="@+id/keep_previous_test"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/main_entry_button_margin_v"
+                    android:layout_marginLeft="@dimen/main_entry_button_margin_h"
+                    android:layout_marginRight="@dimen/main_entry_button_margin_h"
+                    android:layout_marginTop="@dimen/main_entry_button_margin_v"
+                    android:layout_weight="1"
+                    android:background="@drawable/blue_btn_bg"
+                    android:text="@string/test_fragment_keep_previous_test"
+                    android:textSize="@dimen/general_btn_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <include layout="@layout/over_view_fragment_law_list" />
+
+</ViewSwitcher>

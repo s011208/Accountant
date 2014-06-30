@@ -14,36 +14,18 @@
         <EditText
             android:id="@+id/search_content"
             android:layout_width="0dip"
+            android:inputType="none"
             android:layout_height="match_parent"
             android:layout_weight="3" />
-
-        <!-- <ImageButton -->
-        <!-- android:id="@+id/search_previous" -->
-        <!-- android:layout_width="0dip" -->
-        <!-- android:layout_height="match_parent" -->
-        <!-- android:layout_weight="1" -->
-        <!-- android:scaleType="centerInside" -->
-        <!-- android:src="@drawable/previous" -->
-        <!-- android:text="@string/search_button_previous" /> -->
-
-
-        <!-- <ImageButton -->
-        <!-- android:id="@+id/search_next" -->
-        <!-- android:layout_width="0dip" -->
-        <!-- android:layout_height="match_parent" -->
-        <!-- android:layout_weight="1" -->
-        <!-- android:scaleType="centerInside" -->
-        <!-- android:src="@drawable/next" -->
-        <!-- android:text="@string/search_button_next" /> -->
     </LinearLayout>
 
     <View
         android:id="@+id/over_view_shadow"
         android:layout_width="match_parent"
         android:layout_height="@dimen/over_view_shadow_height"
-        android:visibility="gone"
+        android:layout_below="@+id/search_bar"
         android:background="@drawable/list_shadow"
-        android:layout_below="@+id/search_bar" />
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/over_view_law_content"
