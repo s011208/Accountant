@@ -76,6 +76,29 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/create_plan_edit_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_plan_edit_3"
+        android:layout_margin="@dimen/create_plan_edit_item_margin"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/total_law_count" />
+
+        <TextView
+            android:id="@+id/law_count"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/create_plan_edit_4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

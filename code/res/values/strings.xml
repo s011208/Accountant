@@ -58,4 +58,5 @@
 	<string name="confirm_to_exit_dialog_title">Confirm to exit</string>
 	<string name="confirm_to_exit_dialog_title_content">Do you want to exit test?</string>
 	<string name="do_not_show_this_again">Do not show again</string>
+	<string name="total_law_count">Law count</string>
 </resources>

@@ -367,7 +367,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cvs;
     }
 
-    public int queryTypeCount(int type) {
+    public int getPlanTypeCount(int type) {
         int rtn = 0;
         Cursor data = getDataBase().rawQuery(
                 "select count(*) from " + TABLE_NAME_LAW + " where " + COLUMN_TYPE + "='" + type

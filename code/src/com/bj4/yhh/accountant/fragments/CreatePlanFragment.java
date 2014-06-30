@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -68,6 +69,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
     private Spinner mLawOptions, mReadingOrder;
 
     private EditText mEstimateDays;
+
+    private TextView mTotalLawCount;
 
     private DatabaseHelper mDatabaseHelper;
 
@@ -282,7 +285,7 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                     .setText(plan.mReadingOrder == READING_ORDER_CHAPTER ? R.string.reading_order_chapter
                             : R.string.reading_order_random);
             holder.mProgressByDay.setText(plan.mCurrentProgress + " / " + plan.mTotalProgress);
-            int totalLines = mDatabaseHelper.queryTypeCount(plan.mPlanType);
+            int totalLines = mDatabaseHelper.getPlanTypeCount(plan.mPlanType);
             int currentLines = (int)Math.ceil(totalLines / plan.mTotalProgress)
                     * plan.mCurrentProgress;
             holder.mProgressBar.setMax(plan.mTotalProgress);
@@ -309,6 +312,7 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
     }
 
     private void initEdit() {
+        mTotalLawCount = (TextView)mContentView.findViewById(R.id.law_count);
         mCancel = (Button)mContentView.findViewById(R.id.cancel);
         mCancel.setOnClickListener(new OnClickListener() {
 
@@ -366,6 +370,20 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
         ArrayAdapter<String> lawOptionAdapter = new ArrayAdapter<String>(mContext,
                 android.R.layout.simple_spinner_dropdown_item, lawOption);
         mLawOptions.setAdapter(lawOptionAdapter);
+        mLawOptions.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int planType = getPlanType(mLawOptions.getSelectedItem().toString());
+                mTotalLawCount.setText("" + mDatabaseHelper.getPlanTypeCount(planType));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+                mTotalLawCount.setText("");
+            }
+        });
     }
 
     public void setDisplayedChild(int child) {
