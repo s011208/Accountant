@@ -285,7 +285,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rtn;
     }
 
-    public ArrayList<LawAttrs> getPlanDataFromLawTable(int planType, boolean ignoreContent) {
+    public ArrayList<LawAttrs> getPlanDataFromLawTable(int planType, boolean ignoreContent,
+            boolean orderByWrongType) {
         ArrayList<LawAttrs> rtn = null;
         Cursor data = null;
         String whereClause = "";
@@ -295,8 +296,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             whereClause = COLUMN_TYPE + "='" + planType + "'";
         }
+        String order = "";
+        if (orderByWrongType) {
+            order += COLUMN_WRONG_TIME + " desc";
+        } else {
+            order = COLUMN_ORDER;
+        }
         data = getDataBase().query(true, TABLE_NAME_LAW, null, whereClause, null, null, null,
-                COLUMN_ORDER, null, null);
+                order, null, null);
         rtn = convertFromCursorToLawAttrs(data);
         return rtn;
     }

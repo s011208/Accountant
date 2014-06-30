@@ -14,9 +14,16 @@
         <EditText
             android:id="@+id/search_content"
             android:layout_width="0dip"
-            android:inputType="none"
             android:layout_height="match_parent"
-            android:layout_weight="3" />
+            android:layout_weight="3"
+            android:inputType="none" />
+
+        <Spinner
+            android:id="@+id/over_view_sorter"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" />
     </LinearLayout>
 
     <View

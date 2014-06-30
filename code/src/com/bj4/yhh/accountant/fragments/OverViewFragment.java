@@ -33,9 +33,12 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -45,6 +48,12 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
     public static final int OVERVIEW_FRAGMENT_LAW_CONTENT = 1;
 
     private int mCurrentDisplayChild = OVERVIEW_FRAGMENT_LAW_LIST;
+
+    private static final int SORT_TYPE_ORDER = 0;
+
+    private static final int SORT_TYPE_WRONG_COUNT = 1;
+
+    private int mSortType = SORT_TYPE_ORDER;
 
     private Context mContext;
 
@@ -67,6 +76,8 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
     private LayoutInflater mInflater;
 
     private EditText mSearchContent;
+
+    private Spinner mSorter;
 
     private String mSearchingText = "";
 
@@ -103,6 +114,23 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
         mLawContent = (ListView)mContentView.findViewById(R.id.over_view_law_content);
         mSearchContent = (EditText)mContentView.findViewById(R.id.search_content);
         mOverViewShadow = mContentView.findViewById(R.id.over_view_shadow);
+        mSorter = (Spinner)mContentView.findViewById(R.id.over_view_sorter);
+        ArrayAdapter<String> sortAdapter = new ArrayAdapter<String>(mContext,
+                android.R.layout.simple_spinner_dropdown_item, mContext.getResources()
+                        .getStringArray(R.array.over_view_list_sorter));
+        mSorter.setAdapter(sortAdapter);
+        mSorter.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                mSortType = arg2;
+                mLawContentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
         initContentListView();
     }
 
@@ -114,7 +142,11 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
         }
 
         private void initData() {
-            mData = mDatabaseHelper.getPlanDataFromLawTable(sDisplayContentType, false);
+            if (mSortType == SORT_TYPE_ORDER) {
+                mData = mDatabaseHelper.getPlanDataFromLawTable(sDisplayContentType, false, false);
+            } else if (mSortType == SORT_TYPE_WRONG_COUNT) {
+                mData = mDatabaseHelper.getPlanDataFromLawTable(sDisplayContentType, false, true);
+            }
         }
 
         @Override

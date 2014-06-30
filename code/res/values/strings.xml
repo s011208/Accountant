@@ -66,5 +66,8 @@
         <item>@string/reading_order_random</item>
     </string-array>
     <!-- not translated -->
-
+	<string-array name="over_view_list_sorter">
+	    <item>by order</item>
+	    <item>by wrong time</item>
+	</string-array>
 </resources>
