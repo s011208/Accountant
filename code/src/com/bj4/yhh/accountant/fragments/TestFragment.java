@@ -9,10 +9,12 @@ import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
+import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.MagicFuzzy;
+import com.bj4.yhh.accountant.utilities.ToastHelper;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -20,6 +22,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -63,7 +66,7 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
 
     private LayoutInflater mInflater;
 
-    private Button mTypeReview, mTypeByLaw;
+    private Button mTypeReview, mTypeByLaw, mKeepPreviousTest;
 
     public static final int TEST_TYPE_REVIEW = 0;
 
@@ -113,6 +116,20 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
                 setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
             }
         });
+        mKeepPreviousTest = (Button)mContentView.findViewById(R.id.keep_previous_test);
+        mKeepPreviousTest.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                boolean available = mDatabaseHelper.hasPreviousDataInTestFragment();
+                if (available) {
+                    startTestActivity(mDatabaseHelper.getTestFragmentDataType());
+                } else {
+                    ToastHelper.makeToast(mContext,
+                            ToastHelper.TOAST_TYPE_NONE_PREVIOUS_TEST_FRAGMENT_DATA).show();
+                }
+            }
+        });
         // law list
         mLawList = (ListView)mContentView.findViewById(R.id.overview_law_list);
         initLawList();
@@ -126,9 +143,20 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    startTestActivity(mLawListAdapter.getItem(position));
                 }
             });
         }
+    }
+
+    private void startTestActivity(int planType) {
+        mDatabaseHelper.clearTestFragmentData();
+        mDatabaseHelper.setTestFragmentData(planType, sTestType == TEST_TYPE_BY_LAW);
+        Intent start = new Intent(mContext, TestActivity.class);
+        start.putExtra(TestActivity.INTENT_PLAN_TYPE, planType);
+        start.putExtra(TestActivity.INTENT_FROM_TEST_FRAGMENT, true);
+        start.putExtra(TestActivity.INTENT_DISPLAY_CHILD, TestActivity.DISPLAY_CHILD_REAL_TEST);
+        mContext.startActivity(start);
     }
 
     private class LawListAdapter extends BaseAdapter {

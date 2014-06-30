@@ -45,20 +45,23 @@
     <string name="toast_remove_plans_in_advance">Remove any plans in advance</string>
     <string name="toast_waiting_for_previous_parsing">Waiting for previous result</string>
     <string name="check_update">Check update</string>
+    <string name="toast_wrong_estimate_day">Invalidated estimate day,\nthe minimum estimate day is 3</string>
+    <string name="basic_setting_title">Settings</string>
+    <string name="app_color_theme">App color theme</string>
+    <string name="test_activity_finish_real_test">Finish test!</string>
+    <string name="confirm_to_exit_dialog_title">Confirm to exit</string>
+    <string name="confirm_to_exit_dialog_title_content">Do you want to exit test?</string>
+    <string name="do_not_show_this_again">Do not show again</string>
+    <string name="total_law_count">Law count</string>
+    <string name="setting_confirm_when_exit_test_content">Show alert when exit test</string>
+    <string name="setting_confirm_when_exit_test_title">Test alert dialog</string>
+    <string name="test_fragment_keep_previous_test">Continue previous test</string>
+    <string name="test_fragment_none_previous_test_data">None previous test data</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>
         <item>@string/reading_order_random</item>
     </string-array>
     <!-- not translated -->
-	<string name="toast_wrong_estimate_day">Invalidated estimate day,\nthe minimum estimate day is 3</string>
-	<string name="basic_setting_title">Settings</string>
-	<string name="app_color_theme">App color theme</string>
-	<string name="test_activity_finish_real_test">Finish test!</string>
-	<string name="confirm_to_exit_dialog_title">Confirm to exit</string>
-	<string name="confirm_to_exit_dialog_title_content">Do you want to exit test?</string>
-	<string name="do_not_show_this_again">Do not show again</string>
-	<string name="total_law_count">Law count</string>
-	<string name="setting_confirm_when_exit_test_content">Show alert when exit test</string>
-	<string name="setting_confirm_when_exit_test_title">Test</string>
+
 </resources>

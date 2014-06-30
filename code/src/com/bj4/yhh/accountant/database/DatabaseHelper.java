@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import com.bj4.yhh.accountant.LawAttrs;
 import com.bj4.yhh.accountant.PlanAttrs;
+import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 
 import android.content.ContentValues;
@@ -26,7 +27,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
     // test related
+    /**
+     * for test activity
+     */
     public static final String TABLE_NAME_TEST = "test";
+
+    /**
+     * for test fragment
+     */
+    public static final String TABLE_NAME_TEST_FRAGMENT = "test_frag";
 
     // plan related
     public static final String TABLE_NAME_PLAN = "plan";
@@ -136,6 +145,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + COLUMN_READING_ORDER + " TEXT)");
         // test table (copy all column from TABLE_NAME_LAW)
         getDataBase().execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TEST + LAW_TABLE_COLUMN);
+        getDataBase().execSQL(
+                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TEST_FRAGMENT + LAW_TABLE_COLUMN);
+    }
+
+    public void clearTestFragmentData() {
+        getDataBase().delete(TABLE_NAME_TEST_FRAGMENT, null, null);
+    }
+
+    public int getTestFragmentDataType() {
+        int rtn = -1;
+        Cursor data = getDataBase().query(TABLE_NAME_TEST_FRAGMENT, null, null, null, null, null,
+                null);
+        if (data != null) {
+            while (data.moveToNext()) {
+                rtn = data.getInt(data.getColumnIndex(COLUMN_LAW_TYPE));
+                break;
+            }
+            data.close();
+        }
+        return rtn;
+    }
+
+    public void setTestFragmentData(int type, boolean addAll) {
+        if (addAll) {
+            getDataBase().execSQL(
+                    "insert into " + TABLE_NAME_TEST_FRAGMENT + " select * from " + TABLE_NAME_LAW
+                            + " where " + COLUMN_TYPE + "='" + type + "'");
+        } else {
+            PlanAttrs plan = getPlan(type);
+            int count = getPlanTypeCount(type);
+            int[] bounds = TestActivity.getTestBound(count, plan.mTotalProgress,
+                    plan.mCurrentProgress);
+            int upperBound = bounds[0];
+            getDataBase().execSQL(
+                    "insert into " + TABLE_NAME_TEST_FRAGMENT + "  select * from " + TABLE_NAME_TEST
+                            + " where " + COLUMN_TYPE + "='" + type + "' and " + COLUMN_ORDER
+                            + " <" + upperBound + " order by " + COLUMN_ORDER + " ");
+        }
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, LawAttrs.HAS_NOT_ANSWERED);
+        getDataBase().update(TABLE_NAME_TEST_FRAGMENT, cv, null, null);
+    }
+
+    public boolean hasPreviousDataInTestFragment() {
+        int rtn = 0;
+        Cursor data = getDataBase().rawQuery("select count(*) from " + TABLE_NAME_TEST_FRAGMENT,
+                null);
+        if (data != null) {
+            data.moveToNext();
+            rtn = data.getInt(0);
+            data.close();
+        }
+        return rtn > 0;
     }
 
     public void addCallback(RefreshPlanCallback c) {
@@ -181,6 +243,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             data.close();
         }
+        return rtn;
+    }
+
+    public ArrayList<LawAttrs> getPlanDataFromTestFragment() {
+        ArrayList<LawAttrs> rtn = null;
+        Cursor data = null;
+        String whereClause = "";
+        whereClause = COLUMN_CONTENT + " !='" + IGNORE_CONTENT + "'";
+        data = getDataBase().query(true, TABLE_NAME_TEST_FRAGMENT, null, whereClause, null, null,
+                null, COLUMN_ORDER, null, null);
+        rtn = convertFromCursorToLawAttrs(data);
         return rtn;
     }
 

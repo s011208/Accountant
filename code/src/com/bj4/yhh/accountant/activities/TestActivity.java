@@ -11,6 +11,7 @@ import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.dialogs.ConfirmToExitDialog;
+import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 
 import android.app.Activity;
@@ -36,8 +37,10 @@ public class TestActivity extends BaseActivity {
     public static final String INTENT_PLAN_TYPE = "intent_plan_type";
 
     public static final String INTENT_DISPLAY_CHILD = "intent_displayed_child";
-    
+
     public static final String INTENT_FULL_TEST = "intent_full_test";
+
+    public static final String INTENT_FROM_TEST_FRAGMENT = "from_test_fragment";
 
     public static final int QUESTION_TYPE_LINE = 0;
 
@@ -47,7 +50,10 @@ public class TestActivity extends BaseActivity {
 
     public static final int DISPLAY_CHILD_REAL_TEST = 1;
 
+    private boolean mFromTestFragment = false;
+
     private boolean mFullTest = false;
+
     private RelativeLayout mMainBackground;
 
     private TextView mTitle;
@@ -113,13 +119,19 @@ public class TestActivity extends BaseActivity {
             planType = intent.getIntExtra(INTENT_PLAN_TYPE, -1);
             mDisplayChild = intent.getIntExtra(INTENT_DISPLAY_CHILD, DISPLAY_CHILD_SIMPLE_TEST);
             mFullTest = intent.getBooleanExtra(INTENT_FULL_TEST, false);
+            mFromTestFragment = intent.getBooleanExtra(INTENT_FROM_TEST_FRAGMENT, false);
         }
         if (mDisplayChild == DISPLAY_CHILD_SIMPLE_TEST) {
             mComplete.setText(R.string.start_composite_test);
         }
         mSwitcher.setDisplayedChild(mDisplayChild);
         mPlan = mDatabaseHelper.getPlan(planType);
-        mLaws = mDatabaseHelper.getPlanData(mPlan, true);
+        if (mFromTestFragment) {
+            mLaws = mDatabaseHelper.getPlanDataFromTestFragment();
+            mPlan = new PlanAttrs(planType, CreatePlanFragment.READING_ORDER_CHAPTER, 0, 0, 0);
+        } else {
+            mLaws = mDatabaseHelper.getPlanData(mPlan, true);
+        }
         if (mPlan == null) {
             Log.w(TAG, "should not be null");
             finish();
@@ -145,21 +157,29 @@ public class TestActivity extends BaseActivity {
             mNo.setVisibility(View.GONE);
             mNext.setVisibility(View.GONE);
             mComplete.setVisibility(View.GONE);
+            mProgressHint.setVisibility(View.VISIBLE);
         }
     }
 
     private void setBound() {
-        ArrayList<LawAttrs> laws = mDatabaseHelper.getPlanData(mPlan, false);
+        ArrayList<LawAttrs> laws;
+        if (mFromTestFragment) {
+            laws = mDatabaseHelper.getPlanDataFromTestFragment();
+        } else {
+            laws = mDatabaseHelper.getPlanData(mPlan, false);
+        }
         int unit = laws.size() / (mPlan.mTotalProgress - 1);
         int bound[] = getTestBound(laws.size(), mPlan.mTotalProgress, mPlan.mCurrentProgress);
         int upperBound = bound[0];
         int lowerBound = bound[1];
-        if (mFullTest) {
+        if (mFullTest || mFromTestFragment) {
             upperBound = laws.size();
             lowerBound = 0;
             // test all laws at last day
         }
-        for (int i = lowerBound; i <= upperBound; i++) {
+        Log.e("QQQQ", "upperBound: " + upperBound + ", lowerBound: " + lowerBound
+                + ", laws.size(): " + laws.size());
+        for (int i = lowerBound; i < upperBound; i++) {
             LawAttrs law = laws.get(i);
             if (mDisplayChild == DISPLAY_CHILD_SIMPLE_TEST) {
                 if (law.mHasAnsweredSimple == LawAttrs.HAS_NOT_ANSWERED) {
@@ -194,6 +214,7 @@ public class TestActivity extends BaseActivity {
                 }
             }
         }
+        Log.e("QQQQ", "mQuestionList size: " + mQuestionList.size());
     }
 
     @Override
@@ -416,6 +437,7 @@ public class TestActivity extends BaseActivity {
         } else {
             mProgressHint.setText(getBaseContext().getString(R.string.rest_items)
                     + mQuestionList.size());
+            Log.e("QQQQ", getBaseContext().getString(R.string.rest_items) + mQuestionList.size());
         }
         int type = (int)((Math.random() * 100) % 2);
         mCurrentIndex = (int)((Math.random() * 10000) % mQuestionList.size());
@@ -589,7 +611,6 @@ public class TestActivity extends BaseActivity {
             }
             lowerBound = upperBound - unit;
         }
-        --upperBound;
         int rtn[] = new int[] {
                 upperBound, lowerBound
         };

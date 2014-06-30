@@ -28,6 +28,8 @@ public class ToastHelper {
     public static final int TOAST_TYPE_WAITING_FOR_PREVIOUS_PARSING = 6;
     
     public static final int TOAST_TYPE_WRONG_ESTIMATE_DAY = 7;
+    
+    public static final int TOAST_TYPE_NONE_PREVIOUS_TEST_FRAGMENT_DATA = 8;
 
     public static final Toast makeToast(Context context, int type) {
         Toast rtn = new Toast(context);
@@ -68,6 +70,10 @@ public class ToastHelper {
             case TOAST_TYPE_WRONG_ESTIMATE_DAY:
                 img.setImageResource(R.drawable.toast_icon_forbidden);
                 txt.setText(R.string.toast_wrong_estimate_day);
+                break;
+            case TOAST_TYPE_NONE_PREVIOUS_TEST_FRAGMENT_DATA:
+                img.setImageResource(R.drawable.toast_icon_forbidden);
+                txt.setText(R.string.test_fragment_none_previous_test_data);
                 break;
         }
         rtn.setView(parent);
