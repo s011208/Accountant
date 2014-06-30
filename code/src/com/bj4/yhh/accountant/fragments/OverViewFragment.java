@@ -75,17 +75,13 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
     public OverViewFragment() {
     }
 
-    public OverViewFragment(MainActivity activity) {
-        mContext = activity;
-        mMainActivity = activity;
-        mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
-        init();
-    }
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mContext == null) {
             mContext = getActivity();
+            mMainActivity = (MainActivity)getActivity();
+            mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
+            init();
         }
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
@@ -369,6 +365,6 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
     @Override
     public void themeColorChanged(int newColor) {
         // TODO Auto-generated method stub
-        
+
     }
 }

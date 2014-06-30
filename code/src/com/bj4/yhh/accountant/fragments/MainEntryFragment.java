@@ -33,19 +33,12 @@ public class MainEntryFragment extends BaseFragment {
 
     private Vibrator mVibrator;
 
-    public MainEntryFragment() {
-    }
-
-    public MainEntryFragment(MainActivity activity) {
-        mContext = activity;
-        mMainActivity = activity;
-        init();
-    }
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mContext == null) {
             mContext = getActivity();
+            mMainActivity = (MainActivity)getActivity();
+            init();
         }
         mVibrator = (Vibrator)mContext.getSystemService(Context.VIBRATOR_SERVICE);
         themeColorChanged(SettingManager.getInstance(mContext).getThemeColor());

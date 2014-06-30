@@ -193,35 +193,39 @@ public class MainActivity extends BaseActivity {
 
     private synchronized TestFragment getTestFragment() {
         if (mTestFragment == null) {
-            mTestFragment = new TestFragment(this);
+            mTestFragment = new TestFragment();
         }
         return mTestFragment;
     }
 
     private synchronized OverViewFragment getOverViewFragment() {
         if (mOverViewFragment == null) {
-            mOverViewFragment = new OverViewFragment(this);
+            mOverViewFragment = new OverViewFragment();
         }
         return mOverViewFragment;
     }
 
     private synchronized MainEntryFragment getMainEntryFragment() {
         if (mMainEntryFragment == null) {
-            mMainEntryFragment = new MainEntryFragment(this);
+            mMainEntryFragment = new MainEntryFragment();
         }
         return mMainEntryFragment;
     }
 
     private synchronized CreatePlanFragment getCreatePlanFragment() {
         if (mCreatePlanFragment == null) {
-            mCreatePlanFragment = new CreatePlanFragment(this);
+            mCreatePlanFragment = new CreatePlanFragment();
         }
         return mCreatePlanFragment;
     }
 
     @Override
     public void themeColorChanged(int newTheme) {
-        getCurrentFragment().themeColorChanged(newTheme);
+        try {
+            getCurrentFragment().themeColorChanged(newTheme);
+        } catch (Exception e) {
+            // do nothing
+        }
         switch (newTheme) {
             case SettingManager.VALUE_THEME_BLUE:
                 mMainBackground.setBackgroundResource(R.drawable.blue_main_paper_bg);

@@ -98,17 +98,13 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
     public CreatePlanFragment() {
     }
 
-    public CreatePlanFragment(MainActivity activity) {
-        mContext = activity;
-        mMainActivity = activity;
-        mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
-        init();
-    }
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mContext == null) {
             mContext = getActivity();
+            mMainActivity = (MainActivity)getActivity();
+            mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
+            init();
         }
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(mContext);
         mDatabaseHelper.addCallback(this);
