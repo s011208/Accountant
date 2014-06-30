@@ -534,42 +534,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
     }
 
-    public void updateLawTable(ArrayList<LawAttrs> list, int type) {
-        try {
-            getDataBase().beginTransaction();
-            for (LawAttrs law : list) {
-                ContentValues cv = new ContentValues();
-                cv.put(COLUMN_CONTENT, law.mContent);
-                getDataBase()
-                        .update(TABLE_NAME_LAW,
-                                cv,
-                                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='"
-                                        + law.mLine + "'", null);
-                getDataBase()
-                        .update(TABLE_NAME_TEST,
-                                cv,
-                                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='"
-                                        + law.mLine + "'", null);
-            }
-            getDataBase().setTransactionSuccessful();
-        } finally {
-            getDataBase().endTransaction();
-        }
-    }
-
     /**
      * clear all type data and insert again
      * 
      * @param list
      * @param type
      */
-    public void createLawTable(ArrayList<LawAttrs> list, int type) {
-        getDataBase().delete(TABLE_NAME_LAW, COLUMN_TYPE + "='" + type + "'", null);
+    public void updateLawTable(ArrayList<LawAttrs> list, int type) {
         ArrayList<ContentValues> cvs = convertFromLawAttrsToContentValues(list, type);
         try {
             getDataBase().beginTransaction();
             for (ContentValues cv : cvs) {
-                getDataBase().insertOrThrow(TABLE_NAME_LAW, null, cv);
+                try {
+                    getDataBase().insertOrThrow(TABLE_NAME_LAW, null, cv);
+                } catch (Exception e) {
+                    String line = cv.getAsString(COLUMN_LINE);
+                    getDataBase().update(TABLE_NAME_LAW, cv,
+                            COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + line + "'",
+                            null);
+                }
             }
             getDataBase().setTransactionSuccessful();
         } finally {

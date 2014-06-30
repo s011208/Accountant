@@ -127,6 +127,7 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
                     mHasFailed = false;
                 }
             });
+            System.gc();
         }
     }
 }

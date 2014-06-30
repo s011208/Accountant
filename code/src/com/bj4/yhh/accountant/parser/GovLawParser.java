@@ -195,13 +195,14 @@ public class GovLawParser implements Runnable {
 
     private void refreshTable() {
         if (mData.isEmpty() == false) {
-            if (mParseBehaviou == BEHAVIOR_INSERT) {
-                AccountantApplication.getDatabaseHelper(mContext).createLawTable(mData, mParseType);
-                Log.d(TAG, "createLawTable DONE, type: " + mParseType);
-            } else if (mParseBehaviou == BEHAVIOR_UPDATE) {
-                AccountantApplication.getDatabaseHelper(mContext).updateLawTable(mData, mParseType);
-                Log.d(TAG, "updateLawTable DONE, type: " + mParseType);
-            }
+            // if (mParseBehaviou == BEHAVIOR_INSERT) {
+            AccountantApplication.getDatabaseHelper(mContext).updateLawTable(mData, mParseType);
+            Log.d(TAG, "createLawTable DONE, type: " + mParseType);
+            // } else if (mParseBehaviou == BEHAVIOR_UPDATE) {
+            // AccountantApplication.getDatabaseHelper(mContext).updateLawTable(mData,
+            // mParseType);
+            // Log.d(TAG, "updateLawTable DONE, type: " + mParseType);
+            // }
         } else {
             Log.w(TAG, "data set is empty, type: " + mParseType);
         }
