@@ -32,7 +32,7 @@ import android.widget.ViewSwitcher;
 
 public class TestActivity extends BaseActivity {
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static final String TAG = "BaseTestActivity";
 
@@ -573,8 +573,10 @@ public class TestActivity extends BaseActivity {
         ArrayList<Integer> rtn = new ArrayList<Integer>();
         while (rtn.size() < 3) {
             int index = (int)(Math.random() * 1000) % mLaws.size();
-            if (rtn.contains(index) == false && index != mCurrentIndex) {
-                rtn.add(index);
+            if (rtn.contains(index) == false) {
+                if (mLaws.get(index).mContent.equals(mQuestionList.get(mCurrentIndex).mContent) == false
+                        || mLaws.get(index).mLine.equals(mQuestionList.get(mCurrentIndex).mLine) == false)
+                    rtn.add(index);
             }
         }
         return rtn;
