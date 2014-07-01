@@ -32,6 +32,8 @@ import android.widget.ViewSwitcher;
 
 public class TestActivity extends BaseActivity {
 
+    public static final boolean DEBUG = true;
+
     public static final String TAG = "BaseTestActivity";
 
     public static final String INTENT_PLAN_TYPE = "intent_plan_type";
@@ -267,6 +269,7 @@ public class TestActivity extends BaseActivity {
             mOption2.setVisibility(View.GONE);
             mOption3.setVisibility(View.GONE);
             mQuestionReal.setVisibility(View.GONE);
+            mProgressHint.setVisibility(View.GONE);
             // TODO show complete dialog
         }
     }
@@ -514,14 +517,18 @@ public class TestActivity extends BaseActivity {
             switch (mAnswerOption) {
                 case 0:
                     mOption0.setText(answer);
-                    // mOption0.setTextColor(Color.MAGENTA);
+                    if (DEBUG) {
+                        mOption0.setTextColor(Color.MAGENTA);
+                    }
                     mOption1.setText(confusedOption0);
                     mOption2.setText(confusedOption1);
                     mOption3.setText(confusedOption2);
                     break;
                 case 1:
                     mOption0.setText(confusedOption0);
-                    // mOption1.setTextColor(Color.MAGENTA);
+                    if (DEBUG) {
+                        mOption1.setTextColor(Color.MAGENTA);
+                    }
                     mOption1.setText(answer);
                     mOption2.setText(confusedOption1);
                     mOption3.setText(confusedOption2);
@@ -529,7 +536,9 @@ public class TestActivity extends BaseActivity {
                 case 2:
                     mOption0.setText(confusedOption0);
                     mOption1.setText(confusedOption1);
-                    // mOption2.setTextColor(Color.MAGENTA);
+                    if (DEBUG) {
+                        mOption2.setTextColor(Color.MAGENTA);
+                    }
                     mOption2.setText(answer);
                     mOption3.setText(confusedOption2);
                     break;
@@ -537,7 +546,9 @@ public class TestActivity extends BaseActivity {
                     mOption0.setText(confusedOption0);
                     mOption1.setText(confusedOption1);
                     mOption2.setText(confusedOption2);
-                    // mOption3.setTextColor(Color.MAGENTA);
+                    if (DEBUG) {
+                        mOption3.setTextColor(Color.MAGENTA);
+                    }
                     mOption3.setText(answer);
                     break;
             }
@@ -596,20 +607,33 @@ public class TestActivity extends BaseActivity {
         }
     }
 
+    public static final int getUpperBound(final int totalSize, final int totalProgress,
+            final int currentProgress) {
+        int unit = totalSize / totalProgress;
+        int restDay = totalSize % totalProgress;
+        int rest = 0;
+        if (restDay > currentProgress) {
+            ++rest;
+        }
+        if (currentProgress == 0) {
+            return unit * 2 + rest;
+        } else if (currentProgress + 1 == totalProgress) {
+            return totalSize;
+        } else {
+            return unit + rest + getUpperBound(totalSize, totalProgress, currentProgress - 1);
+        }
+    }
+
     public static final int[] getTestBound(final int totalSize, final int totalProgress,
             final int currentProgress) {
-        int totalDays = totalProgress - 1;
-        int lowerBound = 0, upperBound = 0;
-        int unit = totalSize / totalDays;
+        int unit = totalSize / totalProgress;
+        int restDay = totalSize % totalProgress;
+        int upperBound = getUpperBound(totalSize, totalProgress, currentProgress);
+        int lowerBound = upperBound - unit;
         if (currentProgress == 0) {
-            upperBound = unit * 2;
             lowerBound = 0;
-        } else {
-            upperBound = unit * (2 + currentProgress);
-            if (upperBound >= totalSize) {
-                upperBound = totalSize;
-            }
-            lowerBound = upperBound - unit;
+        } else if (restDay > currentProgress) {
+            --lowerBound;
         }
         int rtn[] = new int[] {
                 upperBound, lowerBound

@@ -188,7 +188,7 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                     // done
                 } else {
                     Intent start = new Intent(mContext, TestActivity.class);
-                    if (plan.mCurrentProgress == plan.mTotalProgress) {
+                    if (plan.mCurrentProgress + 1== plan.mTotalProgress) {
                         start.putExtra(TestActivity.INTENT_FULL_TEST, true);
                     }
                     start.putExtra(TestActivity.INTENT_PLAN_TYPE, plan.mPlanType);
@@ -282,8 +282,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                             : R.string.reading_order_random);
             holder.mProgressByDay.setText(plan.mCurrentProgress + " / " + plan.mTotalProgress);
             int totalLines = mDatabaseHelper.getPlanTypeCount(plan.mPlanType);
-            int currentLines = (int)Math.ceil(totalLines / plan.mTotalProgress)
-                    * plan.mCurrentProgress;
+            int currentLines = getUpperBound(totalLines, plan.mTotalProgress,
+                    plan.mCurrentProgress - 1);
             holder.mProgressBar.setMax(plan.mTotalProgress);
             holder.mProgressBar.setProgress(plan.mCurrentProgress);
             holder.mProgressByLine.setText(currentLines + " / " + totalLines);
@@ -300,6 +300,25 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
             TextView mProgressByLine;
 
             ProgressBar mProgressBar;
+        }
+    }
+
+    public static final int getUpperBound(final int totalSize, final int totalProgress,
+            final int currentProgress) {
+        int unit = totalSize / totalProgress;
+        int restDay = totalSize % totalProgress;
+        int rest = 0;
+        if (restDay > currentProgress) {
+            ++rest;
+        }
+        if (currentProgress == 0) {
+            return unit * 2 + rest;
+        } else if (currentProgress + 1 >= totalProgress) {
+            return totalSize;
+        } else if (currentProgress == -1) {
+            return 0;
+        } else {
+            return unit + rest + getUpperBound(totalSize, totalProgress, currentProgress - 1);
         }
     }
 
