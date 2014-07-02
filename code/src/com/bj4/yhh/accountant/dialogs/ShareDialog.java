@@ -35,7 +35,9 @@ public class ShareDialog extends BaseDialog {
                         "",
                         context.getString(R.string.app_name),
                         context.getString(R.string.share_to_text) + " "
-                                + context.getString(R.string.app_name));
+                                + context.getString(R.string.app_name) + "\n"
+                                + "http://play.google.com/store/apps/details?id="
+                                + context.getApplicationContext().getPackageName());
             }
         });
         sendSuggestion.setOnClickListener(new OnClickListener() {
