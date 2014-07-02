@@ -60,6 +60,10 @@
     <string name="test_fragment_keep_previous_test">Continue previous test</string>
     <string name="test_fragment_none_previous_test_data">None previous test data</string>
     <string name="law_update_time_dialog_title">Update time</string>
+    <string name="share_dialog_title">Share action</string>
+    <string name="share_dialog_share_to">Share to</string>
+    <string name="share_dialog_send_suggestion">Send suggestion to author</string>
+    <string name="share_to_text">I am using </string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>

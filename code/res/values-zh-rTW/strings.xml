@@ -60,6 +60,10 @@
     <string name="test_fragment_keep_previous_test">繼續前次測驗</string>
     <string name="test_fragment_none_previous_test_data">沒有前次測驗資料</string>
     <string name="law_update_time_dialog_title">更新資訊</string>
+    <string name="share_dialog_title">寄送選項</string>
+    <string name="share_dialog_share_to">分享</string>
+    <string name="share_dialog_send_suggestion">傳送建議給作者</string>
+    <string name="share_to_text">我正在使用</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>

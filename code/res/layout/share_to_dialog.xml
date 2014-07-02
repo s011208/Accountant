@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/share_to_dialog_padding" >
+
+    <LinearLayout
+        android:id="@+id/share_to"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/share_to_item_height"
+        android:background="@drawable/holo_blue_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/share_to_item_margin_h"
+            android:layout_marginRight="@dimen/share_to_item_margin_v"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_share_to" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/share_to_item_margin_h"
+            android:layout_marginRight="@dimen/share_to_item_margin_v"
+            android:gravity="center"
+            android:text="@string/share_dialog_share_to" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/send_suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/share_to_item_height"
+        android:background="@drawable/holo_blue_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/share_to_item_margin_h"
+            android:layout_marginRight="@dimen/share_to_item_margin_v"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_mail_to_me" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/share_to_item_margin_h"
+            android:layout_marginRight="@dimen/share_to_item_margin_v"
+            android:gravity="center"
+            android:text="@string/share_dialog_send_suggestion" />
+    </LinearLayout>
+
+</LinearLayout>

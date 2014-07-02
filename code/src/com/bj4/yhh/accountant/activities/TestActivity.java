@@ -628,6 +628,11 @@ public class TestActivity extends BaseActivity {
 
     public static final int[] getTestBound(final int totalSize, final int totalProgress,
             final int currentProgress) {
+        if (totalProgress == 0) {
+            return new int[] {
+                    0, 0
+            };
+        }
         int unit = totalSize / totalProgress;
         int restDay = totalSize % totalProgress;
         int upperBound = getUpperBound(totalSize, totalProgress, currentProgress);

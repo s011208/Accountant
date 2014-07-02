@@ -7,6 +7,7 @@ import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.dialogs.LawVersionDialog;
 import com.bj4.yhh.accountant.dialogs.SettingDialog;
+import com.bj4.yhh.accountant.dialogs.ShareDialog;
 import com.bj4.yhh.accountant.service.ParseService;
 
 import android.app.Fragment;
@@ -22,6 +23,7 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainEntryFragment extends BaseFragment {
     private Context mContext;
@@ -29,6 +31,8 @@ public class MainEntryFragment extends BaseFragment {
     private RelativeLayout mContentView;
 
     private Button mPlan, mTest, mOverview, mCheckUpdate;
+
+    private TextView mMainTitle;
 
     private MainActivity mMainActivity;
 
@@ -57,6 +61,13 @@ public class MainEntryFragment extends BaseFragment {
                 SettingDialog sd = new SettingDialog();
                 sd.show(getFragmentManager(), null);
                 return true;
+            }
+        });
+        mMainTitle = (TextView)mContentView.findViewById(R.id.main_title);
+        mMainTitle.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareDialog().show(getFragmentManager(), null);
             }
         });
         mPlan = (Button)mContentView.findViewById(R.id.plan);
