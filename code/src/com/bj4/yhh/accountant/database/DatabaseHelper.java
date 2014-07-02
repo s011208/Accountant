@@ -198,6 +198,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else if (testType == TestFragment.TEST_TYPE_REVIEW) {
             PlanAttrs plan = getPlan(type);
             int count = getPlanTypeCount(type);
+            --plan.mCurrentProgress;
+            if (plan.mCurrentProgress < 0) {
+                plan.mCurrentProgress = 0;
+            }
             int upperBound = CreatePlanFragment.getUpperBound(count, plan.mTotalProgress,
                     plan.mCurrentProgress);
             getDataBase().execSQL(

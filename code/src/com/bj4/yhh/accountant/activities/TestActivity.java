@@ -267,11 +267,15 @@ public class TestActivity extends BaseActivity {
             mAnswer.setVisibility(View.GONE);
             mProgressHint.setVisibility(View.GONE);
         } else {
-            mPlan.mCurrentProgress++;
-            mDatabaseHelper.updatePlan(mPlan);
-            if (mQuestionList.isEmpty()) {
-                mDatabaseHelper.resetSimpleTestStatus(mPlan.mPlanType);
-                mDatabaseHelper.resetCompositeTestStatus(mPlan.mPlanType);
+            if (mFromTestFragment) {
+                mDatabaseHelper.clearTestFragmentData();
+            } else {
+                mPlan.mCurrentProgress++;
+                mDatabaseHelper.updatePlan(mPlan);
+                if (mQuestionList.isEmpty()) {
+                    mDatabaseHelper.resetSimpleTestStatus(mPlan.mPlanType);
+                    mDatabaseHelper.resetCompositeTestStatus(mPlan.mPlanType);
+                }
             }
             mComplete.setVisibility(View.VISIBLE);
             mComplete.setText(R.string.test_activity_finish_real_test);
