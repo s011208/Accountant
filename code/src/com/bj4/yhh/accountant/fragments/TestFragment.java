@@ -134,7 +134,7 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
             public void onClick(View v) {
                 boolean available = mDatabaseHelper.hasPreviousDataInTestFragment();
                 if (available) {
-                    startTestActivity(mDatabaseHelper.getTestFragmentDataType());
+                    startTestActivity(mDatabaseHelper.getTestFragmentDataType(), false);
                 } else {
                     ToastHelper.makeToast(mContext,
                             ToastHelper.TOAST_TYPE_NONE_PREVIOUS_TEST_FRAGMENT_DATA).show();
@@ -161,8 +161,14 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
     }
 
     private void startTestActivity(int planType) {
-        mDatabaseHelper.clearTestFragmentData();
-        mDatabaseHelper.setTestFragmentData(planType, sTestType);
+        startTestActivity(planType, true);
+    }
+
+    private void startTestActivity(int planType, boolean clearPrevious) {
+        if (clearPrevious) {
+            mDatabaseHelper.clearTestFragmentData();
+            mDatabaseHelper.setTestFragmentData(planType, sTestType);
+        }
         Intent start = new Intent(mContext, TestActivity.class);
         start.putExtra(TestActivity.INTENT_PLAN_TYPE, planType);
         start.putExtra(TestActivity.INTENT_FROM_TEST_FRAGMENT, true);

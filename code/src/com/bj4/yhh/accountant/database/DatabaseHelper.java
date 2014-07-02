@@ -198,9 +198,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else if (testType == TestFragment.TEST_TYPE_REVIEW) {
             PlanAttrs plan = getPlan(type);
             int count = getPlanTypeCount(type);
-            int[] bounds = TestActivity.getTestBound(count, plan.mTotalProgress,
+            int upperBound = CreatePlanFragment.getUpperBound(count, plan.mTotalProgress,
                     plan.mCurrentProgress);
-            int upperBound = bounds[0];
             getDataBase().execSQL(
                     "insert into " + TABLE_NAME_TEST_FRAGMENT + "  select * from "
                             + TABLE_NAME_TEST + " where " + COLUMN_TYPE + "='" + type + "' and "
@@ -213,6 +212,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, LawAttrs.HAS_NOT_ANSWERED);
+        cv.put(COLUMN_HAS_ANSWERED_SIMPLE, LawAttrs.HAS_NOT_ANSWERED);
         getDataBase().update(TABLE_NAME_TEST_FRAGMENT, cv, null, null);
     }
 
@@ -278,7 +278,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<LawAttrs> rtn = null;
         Cursor data = null;
         String whereClause = "";
-        whereClause = COLUMN_CONTENT + " !='" + IGNORE_CONTENT + "'";
+        whereClause = COLUMN_CONTENT + " !='" + IGNORE_CONTENT + "' and "
+                + COLUMN_HAS_ANSWERED_COMPOSITE + "!='" + LawAttrs.HAS_ANSWERED + "'";
         data = getDataBase().query(true, TABLE_NAME_TEST_FRAGMENT, null, whereClause, null, null,
                 null, COLUMN_ORDER, null, null);
         rtn = convertFromCursorToLawAttrs(data);
@@ -362,6 +363,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 for (int i = 0; i < randomList.size(); i++) {
                     ContentValues c = randomList.get(i);
                     c.put(COLUMN_ORDER, order.get(i));
+                    c.put(COLUMN_HAS_ANSWERED_COMPOSITE, LawAttrs.HAS_NOT_ANSWERED);
+                    c.put(COLUMN_HAS_ANSWERED_SIMPLE, LawAttrs.HAS_NOT_ANSWERED);
                     getDataBase().insert(TABLE_NAME_TEST, null, c);
                 }
                 getDataBase().setTransactionSuccessful();
@@ -529,6 +532,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_HAS_ANSWERED_SIMPLE, attr.mHasAnsweredSimple);
         getDataBase().update(TABLE_NAME_TEST, cv,
                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
+        getDataBase().update(TABLE_NAME_TEST, cv,
+                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
     }
 
     public void updateCompositeTestStatus(LawAttrs attr, int type) {
@@ -538,6 +543,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
         cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, attr.mHasAnsweredComposite);
         getDataBase().update(TABLE_NAME_TEST, cv,
+                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
+    }
+
+    public void updateCompositeTestFragmentStatus(LawAttrs attr, int type) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_WRONG_TIME, attr.mWrongTime);
+        getDataBase().update(TABLE_NAME_LAW, cv,
+                COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
+        cv.put(COLUMN_HAS_ANSWERED_COMPOSITE, attr.mHasAnsweredComposite);
+        getDataBase().update(TABLE_NAME_TEST_FRAGMENT, cv,
                 COLUMN_TYPE + "='" + type + "' and " + COLUMN_LINE + "='" + attr.mLine + "'", null);
     }
 

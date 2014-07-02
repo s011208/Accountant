@@ -34,7 +34,7 @@ public class TestActivity extends BaseActivity {
 
     public static final boolean DEBUG = false;
 
-    public static final String TAG = "BaseTestActivity";
+    public static final String TAG = "QQQQ";
 
     public static final String INTENT_PLAN_TYPE = "intent_plan_type";
 
@@ -114,6 +114,9 @@ public class TestActivity extends BaseActivity {
     }
 
     private void refreshData() {
+        mCurrentIndex = 0;
+        mAnswerOption = 0;
+        mQuestionList.clear();
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(this);
         Intent intent = getIntent();
         int planType = 0;
@@ -164,6 +167,8 @@ public class TestActivity extends BaseActivity {
     }
 
     private void setBound() {
+        if (DEBUG)
+            Log.d(TAG, "setBound");
         ArrayList<LawAttrs> laws;
         if (mFromTestFragment) {
             laws = mDatabaseHelper.getPlanDataFromTestFragment();
@@ -179,8 +184,6 @@ public class TestActivity extends BaseActivity {
             lowerBound = 0;
             // test all laws at last day
         }
-        Log.e("QQQQ", "upperBound: " + upperBound + ", lowerBound: " + lowerBound
-                + ", laws.size(): " + laws.size());
         for (int i = lowerBound; i < upperBound; i++) {
             LawAttrs law = laws.get(i);
             if (mDisplayChild == DISPLAY_CHILD_SIMPLE_TEST) {
@@ -198,10 +201,12 @@ public class TestActivity extends BaseActivity {
                     } else {
                         mQuestionList.add(laws.get(i));
                     }
+                } else {
                 }
             }
         }
-        if (mQuestionList.isEmpty() == false) {
+        // add previous questions
+        if (mQuestionList.isEmpty() == false && mFromTestFragment == false && mFullTest == false) {
             int tempLowerBound = lowerBound;
             if (tempLowerBound > 0) {
                 int randomCount = 0;
@@ -216,7 +221,9 @@ public class TestActivity extends BaseActivity {
                 }
             }
         }
-        Log.e("QQQQ", "mQuestionList size: " + mQuestionList.size());
+        if (DEBUG)
+            Log.d(TAG,
+                    "mQuestionList size: " + mQuestionList.size() + ", law size: " + mLaws.size());
     }
 
     @Override
@@ -249,6 +256,8 @@ public class TestActivity extends BaseActivity {
     }
 
     private void finishTest() {
+        if (DEBUG)
+            Log.d(TAG, "finishTest, child: " + mDisplayChild);
         if (mDisplayChild == DISPLAY_CHILD_SIMPLE_TEST) {
             mNo.setVisibility(View.GONE);
             mYes.setVisibility(View.GONE);
@@ -260,8 +269,10 @@ public class TestActivity extends BaseActivity {
         } else {
             mPlan.mCurrentProgress++;
             mDatabaseHelper.updatePlan(mPlan);
-            mDatabaseHelper.resetSimpleTestStatus(mPlan.mPlanType);
-            mDatabaseHelper.resetCompositeTestStatus(mPlan.mPlanType);
+            if (mQuestionList.isEmpty()) {
+                mDatabaseHelper.resetSimpleTestStatus(mPlan.mPlanType);
+                mDatabaseHelper.resetCompositeTestStatus(mPlan.mPlanType);
+            }
             mComplete.setVisibility(View.VISIBLE);
             mComplete.setText(R.string.test_activity_finish_real_test);
             mOption0.setVisibility(View.GONE);
@@ -399,11 +410,11 @@ public class TestActivity extends BaseActivity {
                 mOption3.setOnClickListener(null);
                 LawAttrs law = mQuestionList.get(mCurrentIndex);
                 ++law.mWrongTime;
-                mDatabaseHelper.updateCompositeTestStatus(law, mPlan.mPlanType);
+                mDatabaseHelper.updateCompositeTestFragmentStatus(law, mPlan.mPlanType);
             } else {
                 LawAttrs law = mQuestionList.remove(mCurrentIndex);
                 law.mHasAnsweredComposite = LawAttrs.HAS_ANSWERED;
-                mDatabaseHelper.updateCompositeTestStatus(law, mPlan.mPlanType);
+                mDatabaseHelper.updateCompositeTestFragmentStatus(law, mPlan.mPlanType);
                 if (mQuestionList.isEmpty()) {
                     finishTest();
                 } else {
@@ -440,7 +451,6 @@ public class TestActivity extends BaseActivity {
         } else {
             mProgressHint.setText(getBaseContext().getString(R.string.rest_items)
                     + mQuestionList.size());
-            Log.e("QQQQ", getBaseContext().getString(R.string.rest_items) + mQuestionList.size());
         }
         int type = (int)((Math.random() * 100) % 2);
         mCurrentIndex = (int)((Math.random() * 10000) % mQuestionList.size());
