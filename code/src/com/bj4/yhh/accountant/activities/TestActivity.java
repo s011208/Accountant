@@ -184,6 +184,12 @@ public class TestActivity extends BaseActivity {
             lowerBound = 0;
             // test all laws at last day
         }
+        // safety check
+        if (upperBound >= laws.size())
+            upperBound = laws.size() - 1;
+        if (lowerBound < 0) {
+            lowerBound = 0;
+        }
         for (int i = lowerBound; i < upperBound; i++) {
             LawAttrs law = laws.get(i);
             if (mDisplayChild == DISPLAY_CHILD_SIMPLE_TEST) {

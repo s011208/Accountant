@@ -189,8 +189,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PlanAttrs plan = mPlanListAdapter.getItem(position);
-                if (plan.mCurrentProgress > plan.mTotalProgress) {
-                    // done
+                if (plan.mCurrentProgress >= plan.mTotalProgress) {
+                    ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_DONE_TYPE_PLAN).show();
                 } else {
                     Intent start = new Intent(mContext, TestActivity.class);
                     if (plan.mCurrentProgress + 1 == plan.mTotalProgress) {
