@@ -310,6 +310,9 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
 
     public static final int getUpperBound(final int totalSize, final int totalProgress,
             final int currentProgress) {
+        if (totalProgress == 0) {
+            return 0;
+        }
         int unit = totalSize / totalProgress;
         int restDay = totalSize % totalProgress;
         int rest = 0;
