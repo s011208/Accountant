@@ -112,6 +112,11 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
         themeColorChanged(SettingManager.getInstance(mContext).getThemeColor());
     }
 
+    public void onResume() {
+        super.onResume();
+        initLawOptionSpinner();
+    }
+
     public void onDestroy() {
         super.onDestroy();
         mDatabaseHelper.removeCallback(this);
@@ -384,21 +389,23 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
         }
         ArrayAdapter<String> lawOptionAdapter = new ArrayAdapter<String>(mContext,
                 android.R.layout.simple_spinner_dropdown_item, lawOption);
-        mLawOptions.setAdapter(lawOptionAdapter);
-        mLawOptions.setOnItemSelectedListener(new OnItemSelectedListener() {
+        if (mLawOptions != null) {
+            mLawOptions.setAdapter(lawOptionAdapter);
+            mLawOptions.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int planType = getPlanType(mLawOptions.getSelectedItem().toString());
-                mTotalLawCount.setText("" + mDatabaseHelper.getPlanTypeCount(planType));
-            }
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    int planType = getPlanType(mLawOptions.getSelectedItem().toString());
+                    mTotalLawCount.setText("" + mDatabaseHelper.getPlanTypeCount(planType));
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-                mTotalLawCount.setText("");
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // TODO Auto-generated method stub
+                    mTotalLawCount.setText("");
+                }
+            });
+        }
     }
 
     public void setDisplayedChild(int child) {
