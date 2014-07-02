@@ -64,14 +64,20 @@
     <string name="share_dialog_share_to">Share to</string>
     <string name="share_dialog_send_suggestion">Send suggestion to author</string>
     <string name="share_to_text">I am using </string>
+    <string name="share_dialog_rating">Rate this app</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>
         <item>@string/reading_order_random</item>
     </string-array>
+    <string-array name="over_view_list_sorter">
+        <item>by order</item>
+        <item>by wrong time</item>
+    </string-array>
+
+    <string name="tutorial_title">Click title to share information with friends!</string>
+    <string name="tutorial_updating_info">Long-press update button to see the updating info</string>
+    <string name="tutorial_setting_info">Long-press space area to start settings</string>
     <!-- not translated -->
-	<string-array name="over_view_list_sorter">
-	    <item>by order</item>
-	    <item>by wrong time</item>
-	</string-array>
+
 </resources>

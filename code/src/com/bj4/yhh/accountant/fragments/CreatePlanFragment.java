@@ -188,7 +188,7 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                     // done
                 } else {
                     Intent start = new Intent(mContext, TestActivity.class);
-                    if (plan.mCurrentProgress + 1== plan.mTotalProgress) {
+                    if (plan.mCurrentProgress + 1 == plan.mTotalProgress) {
                         start.putExtra(TestActivity.INTENT_FULL_TEST, true);
                     }
                     start.putExtra(TestActivity.INTENT_PLAN_TYPE, plan.mPlanType);

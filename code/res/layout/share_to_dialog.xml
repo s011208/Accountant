@@ -57,4 +57,30 @@
             android:text="@string/share_dialog_send_suggestion" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/grade_me"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/share_to_item_height"
+        android:background="@drawable/holo_blue_btn_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/share_to_item_margin_h"
+            android:layout_marginRight="@dimen/share_to_item_margin_v"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_grade_me" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/share_to_item_margin_h"
+            android:layout_marginRight="@dimen/share_to_item_margin_v"
+            android:gravity="center"
+            android:text="@string/share_dialog_rating" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -9,11 +9,15 @@ import com.bj4.yhh.accountant.dialogs.LawVersionDialog;
 import com.bj4.yhh.accountant.dialogs.SettingDialog;
 import com.bj4.yhh.accountant.dialogs.ShareDialog;
 import com.bj4.yhh.accountant.service.ParseService;
+import com.bj4.yhh.accountant.utilities.TutorialView;
+import com.bj4.yhh.accountant.utilities.TutorialView.Callback;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,11 +25,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class MainEntryFragment extends BaseFragment {
+    private static final boolean ENABLE_TUTORIAL = true;
+
     private Context mContext;
 
     private RelativeLayout mContentView;
@@ -37,6 +45,14 @@ public class MainEntryFragment extends BaseFragment {
     private MainActivity mMainActivity;
 
     private Vibrator mVibrator;
+
+    private Handler mHandler = new Handler();
+
+    private TutorialView mTutorialView;
+
+    private volatile boolean mHasTutorialView = false;
+
+    private Object mTutorialSycn = new Object();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +80,31 @@ public class MainEntryFragment extends BaseFragment {
             }
         });
         mMainTitle = (TextView)mContentView.findViewById(R.id.main_title);
+        if (ENABLE_TUTORIAL) {
+            mMainTitle.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new OnGlobalLayoutListener() {
+                        @SuppressWarnings("deprecation")
+                        @Override
+                        public void onGlobalLayout() {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                mMainTitle.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            } else {
+                                mMainTitle.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            }
+                            synchronized (mTutorialSycn) {
+                                if (mHasTutorialView == false) {
+                                    mHandler.post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            showTitleToturial();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+        }
         mMainTitle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,5 +183,97 @@ public class MainEntryFragment extends BaseFragment {
                 mCheckUpdate.setBackgroundResource(R.drawable.green_btn_bg);
                 break;
         }
+    }
+
+    private void showTitleToturial() {
+        if (SettingManager.getInstance(mContext).isFirstUse() == false) {
+            return;
+        }
+        synchronized (mTutorialSycn) {
+            mHasTutorialView = true;
+        }
+        mTutorialView = new TutorialView(mContext);
+        mTutorialView.setText(mContext.getString(R.string.tutorial_title),
+                TutorialView.POSITION_CENTER);
+        mTutorialView.setCallback(new Callback() {
+            @Override
+            public void onDismiss() {
+                if (mContentView != null) {
+                    mContentView.removeView(mTutorialView);
+                    showUpdatingInfoTutorial();
+                }
+            }
+
+            @Override
+            public void onDrawBackgroundDone() {
+                RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.MATCH_PARENT);
+                if (mContentView != null) {
+                    mContentView.removeView(mTutorialView);
+                }
+                mContentView.addView(mTutorialView, rl);
+                mTutorialView.bringToFront();
+            }
+        });
+        mTutorialView.setMainBackground(((MainActivity)getActivity()).getMainBackground(),
+                mMainTitle);
+    }
+
+    private void showUpdatingInfoTutorial() {
+        mTutorialView = new TutorialView(mContext);
+        mTutorialView.setText(mContext.getString(R.string.tutorial_updating_info),
+                TutorialView.POSITION_TOP);
+        mTutorialView.setCallback(new Callback() {
+            @Override
+            public void onDismiss() {
+                if (mContentView != null) {
+                    mContentView.removeView(mTutorialView);
+                    showSettingTutorial();
+                }
+            }
+
+            @Override
+            public void onDrawBackgroundDone() {
+                RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.MATCH_PARENT);
+                if (mContentView != null) {
+                    mContentView.removeView(mTutorialView);
+                }
+                mContentView.addView(mTutorialView, rl);
+                mTutorialView.bringToFront();
+            }
+        });
+        mTutorialView.setMainBackground(((MainActivity)getActivity()).getMainBackground(),
+                mCheckUpdate);
+    }
+
+    private void showSettingTutorial() {
+        mTutorialView = new TutorialView(mContext);
+        mTutorialView.setText(mContext.getString(R.string.tutorial_setting_info),
+                TutorialView.POSITION_CENTER);
+        mTutorialView.setCallback(new Callback() {
+            @Override
+            public void onDismiss() {
+                if (mContentView != null) {
+                    mContentView.removeView(mTutorialView);
+                    SettingManager.getInstance(mContext).setFirstUse();
+                }
+            }
+
+            @Override
+            public void onDrawBackgroundDone() {
+                RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.MATCH_PARENT);
+                if (mContentView != null) {
+                    mContentView.removeView(mTutorialView);
+                }
+                mContentView.addView(mTutorialView, rl);
+                mTutorialView.bringToFront();
+            }
+        });
+        mTutorialView.setMainBackground(((MainActivity)getActivity()).getMainBackground(), null);
     }
 }

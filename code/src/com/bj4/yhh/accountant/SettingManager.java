@@ -21,6 +21,8 @@ public class SettingManager {
 
     public static final int VALUE_THEME_GREEN = 2;
 
+    private static final String KEY_FIRST_USE = "key_first_use";
+
     private Context mContext;
 
     private SharedPreferences mPref;
@@ -49,6 +51,14 @@ public class SettingManager {
             mPref = mContext.getSharedPreferences(SHARE_PREF_NAME, Context.MODE_PRIVATE);
         }
         return mPref;
+    }
+
+    public boolean isFirstUse() {
+        return getSharPref().getBoolean(KEY_FIRST_USE, true);
+    }
+
+    public void setFirstUse() {
+        getSharPref().edit().putBoolean(KEY_FIRST_USE, false).apply();
     }
 
     public boolean showTestActivityExitDialog() {

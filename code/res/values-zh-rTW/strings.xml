@@ -34,7 +34,7 @@
     <string name="rest_items">"剩餘項目： "</string>
     <string name="dialog_confirm_to_delete_msg">點擊來刪除計畫</string>
     <string name="dialog_confirm_to_delete_title">刪除計畫？</string>
-    <string name="dialog_confirm_to_delete_all_msg">點擊來刪除全部計畫</string>
+    <string name="dialog_confirm_to_delete_all_msg">點擊來刪除全部計畫\n(長按項目可以逐個刪除)</string>
     <string name="dialog_confirm_to_delete_all_title">刪除全部計畫？</string>
     <string name="test_type_review">計畫複習模式</string>
     <string name="test_type_by_law">條文總複習模式</string>
@@ -64,10 +64,19 @@
     <string name="share_dialog_share_to">分享</string>
     <string name="share_dialog_send_suggestion">傳送建議給作者</string>
     <string name="share_to_text">我正在使用</string>
+    <string name="share_dialog_rating">幫我評個分</string>
 
     <string-array name="reading_order">
         <item>@string/reading_order_chapter</item>
         <item>@string/reading_order_random</item>
     </string-array>
+    <string-array name="over_view_list_sorter">
+        <item>一般順序</item>
+        <item>錯誤次數</item>
+    </string-array>
+
+    <string name="tutorial_title">點擊標題可以與朋友們一起分享</string>
+    <string name="tutorial_updating_info">長按更新按鈕可以顯示法條更新資訊</string>
+    <string name="tutorial_setting_info">長按空白區域可以顯示設定面板</string>
 
 </resources>

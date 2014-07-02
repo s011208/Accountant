@@ -3,8 +3,10 @@ package com.bj4.yhh.accountant.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ public class ShareDialog extends BaseDialog {
         View v = inflater.inflate(R.layout.share_to_dialog, null);
         LinearLayout shareTo = (LinearLayout)v.findViewById(R.id.share_to);
         LinearLayout sendSuggestion = (LinearLayout)v.findViewById(R.id.send_suggestion);
+        LinearLayout gradeMe = (LinearLayout)v.findViewById(R.id.grade_me);
         shareTo.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -41,6 +44,23 @@ public class ShareDialog extends BaseDialog {
             public void onClick(View v) {
                 dismiss();
                 email(context, "bj4dev@gmail.com", "", context.getString(R.string.app_name), "");
+            }
+        });
+        gradeMe.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                Uri uri = Uri.parse("market://details?id="
+                        + context.getApplicationContext().getPackageName());
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                try {
+                    startActivity(goToMarket);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri
+                            .parse("http://play.google.com/store/apps/details?id="
+                                    + context.getApplicationContext().getPackageName())));
+                }
             }
         });
         AlertDialog.Builder builder = getDialogBuilder();

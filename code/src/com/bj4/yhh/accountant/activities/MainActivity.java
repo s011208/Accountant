@@ -219,6 +219,10 @@ public class MainActivity extends BaseActivity {
         return mCreatePlanFragment;
     }
 
+    public RelativeLayout getMainBackground() {
+        return mMainBackground;
+    }
+
     @Override
     public void themeColorChanged(int newTheme) {
         try {
