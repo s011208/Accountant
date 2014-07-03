@@ -29,6 +29,7 @@
     <dimen name="create_plan_manage_listview_row_type_textsize">18sp</dimen>
     <dimen name="create_plan_manage_listview_row_progress_margin_h">10dp</dimen>
     <dimen name="create_plan_edit_ok_cancel_margin_h">10dp</dimen>
+    <dimen name="create_plan_no_data_hint">20sp</dimen>
 
     <!-- simple test activity -->
     <dimen name="simple_test_activity_title_textsize">20sp</dimen>

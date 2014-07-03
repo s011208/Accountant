@@ -63,6 +63,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
 
     private ListView mPlanList;
 
+    private TextView mNoDataHint;
+
     // edit plan
     private Button mCancel, mOk;
 
@@ -137,6 +139,7 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
     }
 
     private void initManage() {
+        mNoDataHint = (TextView)mContentView.findViewById(R.id.plan_none_data_hint);
         mCreatePlan = (Button)mContentView.findViewById(R.id.create_plan);
         mCreatePlan.setOnClickListener(new OnClickListener() {
 
@@ -247,6 +250,13 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
 
         private void init() {
             mData = mDatabaseHelper.getAllPlans();
+            if (mNoDataHint != null) {
+                if (mData.size() > 0) {
+                    mNoDataHint.setVisibility(View.GONE);
+                } else {
+                    mNoDataHint.setVisibility(View.VISIBLE);
+                }
+            }
         }
 
         @Override

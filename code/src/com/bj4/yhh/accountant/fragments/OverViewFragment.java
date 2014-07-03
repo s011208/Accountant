@@ -83,6 +83,8 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
 
     private View mOverViewShadow;
 
+    private TextView mNoDataHint;
+
     public OverViewFragment() {
     }
 
@@ -109,6 +111,7 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
         mContentView = (ViewSwitcher)mInflater.inflate(R.layout.over_view_fragment, null);
         mContentView.setInAnimation(mContext, R.anim.alpha_scale_switch_in);
         mContentView.setOutAnimation(mContext, R.anim.alpha_scale_switch_out);
+        mNoDataHint = (TextView)mContentView.findViewById(R.id.overview_law_list_no_data_hint);
         mLawList = (ListView)mContentView.findViewById(R.id.overview_law_list);
         initLawList();
         mLawContent = (ListView)mContentView.findViewById(R.id.over_view_law_content);
@@ -327,6 +330,13 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
 
         private void init() {
             mTypeData = mDatabaseHelper.getAllLawTypes();
+            if (mNoDataHint != null) {
+                if (mTypeData.isEmpty()) {
+                    mNoDataHint.setVisibility(View.VISIBLE);
+                } else {
+                    mNoDataHint.setVisibility(View.GONE);
+                }
+            }
         }
 
         @Override

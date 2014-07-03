@@ -79,5 +79,7 @@
     <string name="tutorial_title">點擊標題可以與朋友們一起分享</string>
     <string name="tutorial_updating_info">長按更新按鈕可以顯示法條更新資訊</string>
     <string name="tutorial_setting_info">長按空白區域可以顯示設定面板</string>
+    <string name="no_data_hint_create_plan">點擊下方按鈕來新增計畫</string>
+    <string name="no_data_hint_overview">請先更新法條資料</string>
 
 </resources>

@@ -1,10 +1,25 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/overview_law_list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:divider="#33b5e5"
-    android:dividerHeight="1px" >
+    android:layout_height="match_parent" >
 
-</ListView>
+    <TextView
+        android:id="@+id/overview_law_list_no_data_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/no_data_hint_overview"
+        android:textSize="@dimen/create_plan_no_data_hint"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/overview_law_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:divider="#33b5e5"
+        android:dividerHeight="1px" >
+    </ListView>
+
+</FrameLayout>
