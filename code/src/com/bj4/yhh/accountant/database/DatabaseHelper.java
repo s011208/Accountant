@@ -18,6 +18,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteFullException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -123,8 +124,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        getDataBase().execSQL("PRAGMA synchronous = 1");
-        setWriteAheadLoggingEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            getDataBase().execSQL("PRAGMA synchronous = 1");
+            setWriteAheadLoggingEnabled(true);
+        }
         createTables();
     }
 
