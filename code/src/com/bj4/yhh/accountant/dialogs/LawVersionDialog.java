@@ -33,6 +33,9 @@ public class LawVersionDialog extends BaseDialog {
                 String typeString = GovLawParser.getTypeText(context, type);
                 String updateTime = data.getString(data
                         .getColumnIndex(DatabaseHelper.COLUMN_LAW_UPDATE_TIME));
+                if (updateTime == null) {
+                    updateTime = context.getString(R.string.no_updated_time);
+                }
                 sb.append(typeString + ":\n" + updateTime + "\n");
             }
             data.close();

@@ -81,5 +81,6 @@
     <string name="tutorial_setting_info">長按空白區域可以顯示設定面板</string>
     <string name="no_data_hint_create_plan">點擊下方按鈕來新增計畫</string>
     <string name="no_data_hint_overview">請先更新法條資料</string>
+    <string name="no_updated_time">沒有更新資料</string>
 
 </resources>

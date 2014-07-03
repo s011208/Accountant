@@ -81,6 +81,7 @@
     <string name="tutorial_setting_info">Long-press space area to start settings</string>
     <string name="no_data_hint_create_plan">Click button below to create new plan</string>
     <string name="no_data_hint_overview">Please update law data in advance</string>
+    <string name="no_updated_time">No data</string>
     <!-- not translated -->
 
 </resources>
