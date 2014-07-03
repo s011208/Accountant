@@ -58,7 +58,7 @@ public class ToastHelper {
                 txt.setText(R.string.toast_start_updating);
                 break;
             case TOAST_TYPE_DOWNLOAD_LAWS_INADVANCE:
-                img.setImageResource(R.drawable.toast_icon_forbidden);
+                img.setImageResource(R.drawable.toast_icon_alert);
                 txt.setText(R.string.toast_download_laws_in_advance);
                 break;
             case TOAST_TYPE_REMOVE_PLANS_INADVANCE:
@@ -78,7 +78,7 @@ public class ToastHelper {
                 txt.setText(R.string.test_fragment_none_previous_test_data);
                 break;
             case TOAST_TYPE_DONE_TYPE_PLAN:
-                img.setImageResource(R.drawable.toast_success_icon);
+                img.setImageResource(R.drawable.toast_icon_check);
                 txt.setText(R.string.toast_done_type_plan);
                 break;
         }

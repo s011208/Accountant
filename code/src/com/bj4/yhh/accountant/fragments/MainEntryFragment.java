@@ -228,7 +228,8 @@ public class MainEntryFragment extends BaseFragment {
             @Override
             public void onDismiss() {
                 if (mContentView != null) {
-                    mContentView.removeView(mTutorialView);
+                    if (mTutorialView != null)
+                        mContentView.removeView(mTutorialView);
                     showSettingTutorial();
                 }
             }
@@ -239,7 +240,8 @@ public class MainEntryFragment extends BaseFragment {
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.MATCH_PARENT);
                 if (mContentView != null) {
-                    mContentView.removeView(mTutorialView);
+                    if (mTutorialView != null)
+                        mContentView.removeView(mTutorialView);
                 }
                 mContentView.addView(mTutorialView, rl);
                 mTutorialView.bringToFront();
@@ -257,7 +259,12 @@ public class MainEntryFragment extends BaseFragment {
             @Override
             public void onDismiss() {
                 if (mContentView != null) {
-                    mContentView.removeView(mTutorialView);
+                    if (mTutorialView != null) {
+                        try {
+                            mContentView.removeView(mTutorialView);
+                        } catch (Exception e) {
+                        }
+                    }
                     SettingManager.getInstance(mContext).setFirstUse();
                 }
             }

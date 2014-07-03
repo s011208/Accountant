@@ -414,11 +414,19 @@ public class TestActivity extends BaseActivity {
                 mOption3.setOnClickListener(null);
                 LawAttrs law = mQuestionList.get(mCurrentIndex);
                 ++law.mWrongTime;
-                mDatabaseHelper.updateCompositeTestFragmentStatus(law, mPlan.mPlanType);
+                if (mFromTestFragment) {
+                    mDatabaseHelper.updateCompositeTestFragmentStatus(law, mPlan.mPlanType);
+                } else {
+                    mDatabaseHelper.updateCompositeTestStatus(law, mPlan.mPlanType);
+                }
             } else {
                 LawAttrs law = mQuestionList.remove(mCurrentIndex);
                 law.mHasAnsweredComposite = LawAttrs.HAS_ANSWERED;
-                mDatabaseHelper.updateCompositeTestFragmentStatus(law, mPlan.mPlanType);
+                if (mFromTestFragment) {
+                    mDatabaseHelper.updateCompositeTestFragmentStatus(law, mPlan.mPlanType);
+                } else {
+                    mDatabaseHelper.updateCompositeTestStatus(law, mPlan.mPlanType);
+                }
                 if (mQuestionList.isEmpty()) {
                     finishTest();
                 } else {
