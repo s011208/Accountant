@@ -47,6 +47,7 @@
     <string name="toast_remove_plans_in_advance">請先刪除任一計劃</string>
     <string name="toast_waiting_for_previous_parsing">資料下載中</string>
     <string name="toast_done_type_plan">計劃已完成</string>
+    <string name="toast_create_plans_in_advance">請先新增一個計劃</string>
     <string name="check_update">背不完還更新</string>
     <string name="toast_wrong_estimate_day">最小天數必須要為 3 天</string>
     <string name="basic_setting_title">設定</string>

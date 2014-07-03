@@ -106,25 +106,40 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         mTypeReview.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                sTestType = TEST_TYPE_REVIEW;
                 mLawListAdapter.notifyDataSetChanged();
-                setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
+                if (mLawListAdapter.getCount() == 0) {
+                    ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_CREATE_PLANS_IN_ADVANCE)
+                            .show();
+                } else {
+                    sTestType = TEST_TYPE_REVIEW;
+                    setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
+                }
             }
         });
         mTypeByLaw.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                sTestType = TEST_TYPE_BY_LAW;
                 mLawListAdapter.notifyDataSetChanged();
-                setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
+                if (mLawListAdapter.getCount() == 0) {
+                    ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_DOWNLOAD_LAWS_INADVANCE)
+                            .show();
+                } else {
+                    sTestType = TEST_TYPE_BY_LAW;
+                    setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
+                }
             }
         });
         mTypeByLawRandom.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                sTestType = TEST_TYPE_BY_LAW_RANDOM;
                 mLawListAdapter.notifyDataSetChanged();
-                setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
+                if (mLawListAdapter.getCount() == 0) {
+                    ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_DOWNLOAD_LAWS_INADVANCE)
+                            .show();
+                } else {
+                    sTestType = TEST_TYPE_BY_LAW_RANDOM;
+                    setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
+                }
             }
         });
         mKeepPreviousTest = (Button)mContentView.findViewById(R.id.keep_previous_test);

@@ -47,6 +47,7 @@
     <string name="toast_remove_plans_in_advance">Remove any plans in advance</string>
     <string name="toast_waiting_for_previous_parsing">Waiting for previous result</string>
     <string name="toast_done_type_plan">Done</string>
+    <string name="toast_create_plans_in_advance">Create a plan at first</string>
     <string name="check_update">Check update</string>
     <string name="toast_wrong_estimate_day">Invalidated estimate day,\nthe minimum estimate day is 3</string>
     <string name="basic_setting_title">Settings</string>

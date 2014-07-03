@@ -24,14 +24,16 @@ public class ToastHelper {
     public static final int TOAST_TYPE_DOWNLOAD_LAWS_INADVANCE = 4;
 
     public static final int TOAST_TYPE_REMOVE_PLANS_INADVANCE = 5;
-    
+
     public static final int TOAST_TYPE_WAITING_FOR_PREVIOUS_PARSING = 6;
-    
+
     public static final int TOAST_TYPE_WRONG_ESTIMATE_DAY = 7;
-    
+
     public static final int TOAST_TYPE_NONE_PREVIOUS_TEST_FRAGMENT_DATA = 8;
-    
+
     public static final int TOAST_TYPE_DONE_TYPE_PLAN = 9;
+
+    public static final int TOAST_TYPE_CREATE_PLANS_IN_ADVANCE = 10;
 
     public static final Toast makeToast(Context context, int type) {
         Toast rtn = new Toast(context);
@@ -80,6 +82,10 @@ public class ToastHelper {
             case TOAST_TYPE_DONE_TYPE_PLAN:
                 img.setImageResource(R.drawable.toast_icon_check);
                 txt.setText(R.string.toast_done_type_plan);
+                break;
+            case TOAST_TYPE_CREATE_PLANS_IN_ADVANCE:
+                img.setImageResource(R.drawable.toast_icon_forbidden);
+                txt.setText(R.string.toast_create_plans_in_advance);
                 break;
         }
         rtn.setView(parent);
