@@ -32,6 +32,7 @@ import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -272,6 +273,17 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mContentView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mContentView != null) {
+            ViewParent parent = mContentView.getParent();
+            if (parent != null) {
+                ((ViewGroup)parent).removeView(mContentView);
+            }
+        }
     }
 
     @Override

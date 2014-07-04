@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -390,6 +391,17 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mContentView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mContentView != null) {
+            ViewParent parent = mContentView.getParent();
+            if (parent != null) {
+                ((ViewGroup)parent).removeView(mContentView);
+            }
+        }
     }
 
     @Override

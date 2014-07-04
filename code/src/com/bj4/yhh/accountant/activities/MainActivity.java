@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -124,7 +125,17 @@ public class MainActivity extends BaseActivity {
     }
 
     public void switchFragment(int targetFragment, boolean animated) {
-        Fragment target = getMainEntryFragment();
+        Fragment target = getCurrentFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            // do nothing
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (target.isAdded()) {
+                transaction.remove(target);
+            }
+        } else {
+            // ?
+        }
         int animationIn = R.anim.fragment_slide_in_r_to_l, animationOut = R.anim.fragment_slide_out_r_to_l;
         switch (targetFragment) {
             case MAIN_ENTRY_FRAGMENT:
@@ -155,12 +166,22 @@ public class MainActivity extends BaseActivity {
                 mCurrentFragment = TEST_FRAGMENT;
                 break;
         }
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        if (animated) {
-            transaction.setCustomAnimations(animationIn, animationOut)
-                    .replace(R.id.main_fragment, target).commit();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (animated) {
+                transaction.setCustomAnimations(animationIn, animationOut)
+                        .replace(R.id.main_fragment, target).commit();
+            } else {
+                transaction.replace(R.id.main_fragment, target).commit();
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (animated) {
+                transaction.setCustomAnimations(animationIn, animationOut)
+                        .add(R.id.main_fragment, target).commit();
+            } else {
+                transaction.add(R.id.main_fragment, target).commit();
+            }
         } else {
-            transaction.replace(R.id.main_fragment, target).commit();
         }
         mPreviousDisplayChild = -1;
     }

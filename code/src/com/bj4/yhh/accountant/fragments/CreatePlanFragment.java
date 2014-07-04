@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -435,6 +436,17 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mContentView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mContentView != null) {
+            ViewParent parent = mContentView.getParent();
+            if (parent != null) {
+                ((ViewGroup)parent).removeView(mContentView);
+            }
+        }
     }
 
     @Override

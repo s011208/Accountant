@@ -11,6 +11,7 @@ import com.bj4.yhh.accountant.service.ParseService;
 import com.bj4.yhh.accountant.utilities.TutorialView;
 import com.bj4.yhh.accountant.utilities.TutorialView.Callback;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
@@ -154,6 +156,17 @@ public class MainEntryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mContentView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mContentView != null) {
+            ViewParent parent = mContentView.getParent();
+            if (parent != null) {
+                ((ViewGroup)parent).removeView(mContentView);
+            }
+        }
     }
 
     @Override
