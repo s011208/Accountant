@@ -39,6 +39,8 @@
     <string name="test_type_review">計劃複習模式</string>
     <string name="test_type_by_law">條文總複習模式</string>
     <string name="test_type_by_law_random">條文隨機模式</string>
+    <string name="toast_developer_mode_opened_hint">在伊甸園裡答案將會被顯示</string>
+    <string name="toast_developer_mode">歡迎來到伊甸園 :)</string>
     <string name="toast_start_loading">開始下載資料</string>
     <string name="toast_start_updating">開始檢查更新</string>
     <string name="toast_result_ok">資料下載完成</string>
@@ -83,5 +85,6 @@
     <string name="no_data_hint_create_plan">點擊下方按鈕來新增計畫</string>
     <string name="no_data_hint_overview">請先更新法條資料</string>
     <string name="no_updated_time">沒有更新資料</string>
+    <string name="settings_enable_eden">進入伊甸園</string>
 
 </resources>

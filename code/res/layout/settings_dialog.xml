@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -130,6 +130,36 @@
                     android:layout_below="@+id/title"
                     android:gravity="center"
                     android:text="@string/setting_confirm_when_exit_test_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/developer_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/setting_item_margin"
+                android:background="@drawable/setting_item_bg"
+                android:padding="@dimen/setting_item_padding"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/setting_title_margin_bottom"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/settings_enable_eden"
+                    android:textSize="@dimen/setting_title_textsize" >
+                </TextView>
+
+                <CheckBox
+                    android:id="@+id/settings_developer_mode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/title"
+                    android:gravity="center"
+                    android:text="@string/settings_enable_eden" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

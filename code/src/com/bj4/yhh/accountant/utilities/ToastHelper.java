@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 public class ToastHelper {
 
+    public static final int TOAST_TYPE_DEVELOPER_OPENED_HINT = -2;
+
+    public static final int TOAST_TYPE_DEVELOPER_MODE = -1;
+
     public static final int TOAST_TYPE_START_LOAD = 0;
 
     public static final int TOAST_TYPE_UPDATE_RESULT_OK = 1;
@@ -43,6 +47,14 @@ public class ToastHelper {
         ImageView img = (ImageView)parent.findViewById(R.id.toast_icon);
         TextView txt = (TextView)parent.findViewById(R.id.toast_text);
         switch (type) {
+            case TOAST_TYPE_DEVELOPER_OPENED_HINT:
+                img.setImageResource(R.drawable.toast_icon_alert);
+                txt.setText(R.string.toast_developer_mode_opened_hint);
+                break;
+            case TOAST_TYPE_DEVELOPER_MODE:
+                img.setImageResource(R.drawable.toast_d_mode);
+                txt.setText(R.string.toast_developer_mode);
+                break;
             case TOAST_TYPE_START_LOAD:
                 img.setImageResource(R.drawable.toast_start_update_icon);
                 txt.setText(R.string.toast_start_loading);

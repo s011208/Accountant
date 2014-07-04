@@ -378,6 +378,7 @@ public class ApiUnder16DialogHelper {
             mSettingManager = SettingManager.getInstance(mContext);
             initTheme();
             initConfirmWhenExitTest();
+            initDeveloperMode();
         }
 
         private void initConfirmWhenExitTest() {
@@ -393,6 +394,25 @@ public class ApiUnder16DialogHelper {
                     mSettingManager.setShowTestActivityExitDialog(isChecked);
                 }
             });
+        }
+
+        private void initDeveloperMode() {
+            View parent = mContentView.findViewById(R.id.developer_mode);
+            if (mSettingManager.hasDModeOpened()) {
+                parent.setVisibility(View.VISIBLE);
+                CheckBox developerCb = (CheckBox)mContentView
+                        .findViewById(R.id.settings_developer_mode);
+                developerCb.setChecked(true);
+                developerCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        mSettingManager.setDModeOpened(isChecked);
+                    }
+                });
+            } else {
+                parent.setVisibility(View.GONE);
+            }
         }
 
         protected Dialog getNewDialog() {

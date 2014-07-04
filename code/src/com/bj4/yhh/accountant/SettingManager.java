@@ -23,6 +23,8 @@ public class SettingManager {
 
     private static final String KEY_FIRST_USE = "key_first_use";
 
+    private static final String KEY_D_MODE = "developer_mode";
+
     private Context mContext;
 
     private SharedPreferences mPref;
@@ -51,6 +53,14 @@ public class SettingManager {
             mPref = mContext.getSharedPreferences(SHARE_PREF_NAME, Context.MODE_PRIVATE);
         }
         return mPref;
+    }
+
+    public boolean hasDModeOpened() {
+        return getSharPref().getBoolean(KEY_D_MODE, false);
+    }
+
+    public void setDModeOpened(boolean open) {
+        getSharPref().edit().putBoolean(KEY_D_MODE, open).apply();
     }
 
     public boolean isFirstUse() {

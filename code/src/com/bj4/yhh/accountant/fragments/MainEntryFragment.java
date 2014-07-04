@@ -9,6 +9,7 @@ import com.bj4.yhh.accountant.dialogs.LawVersionDialog;
 import com.bj4.yhh.accountant.dialogs.SettingDialog;
 import com.bj4.yhh.accountant.dialogs.ShareDialog;
 import com.bj4.yhh.accountant.service.ParseService;
+import com.bj4.yhh.accountant.utilities.ToastHelper;
 import com.bj4.yhh.accountant.utilities.TutorialView;
 import com.bj4.yhh.accountant.utilities.TutorialView.Callback;
 
@@ -33,6 +34,10 @@ import android.widget.TextView;
 
 public class MainEntryFragment extends BaseFragment {
     private static final boolean ENABLE_TUTORIAL = true;
+
+    private static final int DEVELOPER_MODE_BOUNDARY = 30;
+
+    private int mDeveloperModeBoundary = 0;
 
     private Context mContext;
 
@@ -80,6 +85,21 @@ public class MainEntryFragment extends BaseFragment {
                     ApiUnder16DialogHelper.SettingDialog.getNewInstanceDialog(mContext).show();
                 }
                 return true;
+            }
+        });
+        mContentView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                SettingManager sm = SettingManager.getInstance(mContext);
+                if (sm.hasDModeOpened() == false) {
+                    ++mDeveloperModeBoundary;
+                    if (DEVELOPER_MODE_BOUNDARY <= mDeveloperModeBoundary) {
+                        sm.setDModeOpened(true);
+                        ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_DEVELOPER_MODE)
+                                .show();
+                    }
+                }
             }
         });
         mMainTitle = (TextView)mContentView.findViewById(R.id.main_title);
@@ -164,6 +184,11 @@ public class MainEntryFragment extends BaseFragment {
                 return true;
             }
         });
+    }
+
+    public void onPause() {
+        super.onPause();
+        mDeveloperModeBoundary = 0;
     }
 
     @Override

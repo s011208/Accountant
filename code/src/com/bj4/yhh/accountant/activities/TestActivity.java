@@ -15,6 +15,7 @@ import com.bj4.yhh.accountant.dialogs.ConfirmToExitDialog;
 import com.bj4.yhh.accountant.dialogs.LawVersionDialog;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.utilities.ToastHelper;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -54,6 +55,8 @@ public class TestActivity extends BaseActivity {
     public static final int DISPLAY_CHILD_SIMPLE_TEST = 0;
 
     public static final int DISPLAY_CHILD_REAL_TEST = 1;
+
+    private boolean mIsDeveloperMode = false;
 
     private boolean mFromTestFragment = false;
 
@@ -103,6 +106,10 @@ public class TestActivity extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_activity);
+        mIsDeveloperMode = SettingManager.getInstance(this).hasDModeOpened();
+        if (mIsDeveloperMode) {
+            ToastHelper.makeToast(this, ToastHelper.TOAST_TYPE_DEVELOPER_OPENED_HINT).show();
+        }
         init();
         initSimpleTestView();
         initRealTestView();
@@ -550,7 +557,7 @@ public class TestActivity extends BaseActivity {
             switch (mAnswerOption) {
                 case 0:
                     mOption0.setText(answer);
-                    if (DEBUG) {
+                    if (DEBUG || mIsDeveloperMode) {
                         mOption0.setTextColor(Color.MAGENTA);
                     }
                     mOption1.setText(confusedOption0);
@@ -559,7 +566,7 @@ public class TestActivity extends BaseActivity {
                     break;
                 case 1:
                     mOption0.setText(confusedOption0);
-                    if (DEBUG) {
+                    if (DEBUG || mIsDeveloperMode) {
                         mOption1.setTextColor(Color.MAGENTA);
                     }
                     mOption1.setText(answer);
@@ -569,7 +576,7 @@ public class TestActivity extends BaseActivity {
                 case 2:
                     mOption0.setText(confusedOption0);
                     mOption1.setText(confusedOption1);
-                    if (DEBUG) {
+                    if (DEBUG || mIsDeveloperMode) {
                         mOption2.setTextColor(Color.MAGENTA);
                     }
                     mOption2.setText(answer);
@@ -579,7 +586,7 @@ public class TestActivity extends BaseActivity {
                     mOption0.setText(confusedOption0);
                     mOption1.setText(confusedOption1);
                     mOption2.setText(confusedOption2);
-                    if (DEBUG) {
+                    if (DEBUG || mIsDeveloperMode) {
                         mOption3.setTextColor(Color.MAGENTA);
                     }
                     mOption3.setText(answer);
