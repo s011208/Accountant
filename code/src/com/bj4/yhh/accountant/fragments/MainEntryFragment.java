@@ -1,7 +1,6 @@
 
 package com.bj4.yhh.accountant.fragments;
 
-import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
@@ -12,14 +11,12 @@ import com.bj4.yhh.accountant.service.ParseService;
 import com.bj4.yhh.accountant.utilities.TutorialView;
 import com.bj4.yhh.accountant.utilities.TutorialView.Callback;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +25,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class MainEntryFragment extends BaseFragment {
@@ -214,6 +210,14 @@ public class MainEntryFragment extends BaseFragment {
                 mContentView.addView(mTutorialView, rl);
                 mTutorialView.bringToFront();
             }
+
+            @Override
+            public void onFailed() {
+                if (mContentView != null && mTutorialView != null) {
+                    mContentView.removeView(mTutorialView);
+                }
+                SettingManager.getInstance(mContext).setFirstUse();
+            }
         });
         mTutorialView.setMainBackground(((MainActivity)getActivity()).getMainBackground(),
                 mMainTitle);
@@ -244,6 +248,14 @@ public class MainEntryFragment extends BaseFragment {
                 }
                 mContentView.addView(mTutorialView, rl);
                 mTutorialView.bringToFront();
+            }
+
+            @Override
+            public void onFailed() {
+                if (mContentView != null && mTutorialView != null) {
+                    mContentView.removeView(mTutorialView);
+                }
+                SettingManager.getInstance(mContext).setFirstUse();
             }
         });
         mTutorialView.setMainBackground(((MainActivity)getActivity()).getMainBackground(),
@@ -278,6 +290,14 @@ public class MainEntryFragment extends BaseFragment {
                 }
                 mContentView.addView(mTutorialView, rl);
                 mTutorialView.bringToFront();
+            }
+
+            @Override
+            public void onFailed() {
+                if (mContentView != null && mTutorialView != null) {
+                    mContentView.removeView(mTutorialView);
+                }
+                SettingManager.getInstance(mContext).setFirstUse();
             }
         });
         mTutorialView.setMainBackground(((MainActivity)getActivity()).getMainBackground(), null);

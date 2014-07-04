@@ -36,6 +36,8 @@ public class TutorialView extends RelativeLayout {
         public void onDismiss();
 
         public void onDrawBackgroundDone();
+
+        public void onFailed();
     }
 
     private Callback mCallback;
@@ -111,41 +113,54 @@ public class TutorialView extends RelativeLayout {
             @Override
             public void run() {
                 if (backgroundView != null) {
-                    Bitmap bitmap = Bitmap.createBitmap(backgroundView.getMeasuredWidth(),
-                            backgroundView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                    Canvas c = new Canvas(bitmap);
-                    backgroundView.draw(c);
-                    c.setBitmap(null);
-                    bitmap = fastblur(mContext, bitmap, 16);
-                    c = new Canvas(bitmap);
-                    Paint transparentPaint = new Paint();
-                    transparentPaint.setColor(getResources().getColor(android.R.color.transparent));
-                    transparentPaint.setXfermode(new PorterDuffXfermode(
-                            android.graphics.PorterDuff.Mode.CLEAR));
-                    Rect targetViewRect = new Rect();
-                    if (targetView != null) {
-                        targetView.getGlobalVisibleRect(targetViewRect);
-                        c.drawRect(targetViewRect, transparentPaint);
-                        Paint rectPaint = new Paint();
-                        rectPaint.setColor(Color.MAGENTA);
-                        rectPaint.setAntiAlias(true);
-                        rectPaint.setStyle(Style.STROKE);
-                        rectPaint.setStrokeWidth(3);
-                        c.drawRect(targetViewRect, rectPaint);
-                    } else {
-                        backgroundView.getGlobalVisibleRect(targetViewRect);
-                    }
-                    final Drawable drawable = new BitmapDrawable(bitmap);
-
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mCallback != null) {
-                                setBackground(drawable);
-                                mCallback.onDrawBackgroundDone();
-                            }
+                    try {
+                        Bitmap bitmap = Bitmap.createBitmap(backgroundView.getMeasuredWidth(),
+                                backgroundView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas c = new Canvas(bitmap);
+                        backgroundView.draw(c);
+                        c.setBitmap(null);
+                        bitmap = fastblur(mContext, bitmap, 16);
+                        c = new Canvas(bitmap);
+                        Paint transparentPaint = new Paint();
+                        transparentPaint.setColor(getResources().getColor(
+                                android.R.color.transparent));
+                        transparentPaint.setXfermode(new PorterDuffXfermode(
+                                android.graphics.PorterDuff.Mode.CLEAR));
+                        Rect targetViewRect = new Rect();
+                        if (targetView != null) {
+                            targetView.getGlobalVisibleRect(targetViewRect);
+                            c.drawRect(targetViewRect, transparentPaint);
+                            Paint rectPaint = new Paint();
+                            rectPaint.setColor(Color.MAGENTA);
+                            rectPaint.setAntiAlias(true);
+                            rectPaint.setStyle(Style.STROKE);
+                            rectPaint.setStrokeWidth(3);
+                            c.drawRect(targetViewRect, rectPaint);
+                        } else {
+                            backgroundView.getGlobalVisibleRect(targetViewRect);
                         }
-                    });
+                        final Drawable drawable = new BitmapDrawable(bitmap);
+
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mCallback != null) {
+                                    setBackground(drawable);
+                                    mCallback.onDrawBackgroundDone();
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                        // failed to show, clear mess
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mCallback != null) {
+                                    mCallback.onFailed();
+                                }
+                            }
+                        });
+                    }
                 }
             }
         }).start();

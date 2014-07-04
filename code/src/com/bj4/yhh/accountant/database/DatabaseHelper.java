@@ -293,8 +293,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String whereClause = "";
         whereClause = COLUMN_CONTENT + " !='" + IGNORE_CONTENT + "' and "
                 + COLUMN_HAS_ANSWERED_COMPOSITE + "!='" + LawAttrs.HAS_ANSWERED + "'";
-        data = getDataBase().query(true, TABLE_NAME_TEST_FRAGMENT, null, whereClause, null, null,
-                null, COLUMN_ORDER, null, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            data = getDataBase().query(true, TABLE_NAME_TEST_FRAGMENT, null, whereClause, null,
+                    null, null, COLUMN_ORDER, null, null);
+        } else {
+            data = getDataBase().query(TABLE_NAME_TEST_FRAGMENT, null, whereClause, null, null, null, COLUMN_ORDER);
+        }
         rtn = convertFromCursorToLawAttrs(data);
         return rtn;
     }
@@ -316,8 +320,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             order = COLUMN_ORDER;
         }
-        data = getDataBase().query(true, TABLE_NAME_LAW, null, whereClause, null, null, null,
-                order, null, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            data = getDataBase().query(true, TABLE_NAME_LAW, null, whereClause, null, null, null,
+                    order, null, null);
+        } else {
+            data = getDataBase().query(TABLE_NAME_LAW, null, whereClause, null, null, null, order);
+        }
         rtn = convertFromCursorToLawAttrs(data);
         return rtn;
     }
@@ -336,8 +344,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             whereClause = COLUMN_TYPE + "='" + planType + "'";
         }
-        data = getDataBase().query(true, TABLE_NAME_TEST, null, whereClause, null, null, null,
-                COLUMN_ORDER, null, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            data = getDataBase().query(true, TABLE_NAME_TEST, null, whereClause, null, null, null,
+                    COLUMN_ORDER, null, null);
+        } else {
+            data = getDataBase().query(TABLE_NAME_TEST, null, whereClause, null, null, null, null);
+        }
+
         rtn = convertFromCursorToLawAttrs(data);
         return rtn;
     }
