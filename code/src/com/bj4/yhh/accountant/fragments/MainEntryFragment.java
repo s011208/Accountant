@@ -143,7 +143,6 @@ public class MainEntryFragment extends BaseFragment {
                 Intent intent = new Intent(mContext, ParseService.class);
                 intent.putExtra(ParseService.UPDATE_ALL, true);
                 mContext.startService(intent);
-                AccountantApplication.sCheckForUpdate = false;
             }
         });
         mCheckUpdate.setOnLongClickListener(new OnLongClickListener() {

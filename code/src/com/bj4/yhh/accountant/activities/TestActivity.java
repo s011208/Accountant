@@ -34,7 +34,7 @@ public class TestActivity extends BaseActivity {
 
     public static final boolean DEBUG = false;
 
-    public static final String TAG = "QQQQ";
+    public static final String TAG = "TestActivity";
 
     public static final String INTENT_PLAN_TYPE = "intent_plan_type";
 

@@ -135,7 +135,7 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
         // edit
         initEdit();
         initLawOptionSpinner();
-        setDisplayedChild(CREATE_PLAN_MANAGE_PAGE);
+        setDisplayedChild(mCurrentDisplayChild);
     }
 
     private void initManage() {
@@ -422,8 +422,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
     }
 
     public void setDisplayedChild(int child) {
+        mCurrentDisplayChild = child;
         if (mContentView != null) {
-            mCurrentDisplayChild = child;
             mContentView.setDisplayedChild(child);
         }
     }

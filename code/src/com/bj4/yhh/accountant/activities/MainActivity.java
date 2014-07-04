@@ -17,6 +17,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -89,14 +90,6 @@ public class MainActivity extends BaseActivity {
             Intent intent = new Intent(this, ParseService.class);
             intent.putExtra(ParseService.PARSE_ALL, true);
             startService(intent);
-        } else {
-            if (AccountantApplication.sCheckForUpdate) {
-                // left to update button
-                // Intent intent = new Intent(this, ParseService.class);
-                // intent.putExtra(ParseService.UPDATE_ALL, true);
-                // startService(intent);
-                // AccountantApplication.sCheckForUpdate = false;
-            }
         }
     }
 
