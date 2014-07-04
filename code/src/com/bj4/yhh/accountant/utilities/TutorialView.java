@@ -139,14 +139,25 @@ public class TutorialView extends RelativeLayout {
                         } else {
                             backgroundView.getGlobalVisibleRect(targetViewRect);
                         }
+                        @SuppressWarnings("deprecation")
                         final Drawable drawable = new BitmapDrawable(bitmap);
-
                         mHandler.post(new Runnable() {
+                            @SuppressWarnings("deprecation")
                             @Override
                             public void run() {
                                 if (mCallback != null) {
-                                    setBackground(drawable);
-                                    mCallback.onDrawBackgroundDone();
+                                    try {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                            setBackground(drawable);
+                                        } else {
+                                            setBackgroundDrawable(drawable);
+                                        }
+                                        mCallback.onDrawBackgroundDone();
+                                    } catch (Exception e) {
+                                        if (mCallback != null) {
+                                            mCallback.onFailed();
+                                        }
+                                    }
                                 }
                             }
                         });
