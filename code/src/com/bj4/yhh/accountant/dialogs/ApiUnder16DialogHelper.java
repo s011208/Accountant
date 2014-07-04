@@ -132,7 +132,7 @@ public class ApiUnder16DialogHelper {
         protected void init() {
             LayoutInflater inflater = (LayoutInflater)mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            mContentView = inflater.inflate(R.layout.confirm_to_exit_dialog_api11, null);
+            mContentView = inflater.inflate(R.layout.confirm_to_exit_dialog_api_below_16, null);
             CheckBox cb = (CheckBox)mContentView.findViewById(R.id.show_again);
             cb.setChecked(false);
             cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -204,9 +204,12 @@ public class ApiUnder16DialogHelper {
 
         @Override
         protected void init() {
+            LayoutInflater inflater = (LayoutInflater)mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mContentView = inflater.inflate(R.layout.law_version_dialog_api_below_16, null);
+            TextView content = (TextView)mContentView.findViewById(R.id.law_version_content);
             Cursor data = AccountantApplication.getDatabaseHelper(mContext).getLawUpdateTime();
             StringBuilder sb = new StringBuilder();
-            mContentView = new TextView(mContext);
             if (data != null) {
                 while (data.moveToNext()) {
                     int type = data.getInt(data.getColumnIndex(DatabaseHelper.COLUMN_LAW_TYPE));
@@ -220,8 +223,8 @@ public class ApiUnder16DialogHelper {
                 }
                 data.close();
             }
-            ((TextView)mContentView).setText(sb.toString());
-            ((TextView)mContentView).setGravity(Gravity.CENTER);
+            content.setText(sb.toString());
+            content.setGravity(Gravity.CENTER);
         }
     }
 
