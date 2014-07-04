@@ -200,17 +200,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             + " where " + COLUMN_TYPE + "='" + type + "'");
         } else if (testType == TestFragment.TEST_TYPE_REVIEW) {
             PlanAttrs plan = getPlan(type);
-            int count = getPlanTypeCount(type);
-            --plan.mCurrentProgress;
-            if (plan.mCurrentProgress < 0) {
-                plan.mCurrentProgress = 0;
+            if (plan != null) {
+                int count = getPlanTypeCount(type);
+                --plan.mCurrentProgress;
+                if (plan.mCurrentProgress < 0) {
+                    plan.mCurrentProgress = 0;
+                }
+                int upperBound = CreatePlanFragment.getUpperBound(count, plan.mTotalProgress,
+                        plan.mCurrentProgress);
+                getDataBase().execSQL(
+                        "insert into " + TABLE_NAME_TEST_FRAGMENT + "  select * from "
+                                + TABLE_NAME_TEST + " where " + COLUMN_TYPE + "='" + type
+                                + "' and " + COLUMN_ORDER + " <" + upperBound + " order by "
+                                + COLUMN_ORDER + " ");
+            } else {
+                // should not be null
+                Log.w(TAG, "failed, plan should not be null");
             }
-            int upperBound = CreatePlanFragment.getUpperBound(count, plan.mTotalProgress,
-                    plan.mCurrentProgress);
-            getDataBase().execSQL(
-                    "insert into " + TABLE_NAME_TEST_FRAGMENT + "  select * from "
-                            + TABLE_NAME_TEST + " where " + COLUMN_TYPE + "='" + type + "' and "
-                            + COLUMN_ORDER + " <" + upperBound + " order by " + COLUMN_ORDER + " ");
         } else if (testType == TestFragment.TEST_TYPE_BY_LAW_RANDOM) {
             getDataBase().execSQL(
                     "insert into " + TABLE_NAME_TEST_FRAGMENT + " select * from " + TABLE_NAME_LAW

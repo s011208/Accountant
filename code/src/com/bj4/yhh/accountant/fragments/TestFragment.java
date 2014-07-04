@@ -106,12 +106,14 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         mTypeReview.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                int previousType = sTestType;
+                sTestType = TEST_TYPE_REVIEW;
                 mLawListAdapter.notifyDataSetChanged();
                 if (mLawListAdapter.getCount() == 0) {
                     ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_CREATE_PLANS_IN_ADVANCE)
                             .show();
+                    sTestType = previousType;
                 } else {
-                    sTestType = TEST_TYPE_REVIEW;
                     setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
                 }
             }
@@ -119,12 +121,14 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         mTypeByLaw.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                int previousType = sTestType;
+                sTestType = TEST_TYPE_BY_LAW;
                 mLawListAdapter.notifyDataSetChanged();
                 if (mLawListAdapter.getCount() == 0) {
                     ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_DOWNLOAD_LAWS_INADVANCE)
                             .show();
+                    sTestType = previousType;
                 } else {
-                    sTestType = TEST_TYPE_BY_LAW;
                     setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
                 }
             }
@@ -132,12 +136,14 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         mTypeByLawRandom.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                int previousType = sTestType;
+                sTestType = TEST_TYPE_BY_LAW_RANDOM;
                 mLawListAdapter.notifyDataSetChanged();
                 if (mLawListAdapter.getCount() == 0) {
                     ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_DOWNLOAD_LAWS_INADVANCE)
                             .show();
+                    sTestType = previousType;
                 } else {
-                    sTestType = TEST_TYPE_BY_LAW_RANDOM;
                     setDisplayedChild(TEST_FRAGMENT_LAW_LIST);
                 }
             }
