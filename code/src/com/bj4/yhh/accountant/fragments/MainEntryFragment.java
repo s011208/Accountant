@@ -4,6 +4,7 @@ package com.bj4.yhh.accountant.fragments;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
+import com.bj4.yhh.accountant.dialogs.ApiUnder16DialogHelper;
 import com.bj4.yhh.accountant.dialogs.LawVersionDialog;
 import com.bj4.yhh.accountant.dialogs.SettingDialog;
 import com.bj4.yhh.accountant.dialogs.ShareDialog;
@@ -11,6 +12,7 @@ import com.bj4.yhh.accountant.service.ParseService;
 import com.bj4.yhh.accountant.utilities.TutorialView;
 import com.bj4.yhh.accountant.utilities.TutorialView.Callback;
 
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -72,8 +74,11 @@ public class MainEntryFragment extends BaseFragment {
             @Override
             public boolean onLongClick(View v) {
                 mVibrator.vibrate(50);
-                SettingDialog sd = new SettingDialog();
-                sd.show(getFragmentManager(), null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    new SettingDialog().show(getFragmentManager(), null);
+                } else {
+                    ApiUnder16DialogHelper.SettingDialog.getNewInstanceDialog(mContext).show();
+                }
                 return true;
             }
         });
@@ -106,7 +111,11 @@ public class MainEntryFragment extends BaseFragment {
         mMainTitle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareDialog().show(getFragmentManager(), null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    new ShareDialog().show(getFragmentManager(), null);
+                } else {
+                    ApiUnder16DialogHelper.ShareDialog.getNewInstanceDialog(mContext).show();
+                }
             }
         });
         mPlan = (Button)mContentView.findViewById(R.id.plan);
@@ -147,7 +156,11 @@ public class MainEntryFragment extends BaseFragment {
 
             @Override
             public boolean onLongClick(View v) {
-                new LawVersionDialog().show(getFragmentManager(), null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    new LawVersionDialog().show(getFragmentManager(), null);
+                } else {
+                    ApiUnder16DialogHelper.LawVersionDialog.getNewInstanceDialog(mContext).show();
+                }
                 return true;
             }
         });

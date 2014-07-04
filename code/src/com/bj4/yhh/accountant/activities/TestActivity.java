@@ -10,7 +10,9 @@ import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
+import com.bj4.yhh.accountant.dialogs.ApiUnder16DialogHelper;
 import com.bj4.yhh.accountant.dialogs.ConfirmToExitDialog;
+import com.bj4.yhh.accountant.dialogs.LawVersionDialog;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 
@@ -230,21 +232,29 @@ public class TestActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (SettingManager.getInstance(getApplicationContext()).showTestActivityExitDialog()) {
-            new ConfirmToExitDialog(new ConfirmToExitDialog.Callback() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                new ConfirmToExitDialog(new ConfirmToExitDialog.Callback() {
 
-                @Override
-                public void onClick(int result) {
-                    if (result == ConfirmToExitDialog.OK) {
-                        TestActivity.super.onBackPressed();
-                    } else {
-                        // temp leave
-                        // Intent setIntent = new Intent(Intent.ACTION_MAIN);
-                        // setIntent.addCategory(Intent.CATEGORY_HOME);
-                        // setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        // startActivity(setIntent);
+                    @Override
+                    public void onClick(int result) {
+                        if (result == ConfirmToExitDialog.OK) {
+                            TestActivity.super.onBackPressed();
+                        }
                     }
-                }
-            }).show(getFragmentManager(), null);
+                }).show(getFragmentManager(), null);
+            } else {
+                ApiUnder16DialogHelper.ConfirmToExitDialog.getNewInstanceDialog(this,
+                        new ApiUnder16DialogHelper.ConfirmToExitDialog.Callback() {
+
+                            @Override
+                            public void onClick(int result) {
+                                if (result == ConfirmToExitDialog.OK) {
+                                    TestActivity.super.onBackPressed();
+                                }
+                            }
+                        }).show();
+            }
+
         } else {
             super.onBackPressed();
         }

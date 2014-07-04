@@ -29,6 +29,9 @@ public class SettingDialog extends BaseDialog {
 
     private CheckBox mConfirmWhenExitTest;
 
+    public SettingDialog() {
+    }
+
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         init();
         AlertDialog.Builder builder = getDialogBuilder();

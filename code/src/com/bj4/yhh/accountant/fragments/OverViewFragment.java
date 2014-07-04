@@ -9,6 +9,7 @@ import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
+import com.bj4.yhh.accountant.dialogs.ApiUnder16DialogHelper;
 import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.MagicFuzzy;
@@ -19,6 +20,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -277,8 +279,16 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    new EnlargeOverViewContentDialog(mLawContentAdapter.getItem(position),
-                            sDisplayContentType).show(getFragmentManager(), null);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        new EnlargeOverViewContentDialog(mLawContentAdapter.getItem(position),
+                                sDisplayContentType).show(getFragmentManager(), null);
+                    } else {
+                        ApiUnder16DialogHelper.EnlargeOverViewContentDialog
+                                .getNewInstanceDialog(mContext,
+                                        mLawContentAdapter.getItem(position), sDisplayContentType)
+                                .show();
+                    }
+
                 }
             });
             mSearchContent.addTextChangedListener(new TextWatcher() {
