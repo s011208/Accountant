@@ -12,6 +12,7 @@ import com.bj4.yhh.accountant.service.ParseService;
 import com.bj4.yhh.accountant.utilities.ToastHelper;
 import com.bj4.yhh.accountant.utilities.TutorialView;
 import com.bj4.yhh.accountant.utilities.TutorialView.Callback;
+import com.bj4.yhh.accountant.utilities.Utilities;
 
 import android.app.Dialog;
 import android.app.FragmentTransaction;
@@ -21,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewParent;
@@ -33,7 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainEntryFragment extends BaseFragment {
-    private static final boolean ENABLE_TUTORIAL = true;
+    private static boolean ENABLE_TUTORIAL = false;
 
     private static final int DEVELOPER_MODE_BOUNDARY = 30;
 
@@ -63,6 +65,7 @@ public class MainEntryFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (mContext == null) {
             mContext = getActivity();
+            ENABLE_TUTORIAL = Utilities.isRamLargerThan1G(mContext);
             mMainActivity = (MainActivity)getActivity();
             init();
         }
