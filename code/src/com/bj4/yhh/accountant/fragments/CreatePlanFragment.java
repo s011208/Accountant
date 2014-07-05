@@ -10,7 +10,6 @@ import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.activities.MainActivity;
-import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.ToastHelper;
@@ -199,6 +198,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                     Intent start = new Intent(mContext, TestActivity.class);
                     if (plan.mCurrentProgress + 1 == plan.mTotalProgress) {
                         start.putExtra(TestActivity.INTENT_FULL_TEST, true);
+                        start.putExtra(TestActivity.INTENT_DISPLAY_CHILD,
+                                TestActivity.DISPLAY_CHILD_REAL_TEST);
                     }
                     start.putExtra(TestActivity.INTENT_PLAN_TYPE, plan.mPlanType);
                     mContext.startActivity(start);
@@ -212,7 +213,10 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                     long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(
                         mContext, android.R.style.Theme_Holo_Light_Dialog));
-                builder.setMessage(R.string.dialog_confirm_to_delete_msg);
+                String planType = GovLawParser.getTypeText(mContext,
+                        mPlanListAdapter.getItem(position).mPlanType);
+                builder.setMessage(mContext.getString(R.string.dialog_confirm_to_delete_msg) + ": "
+                        + planType);
                 builder.setTitle(R.string.dialog_confirm_to_delete_title);
                 builder.setCancelable(true);
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

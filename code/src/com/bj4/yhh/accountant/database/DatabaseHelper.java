@@ -297,7 +297,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             data = getDataBase().query(true, TABLE_NAME_TEST_FRAGMENT, null, whereClause, null,
                     null, null, COLUMN_ORDER, null, null);
         } else {
-            data = getDataBase().query(TABLE_NAME_TEST_FRAGMENT, null, whereClause, null, null, null, COLUMN_ORDER);
+            data = getDataBase().query(TABLE_NAME_TEST_FRAGMENT, null, whereClause, null, null,
+                    null, COLUMN_ORDER);
         }
         rtn = convertFromCursorToLawAttrs(data);
         return rtn;

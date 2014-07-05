@@ -74,7 +74,7 @@ public class TestActivity extends BaseActivity {
 
     private String mFixedTitle;
 
-    private int mCurrentIndex = 0;
+    private int mCurrentIndex = -1;
 
     private TextView mProgressHint;
 
@@ -98,6 +98,8 @@ public class TestActivity extends BaseActivity {
     private Button mOption1, mOption2, mOption3, mOption0;
 
     private int mAnswerOption = 0;
+
+    // full test
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +126,7 @@ public class TestActivity extends BaseActivity {
     }
 
     private void refreshData() {
-        mCurrentIndex = 0;
+        mCurrentIndex = -1;
         mAnswerOption = 0;
         mQuestionList.clear();
         mDatabaseHelper = AccountantApplication.getDatabaseHelper(this);
@@ -209,7 +211,16 @@ public class TestActivity extends BaseActivity {
                     if (DatabaseHelper.IGNORE_CONTENT.equals(law.mContent)) {
                         // ignore deleted law
                     } else {
-                        mQuestionList.add(laws.get(i));
+                        if (mFullTest) {
+                            if (law.mHasAnsweredSimple == LawAttrs.HAS_NOT_ANSWERED) {
+                                mQuestionList.add(laws.get(i));
+                            } else {
+                                // means wrong answered
+                                // ignore
+                            }
+                        } else {
+                            mQuestionList.add(laws.get(i));
+                        }
                     }
                 } else {
                 }
@@ -430,7 +441,16 @@ public class TestActivity extends BaseActivity {
                 mOption1.setOnClickListener(null);
                 mOption2.setOnClickListener(null);
                 mOption3.setOnClickListener(null);
-                LawAttrs law = mQuestionList.get(mCurrentIndex);
+                LawAttrs law = null;
+                if (mFullTest) {
+                    // remove directly
+                    law = mQuestionList.remove(mCurrentIndex);
+                    law.mHasAnsweredSimple = LawAttrs.HAS_ANSWERED;
+                    mDatabaseHelper.updateSimpleTestStatus(law, mPlan.mPlanType);
+                    // it will be used when reporting
+                } else {
+                    law = mQuestionList.get(mCurrentIndex);
+                }
                 ++law.mWrongTime;
                 if (mFromTestFragment) {
                     mDatabaseHelper.updateCompositeTestFragmentStatus(law, mPlan.mPlanType);
@@ -484,6 +504,11 @@ public class TestActivity extends BaseActivity {
         }
         int type = (int)((Math.random() * 100) % 2);
         mCurrentIndex = (int)((Math.random() * 10000) % mQuestionList.size());
+        if (mFullTest) {
+            // ordered and type = QUESTION_TYPE_LINE
+            type = QUESTION_TYPE_LINE;
+            mCurrentIndex = 0;
+        }
         String question = "";
         LawAttrs law = mQuestionList.get(mCurrentIndex);
         StringBuilder title = new StringBuilder();
