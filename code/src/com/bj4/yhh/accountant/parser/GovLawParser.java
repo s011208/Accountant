@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.LawAttrs;
+import com.bj4.yhh.accountant.LawPara;
 import com.bj4.yhh.accountant.R;
+import com.bj4.yhh.accountant.database.DatabaseHelper;
 
 import android.content.Context;
 import android.util.Log;
@@ -69,15 +72,17 @@ public class GovLawParser implements Runnable {
 
     private final ArrayList<LawAttrs> mData = new ArrayList<LawAttrs>();
 
+    private final ArrayList<LawPara> mParaData = new ArrayList<LawPara>();
+
     private Context mContext;
 
-    private int mParseType;
+    private int mLawType;
 
     private String mUpdateTime;
 
     public GovLawParser(Context c, int type, int behaviour, ResultCallback cb) {
         mContext = c;
-        mParseType = type;
+        mLawType = type;
         mParseBehaviou = behaviour;
         mCallback = cb;
     }
@@ -117,7 +122,7 @@ public class GovLawParser implements Runnable {
     public void run() {
         int result = RESULT_OK;
         Exception failException = null;
-        String url = getParseUrl(mParseType);
+        String url = getParseUrl(mLawType);
         try {
             // parse law
             Document doc = Jsoup.connect(url).get();
@@ -174,15 +179,38 @@ public class GovLawParser implements Runnable {
                     mUpdateTime = e.text();
                 }
             }
+            // parse paragraph
+            parseParagraph(url.replace("LawAll.aspx", "LawAllPara.aspx"));
         } catch (Exception e) {
             result = RESULT_FAIL;
             failException = e;
-            Log.w(TAG, "failed", e);
+            Log.w(TAG, "failed mLawType: " + mLawType, e);
         } finally {
             refreshTable();
             if (mCallback != null) {
                 mCallback.parseDone(result, failException);
             }
+        }
+    }
+
+    private void parseParagraph(String url) throws IOException {
+        Document doc = Jsoup.connect(url).get();
+        Elements td = doc.select("pre");
+        for (int i = 0; i < td.size(); i++) {
+            String data = null;
+            String firstData = null;
+            try {
+                firstData = ((TextNode)doc.select("pre").select("a").get(i).childNodes().get(0))
+                        .getWholeText();
+                data = firstData + td.get(i).ownText();
+            } catch (Exception e) {
+                data = td.get(i).text();
+            }
+            // double check
+            if ("".equals(firstData) || firstData == null) {
+                data = td.get(i).text();
+            }
+            mParaData.add(new LawPara(mLawType, data));
         }
     }
 
@@ -194,20 +222,16 @@ public class GovLawParser implements Runnable {
     }
 
     private void refreshTable() {
+        DatabaseHelper helper = AccountantApplication.getDatabaseHelper(mContext);
         if (mData.isEmpty() == false) {
             // if (mParseBehaviou == BEHAVIOR_INSERT) {
-            AccountantApplication.getDatabaseHelper(mContext).updateLawTable(mData, mParseType);
-            Log.d(TAG, "createLawTable DONE, type: " + mParseType);
-            // } else if (mParseBehaviou == BEHAVIOR_UPDATE) {
-            // AccountantApplication.getDatabaseHelper(mContext).updateLawTable(mData,
-            // mParseType);
-            // Log.d(TAG, "updateLawTable DONE, type: " + mParseType);
-            // }
+            helper.updateLawTable(mData, mLawType);
+            helper.insertLawParagraph(mParaData, mLawType);
+            Log.d(TAG, "createLawTable DONE, type: " + mLawType);
         } else {
-            Log.w(TAG, "data set is empty, type: " + mParseType);
+            Log.w(TAG, "data set is empty, type: " + mLawType);
         }
-        AccountantApplication.getDatabaseHelper(mContext).insertLawUpdateTime(mParseType,
-                mUpdateTime);
+        helper.insertLawUpdateTime(mLawType, mUpdateTime);
     }
 
     public static final int getTypeTextResource(int type) {

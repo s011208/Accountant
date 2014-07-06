@@ -12,6 +12,7 @@ import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.dialogs.ApiUnder16DialogHelper;
 import com.bj4.yhh.accountant.dialogs.ConfirmToExitDialog;
+import com.bj4.yhh.accountant.dialogs.LawParagraphDialog;
 import com.bj4.yhh.accountant.dialogs.LawVersionDialog;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
 import com.bj4.yhh.accountant.parser.GovLawParser;
@@ -29,6 +30,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -81,6 +83,8 @@ public class TestActivity extends BaseActivity {
     private ViewSwitcher mSwitcher;
 
     private int mDisplayChild = DISPLAY_CHILD_SIMPLE_TEST;
+
+    private ImageView mLawParagraph;
 
     // simple test
     private TextView mQuestion, mAnswer;
@@ -324,6 +328,19 @@ public class TestActivity extends BaseActivity {
         mMainBackground = (RelativeLayout)findViewById(R.id.main_test_bg);
         mTitle = (TextView)findViewById(R.id.law_name);
         mProgressHint = (TextView)findViewById(R.id.progress_hint);
+        mLawParagraph = (ImageView)findViewById(R.id.law_paragh);
+        mLawParagraph.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    new LawParagraphDialog(mPlan.mPlanType, null).show(getFragmentManager(), null);
+                } else {
+                    ApiUnder16DialogHelper.LawParagraphDialog.getNewInstanceDialog(
+                            TestActivity.this, mPlan.mPlanType, null).show();
+                }
+            }
+        });
         mYes = (Button)findViewById(R.id.yes);
         mYes.setOnClickListener(new OnClickListener() {
             @Override

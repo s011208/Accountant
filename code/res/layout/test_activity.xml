@@ -6,20 +6,37 @@
     android:background="@drawable/blue_main_paper_bg"
     android:padding="@dimen/simple_test_activity_margin" >
 
-    <TextView
-        android:id="@+id/law_name"
+    <RelativeLayout
+        android:id="@+id/topic_section"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/simple_test_activity_title_margin"
-        android:gravity="center"
-        android:textSize="@dimen/simple_test_activity_title_textsize" />
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/law_paragh"
+            android:layout_width="@dimen/create_plan_paragraph_icon_size"
+            android:layout_height="@dimen/create_plan_paragraph_icon_size"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/create_plan_paragraph_icon_padding"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_law_paragraph" />
+
+        <TextView
+            android:id="@+id/law_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/simple_test_activity_title_margin"
+            android:layout_toLeftOf="@+id/law_paragh"
+            android:gravity="center_vertical|left"
+            android:textSize="@dimen/simple_test_activity_title_textsize" />
+    </RelativeLayout>
 
     <View
         android:id="@+id/sep_1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/law_name"
+        android:layout_below="@+id/topic_section"
         android:background="#ff000000" >
     </View>
 
@@ -92,9 +109,9 @@
     </TextView>
 
     <ViewSwitcher
+        android:id="@+id/test_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/test_switcher"
         android:layout_above="@+id/progress_hint"
         android:layout_below="@+id/sep_1" >
 

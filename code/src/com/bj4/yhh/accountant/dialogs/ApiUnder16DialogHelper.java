@@ -1,12 +1,17 @@
 
 package com.bj4.yhh.accountant.dialogs;
 
+import java.util.ArrayList;
+
 import com.bj4.yhh.accountant.AccountantApplication;
 import com.bj4.yhh.accountant.LawAttrs;
+import com.bj4.yhh.accountant.LawPara;
 import com.bj4.yhh.accountant.R;
 import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.dialogs.ConfirmToExitDialog.Callback;
+import com.bj4.yhh.accountant.dialogs.LawParagraphDialog.LawParagraphListAdapter;
+import com.bj4.yhh.accountant.dialogs.LawParagraphDialog.LawParagraphListAdapter.ViewHolder;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 
 import android.app.AlertDialog;
@@ -22,14 +27,19 @@ import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
@@ -302,7 +312,6 @@ public class ApiUnder16DialogHelper {
     }
 
     public static class SettingDialog extends BaseDialog {
-
         private ImageView mBlueTheme, mGreenTheme, mBlackTheme, mBlueCheck, mGreenCheck,
                 mBlackCheck;
 
@@ -427,6 +436,128 @@ public class ApiUnder16DialogHelper {
         public static Dialog getNewInstanceDialog(Context c) {
             SettingDialog dialog = new SettingDialog(c);
             return dialog.getNewDialog();
+        }
+    }
+
+    public static class LawParagraphDialog extends BaseDialog {
+        private int mLawType = 0;
+
+        private TextView mNoDataHint;
+
+        private com.bj4.yhh.accountant.dialogs.LawParagraphDialog.Callback mCallback;
+
+        protected LawParagraphDialog(Context c, int type,
+                com.bj4.yhh.accountant.dialogs.LawParagraphDialog.Callback cb) {
+            super(c);
+            mLawType = type;
+            mCallback = cb;
+        }
+
+        @Override
+        protected void init() {
+            LayoutInflater inflater = (LayoutInflater)mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mContentView = inflater.inflate(R.layout.law_paragraph_dialog, null);
+            mNoDataHint = (TextView)mContentView.findViewById(R.id.law_paragraph_no_data_hint);
+            ListView list = (ListView)mContentView.findViewById(R.id.law_paragraph_list);
+            final LawParagraphListAdapter adapter = new LawParagraphListAdapter(mContext, mLawType);
+            list.setAdapter(adapter);
+            list.setOnItemClickListener(new OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                    if (mCallback != null) {
+                        mCallback.onItemSelected(adapter.getItem(arg2).mTitle);
+                        mDialog.dismiss();
+                    }
+                }
+            });
+        }
+
+        protected Dialog getNewDialog() {
+            mDialog = super.getNewDialog();
+            init();
+            mDialog.setTitle(R.string.law_paragraph_dialog_title);
+            mDialog.setContentView(mContentView);
+            mDialog.setCancelable(true);
+            return mDialog;
+        }
+
+        public static Dialog getNewInstanceDialog(Context c, int type,
+                com.bj4.yhh.accountant.dialogs.LawParagraphDialog.Callback cb) {
+            LawParagraphDialog dialog = new LawParagraphDialog(c, type, cb);
+            return dialog.getNewDialog();
+        }
+
+        class LawParagraphListAdapter extends BaseAdapter {
+
+            private final ArrayList<LawPara> mData = new ArrayList<LawPara>();
+
+            private Context mContext;
+
+            private int mLawType;
+
+            private LayoutInflater mInflater;
+
+            public LawParagraphListAdapter(Context c, int lawType) {
+                mContext = c;
+                mLawType = lawType;
+                mInflater = (LayoutInflater)mContext
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                init();
+            }
+
+            public void init() {
+                mData.clear();
+                mData.addAll(AccountantApplication.getDatabaseHelper(mContext).getLawParagraph(
+                        mLawType));
+                if (mData.isEmpty()) {
+                    mNoDataHint.setVisibility(View.VISIBLE);
+                } else {
+                    mNoDataHint.setVisibility(View.GONE);
+                }
+            }
+
+            public void notifyDataSetChanged() {
+                init();
+                super.notifyDataSetChanged();
+            }
+
+            @Override
+            public int getCount() {
+                return mData.size();
+            }
+
+            @Override
+            public LawPara getItem(int arg0) {
+                return mData.get(arg0);
+            }
+
+            @Override
+            public long getItemId(int arg0) {
+                return arg0;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                ViewHolder holder = null;
+                if (convertView == null) {
+                    holder = new ViewHolder();
+                    convertView = mInflater.inflate(R.layout.law_paragraph_dialog_row, null);
+                    holder.mParagraph = (TextView)convertView
+                            .findViewById(R.id.law_paragraph_content);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (ViewHolder)convertView.getTag();
+                }
+                final LawPara para = getItem(position);
+                holder.mParagraph.setText(LawPara.generateReadableString(para));
+                return convertView;
+            }
+
+            class ViewHolder {
+                TextView mParagraph;
+            }
         }
     }
 }

@@ -86,5 +86,6 @@
     <string name="no_data_hint_overview">請先更新法條資料</string>
     <string name="no_updated_time">沒有更新資料</string>
     <string name="settings_enable_eden">進入伊甸園</string>
-
-</resources>
+    <string name="law_paragraph_dialog_title">編章節</string>
+    <string name="law_paragraph_no_data_hint">請重新更新資料</string>
+</resources>

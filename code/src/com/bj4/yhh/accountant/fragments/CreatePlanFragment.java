@@ -11,6 +11,9 @@ import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
+import com.bj4.yhh.accountant.dialogs.ApiUnder16DialogHelper;
+import com.bj4.yhh.accountant.dialogs.LawParagraphDialog;
+import com.bj4.yhh.accountant.dialogs.SettingDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.ToastHelper;
 
@@ -19,6 +22,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -35,6 +39,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
@@ -280,7 +285,7 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if (convertView == null) {
                 convertView = mInflater
@@ -291,11 +296,12 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                 holder.mProgressByLine = (TextView)convertView.findViewById(R.id.progress_by_line);
                 holder.mOrder = (TextView)convertView.findViewById(R.id.order);
                 holder.mProgressBar = (ProgressBar)convertView.findViewById(R.id.progress);
+                holder.mLawParagraph = (ImageView)convertView.findViewById(R.id.law_paragh);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder)convertView.getTag();
             }
-            PlanAttrs plan = getItem(position);
+            final PlanAttrs plan = getItem(position);
             holder.mType.setText(GovLawParser.getTypeTextResource(plan.mPlanType));
             holder.mOrder
                     .setText(plan.mReadingOrder == READING_ORDER_CHAPTER ? R.string.reading_order_chapter
@@ -307,6 +313,18 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
             holder.mProgressBar.setMax(plan.mTotalProgress);
             holder.mProgressBar.setProgress(plan.mCurrentProgress);
             holder.mProgressByLine.setText(currentLines + " / " + totalLines);
+            holder.mLawParagraph.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        new LawParagraphDialog(plan.mPlanType, null).show(getFragmentManager(), null);
+                    } else {
+                        ApiUnder16DialogHelper.LawParagraphDialog.getNewInstanceDialog(mContext,
+                                plan.mPlanType, null).show();
+                    }
+                }
+            });
             return convertView;
         }
 
@@ -320,6 +338,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
             TextView mProgressByLine;
 
             ProgressBar mProgressBar;
+
+            ImageView mLawParagraph;
         }
     }
 

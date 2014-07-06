@@ -11,6 +11,7 @@ import com.bj4.yhh.accountant.activities.MainActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.dialogs.ApiUnder16DialogHelper;
 import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
+import com.bj4.yhh.accountant.dialogs.LawParagraphDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 import com.bj4.yhh.accountant.utilities.MagicFuzzy;
 
@@ -32,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -40,6 +42,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -88,6 +91,8 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
 
     private TextView mNoDataHint;
 
+    private ImageView mLawParagraph;
+
     public OverViewFragment() {
     }
 
@@ -135,6 +140,50 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        mLawParagraph = (ImageView)mContentView.findViewById(R.id.law_paragh);
+        mLawParagraph.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    new LawParagraphDialog(sDisplayContentType, new LawParagraphDialog.Callback() {
+
+                        @Override
+                        public void onItemSelected(String content) {
+                            content = content.substring(content.lastIndexOf("§") + 1);
+                            if (mLawContentAdapter != null && mLawContent != null) {
+                                for (int i = 0; i < mLawContentAdapter.getCount(); i++) {
+                                    if (mLawContentAdapter.getItem(i).mLine.replace("第", "")
+                                            .replace("條", "").trim().equals(content)) {
+                                        mLawContent.setSelection(i);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }).show(getFragmentManager(), null);
+                } else {
+                    ApiUnder16DialogHelper.LawParagraphDialog.getNewInstanceDialog(mContext,
+                            sDisplayContentType, new LawParagraphDialog.Callback() {
+
+                                @Override
+                                public void onItemSelected(String content) {
+                                    content = content.substring(content.lastIndexOf("§") + 1);
+                                    if (mLawContentAdapter != null && mLawContent != null) {
+                                        for (int i = 0; i < mLawContentAdapter.getCount(); i++) {
+                                            if (mLawContentAdapter.getItem(i).mLine
+                                                    .replace("第", "").replace("條", "").trim()
+                                                    .equals(content)) {
+                                                mLawContent.setSelection(i);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }).show();
+                }
             }
         });
         initContentListView();

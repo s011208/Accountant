@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.bj4.yhh.accountant.LawAttrs;
+import com.bj4.yhh.accountant.LawPara;
 import com.bj4.yhh.accountant.PlanAttrs;
 import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.fragments.CreatePlanFragment;
@@ -27,6 +28,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "law.db";
 
     private static final String TAG = "DatabaseHelper";
+
+    // law paragraph table
+
+    public static final String TABLE_NAME_LAW_PARAGRAPH = "law_paragraph";
+
+    public static final String COLUMN_LAW_PARAGRAPH_TITLE = "title";
 
     // update time table
     public static final String TABLE_NAME_LAW_UPDATE_TIME = "law_update_time";
@@ -60,6 +67,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // data related
     public static final String TABLE_NAME_LAW = "law";
 
+    public static final String COLUMN_PART = "part";
+
     public static final String COLUMN_CHAPTER = "chapter";
 
     public static final String COLUMN_SECTION = "section";
@@ -69,8 +78,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LINE = "line";
 
     public static final String COLUMN_CONTENT = "content";
-
-    public static final String COLUMN_PART = "part";
 
     public static final String COLUMN_ID = "_id";
 
@@ -161,6 +168,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getDataBase().execSQL(
                 "CREATE TABLE if not exists " + TABLE_NAME_LAW_UPDATE_TIME + " (" + COLUMN_LAW_TYPE
                         + " INTEGER PRIMARY KEY , " + COLUMN_LAW_UPDATE_TIME + " TEXT)");
+
+        // law paragraph
+        getDataBase().execSQL(
+                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_LAW_PARAGRAPH + "(" + COLUMN_TYPE
+                        + " INTEGER, " + COLUMN_LAW_PARAGRAPH_TITLE + " TEXT)");
+    }
+
+    public ArrayList<LawPara> getLawParagraph(int lawType) {
+        ArrayList<LawPara> rtn = new ArrayList<LawPara>();
+        Cursor data = getDataBase().query(TABLE_NAME_LAW_PARAGRAPH, null,
+                COLUMN_TYPE + "=" + lawType, null, null, null, null);
+        if (data != null) {
+            int typeIndex = data.getColumnIndex(COLUMN_TYPE);
+            int titleIndex = data.getColumnIndex(COLUMN_LAW_PARAGRAPH_TITLE);
+            while (data.moveToNext()) {
+                rtn.add(new LawPara(data.getInt(typeIndex), data.getString(titleIndex)));
+            }
+            data.close();
+        }
+        return rtn;
+    }
+
+    public void insertLawParagraph(ArrayList<LawPara> para, int lawType) {
+        getDataBase().delete(TABLE_NAME_LAW_PARAGRAPH, COLUMN_TYPE + "=" + lawType, null);
+        try {
+            getDataBase().beginTransaction();
+            for (LawPara p : para) {
+                ContentValues cv = new ContentValues();
+                cv.put(COLUMN_TYPE, p.mLawType);
+                cv.put(COLUMN_LAW_PARAGRAPH_TITLE, p.mTitle);
+                try {
+                    getDataBase().insertOrThrow(TABLE_NAME_LAW_PARAGRAPH, null, cv);
+                } catch (Exception e) {
+                }
+            }
+            getDataBase().setTransactionSuccessful();
+        } finally {
+            getDataBase().endTransaction();
+        }
     }
 
     public void insertLawUpdateTime(int type, String time) {

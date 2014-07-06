@@ -86,6 +86,8 @@
     <string name="no_data_hint_overview">Please update law data in advance</string>
     <string name="no_updated_time">No data</string>
     <string name="settings_enable_eden">Enable Eden</string>
+    <string name="law_paragraph_dialog_title">Law paragraph</string>
+    <string name="law_paragraph_no_data_hint">Data may not be downloaded completely</string>
     <!-- not translated -->
 
 </resources>

@@ -5,33 +5,50 @@
     android:paddingLeft="5dp"
     android:paddingRight="5dp" >
 
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:ellipsize="end"
-        android:gravity="left"
-        android:singleLine="true"
-        android:textSize="@dimen/create_plan_manage_listview_row_type_textsize" />
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/order"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/type"
-        android:ellipsize="end"
-        android:gravity="left"
-        android:singleLine="true" />
+        <ImageView
+            android:id="@+id/law_paragh"
+            android:layout_width="@dimen/create_plan_paragraph_icon_size"
+            android:layout_height="@dimen/create_plan_paragraph_icon_size"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/create_plan_paragraph_icon_padding"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_law_paragraph" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/law_paragh"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:singleLine="true"
+            android:textSize="@dimen/create_plan_manage_listview_row_type_textsize" />
+
+        <TextView
+            android:id="@+id/order"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/type"
+            android:layout_toLeftOf="@+id/law_paragh"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:singleLine="true" />
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/order"
+        android:layout_below="@+id/top_layout"
         android:layout_marginLeft="@dimen/create_plan_manage_listview_row_progress_margin_h"
         android:layout_marginRight="@dimen/create_plan_manage_listview_row_progress_margin_h"
         android:progressDrawable="@drawable/custom_progressbar" />

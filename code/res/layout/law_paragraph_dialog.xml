@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/law_paragraph_dialog_padding" >
+
+    <TextView
+        android:id="@+id/law_paragraph_no_data_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/law_paragraph_no_data_hint"
+        android:textSize="@dimen/law_paragraph_dialog_no_data_hint_text_size"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/law_paragraph_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
+
+</LinearLayout>
