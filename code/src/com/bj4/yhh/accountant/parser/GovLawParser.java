@@ -22,6 +22,8 @@ import android.util.Log;
 public class GovLawParser implements Runnable {
     public interface ResultCallback {
         public void parseDone(int result, Exception e);
+
+        public void loadingProgress(int type, int progress);
     }
 
     private ResultCallback mCallback;
@@ -170,6 +172,15 @@ public class GovLawParser implements Runnable {
                     }
                 }
             }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mCallback != null) {
+                        mCallback.loadingProgress(mLawType, 65);
+                    }
+                }
+            }).start();
+
             // parse update time
             String updateTimeUrl = url.replace("LawAll.aspx", "LawContent.aspx");
             doc = Jsoup.connect(updateTimeUrl).get();
@@ -179,8 +190,24 @@ public class GovLawParser implements Runnable {
                     mUpdateTime = e.text();
                 }
             }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mCallback != null) {
+                        mCallback.loadingProgress(mLawType, 80);
+                    }
+                }
+            }).start();
             // parse paragraph
             parseParagraph(url.replace("LawAll.aspx", "LawAllPara.aspx"));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mCallback != null) {
+                        mCallback.loadingProgress(mLawType, 90);
+                    }
+                }
+            }).start();
         } catch (Exception e) {
             result = RESULT_FAIL;
             failException = e;
@@ -188,6 +215,7 @@ public class GovLawParser implements Runnable {
         } finally {
             refreshTable();
             if (mCallback != null) {
+                mCallback.loadingProgress(mLawType, 100);
                 mCallback.parseDone(result, failException);
             }
         }

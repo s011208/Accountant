@@ -47,7 +47,7 @@ public class MainEntryFragment extends BaseFragment {
 
     private Button mPlan, mTest, mOverview, mCheckUpdate;
 
-    private TextView mMainTitle;
+    private TextView mMainTitle, mUpdatingProgress;
 
     private MainActivity mMainActivity;
 
@@ -141,6 +141,7 @@ public class MainEntryFragment extends BaseFragment {
                 }
             }
         });
+        mUpdatingProgress = (TextView)mContentView.findViewById(R.id.update_progress);
         mPlan = (Button)mContentView.findViewById(R.id.plan);
         mTest = (Button)mContentView.findViewById(R.id.test);
         mOverview = (Button)mContentView.findViewById(R.id.overview);
@@ -355,5 +356,22 @@ public class MainEntryFragment extends BaseFragment {
             }
         });
         mTutorialView.setMainBackground(((MainActivity)getActivity()).getMainBackground(), null);
+    }
+
+    public void setUpdatingProgressVisibility(int visibility) {
+        if (mUpdatingProgress != null) {
+            mUpdatingProgress.setVisibility(visibility);
+            if (visibility == View.VISIBLE) {
+                mUpdatingProgress
+                        .setText(mContext.getString(R.string.retrieve_progress) + ":  0 %");
+            }
+        }
+    }
+
+    public void setUpdatingProgress(int progress) {
+        if (mUpdatingProgress != null) {
+            mUpdatingProgress.setText(mContext.getString(R.string.retrieve_progress) + ":  "
+                    + progress + " %");
+        }
     }
 }

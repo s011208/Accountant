@@ -11,14 +11,22 @@ import com.bj4.yhh.accountant.fragments.MainEntryFragment;
 import com.bj4.yhh.accountant.fragments.OverViewFragment;
 import com.bj4.yhh.accountant.fragments.TestFragment;
 import com.bj4.yhh.accountant.service.ParseService;
+import com.bj4.yhh.accountant.service.ParseServiceBinder;
+import com.bj4.yhh.accountant.service.ParseServiceCallback;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -54,6 +62,27 @@ public class MainActivity extends BaseActivity {
 
     private RelativeLayout mMainBackground;
 
+    private ParseServiceBinder mService;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            mService = ParseServiceBinder.Stub.asInterface(service);
+            try {
+                mService.registerCallback(mCallback);
+            } catch (RemoteException e) {
+            }
+
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            try {
+                mService.unregisterCallback(mCallback);
+            } catch (RemoteException e) {
+            }
+            mService = null;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -71,6 +100,61 @@ public class MainActivity extends BaseActivity {
         runParserIfNeeded();
         themeColorChanged(SettingManager.getInstance(this).getThemeColor());
     }
+
+    public void onResume() {
+        super.onResume();
+        bindService();
+    }
+
+    public void onPause() {
+        super.onPause();
+        unbindService(mConnection);
+    }
+
+    public void bindService() {
+        Intent intent = new Intent(this, ParseService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        startService(intent);
+    }
+
+    private ParseServiceCallback mCallback = new ParseServiceCallback.Stub() {
+
+        @Override
+        public void loadingProcess(final int percentage) throws RemoteException {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mCurrentFragment == MAIN_ENTRY_FRAGMENT) {
+                        getMainEntryFragment().setUpdatingProgress(percentage);
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void loadingDone() throws RemoteException {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mCurrentFragment == MAIN_ENTRY_FRAGMENT) {
+                        getMainEntryFragment().setUpdatingProgressVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void startLoading() throws RemoteException {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mCurrentFragment == MAIN_ENTRY_FRAGMENT) {
+                        getMainEntryFragment().setUpdatingProgressVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
+    };
 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
