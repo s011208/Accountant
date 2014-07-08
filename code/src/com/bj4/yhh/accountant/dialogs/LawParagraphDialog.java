@@ -41,9 +41,9 @@ public class LawParagraphDialog extends BaseDialog {
         final Context context = getActivity();
         LayoutInflater inflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.law_paragraph_dialog, null);
-        ListView list = (ListView)v.findViewById(R.id.law_paragraph_list);
-        mNoDataHint = (TextView)v.findViewById(R.id.law_paragraph_no_data_hint);
+        mContentView = inflater.inflate(R.layout.law_paragraph_dialog, null);
+        ListView list = (ListView)mContentView.findViewById(R.id.law_paragraph_list);
+        mNoDataHint = (TextView)mContentView.findViewById(R.id.law_paragraph_no_data_hint);
         final LawParagraphListAdapter adapter = new LawParagraphListAdapter(context, mLawType);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new OnItemClickListener() {
@@ -57,7 +57,7 @@ public class LawParagraphDialog extends BaseDialog {
             }
         });
         AlertDialog.Builder builder = getDialogBuilder();
-        builder.setTitle(R.string.law_paragraph_dialog_title).setCancelable(true).setView(v);
+        builder.setTitle(R.string.law_paragraph_dialog_title).setCancelable(true).setView(mContentView);
         return builder.create();
     }
 

@@ -89,5 +89,6 @@
     <string name="law_paragraph_dialog_title">編章節</string>
     <string name="law_paragraph_no_data_hint">請重新更新資料</string>
     <string name="retrieve_progress">讀取進度</string>
-
-</resources>
+    <string name="setting_high_performance_title">高度體驗模式</string>
+    <string name="setting_high_performance_check">允許更多動畫</string>
+</resources>

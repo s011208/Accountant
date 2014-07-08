@@ -38,8 +38,8 @@ public class ConfirmToExitDialog extends BaseDialog {
         final Context context = getActivity();
         LayoutInflater inflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.confirm_to_exit_dialog, null);
-        CheckBox cb = (CheckBox)v.findViewById(R.id.show_again);
+        mContentView = inflater.inflate(R.layout.confirm_to_exit_dialog, null);
+        CheckBox cb = (CheckBox)mContentView.findViewById(R.id.show_again);
         cb.setChecked(false);
         cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -49,7 +49,7 @@ public class ConfirmToExitDialog extends BaseDialog {
             }
         });
         AlertDialog.Builder builder = getDialogBuilder();
-        builder.setTitle(R.string.confirm_to_exit_dialog_title).setCancelable(true).setView(v);
+        builder.setTitle(R.string.confirm_to_exit_dialog_title).setCancelable(true).setView(mContentView);
         builder.setPositiveButton(R.string.ok, new OnClickListener() {
 
             @Override

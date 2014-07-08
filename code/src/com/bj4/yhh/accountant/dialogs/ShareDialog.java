@@ -21,10 +21,10 @@ public class ShareDialog extends BaseDialog {
         final Context context = getActivity();
         LayoutInflater inflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.share_to_dialog, null);
-        LinearLayout shareTo = (LinearLayout)v.findViewById(R.id.share_to);
-        LinearLayout sendSuggestion = (LinearLayout)v.findViewById(R.id.send_suggestion);
-        LinearLayout gradeMe = (LinearLayout)v.findViewById(R.id.grade_me);
+        mContentView = inflater.inflate(R.layout.share_to_dialog, null);
+        LinearLayout shareTo = (LinearLayout)mContentView.findViewById(R.id.share_to);
+        LinearLayout sendSuggestion = (LinearLayout)mContentView.findViewById(R.id.send_suggestion);
+        LinearLayout gradeMe = (LinearLayout)mContentView.findViewById(R.id.grade_me);
         shareTo.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -66,7 +66,7 @@ public class ShareDialog extends BaseDialog {
             }
         });
         AlertDialog.Builder builder = getDialogBuilder();
-        builder.setTitle(R.string.share_dialog_title).setCancelable(true).setView(v);
+        builder.setTitle(R.string.share_dialog_title).setCancelable(true).setView(mContentView);
         return builder.create();
     }
 

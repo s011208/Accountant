@@ -19,8 +19,6 @@ import com.bj4.yhh.accountant.SettingManager;
 import com.bj4.yhh.accountant.parser.GovLawParser;
 
 public class SettingDialog extends BaseDialog {
-    private View mContentView;
-
     private ImageView mBlueTheme, mGreenTheme, mBlackTheme, mBlueCheck, mGreenCheck, mBlackCheck;
 
     private Context mContext;
@@ -105,6 +103,7 @@ public class SettingDialog extends BaseDialog {
         initTheme();
         initConfirmWhenExitTest();
         initDeveloperMode();
+        initHighPerformanceMode();
     }
 
     private void initConfirmWhenExitTest() {
@@ -120,6 +119,21 @@ public class SettingDialog extends BaseDialog {
                 mSettingManager.setShowTestActivityExitDialog(isChecked);
             }
         });
+    }
+
+    private void initHighPerformanceMode() {
+        CheckBox enableHighPerformance = (CheckBox)mContentView
+                .findViewById(R.id.settings_high_performance_mode);
+        if (enableHighPerformance != null) {
+            enableHighPerformance.setChecked(!mSettingManager.enableHighPerformance());
+            enableHighPerformance.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mSettingManager.setEnableHighPerformance(!isChecked);
+                }
+            });
+        }
     }
 
     private void initDeveloperMode() {

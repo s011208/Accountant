@@ -34,6 +34,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -246,6 +248,10 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
                 }
             } else {
                 holder.mLine.setBackgroundColor(0xcc8080c0);
+            }
+            if (!mEnableHighPerformance) {
+                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_alpha);
+                convertView.startAnimation(animation);
             }
             return convertView;
         }

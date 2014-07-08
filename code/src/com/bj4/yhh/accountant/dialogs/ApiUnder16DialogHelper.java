@@ -388,6 +388,7 @@ public class ApiUnder16DialogHelper {
             initTheme();
             initConfirmWhenExitTest();
             initDeveloperMode();
+            initHighPerformanceMode();
         }
 
         private void initConfirmWhenExitTest() {
@@ -421,6 +422,21 @@ public class ApiUnder16DialogHelper {
                 });
             } else {
                 parent.setVisibility(View.GONE);
+            }
+        }
+
+        private void initHighPerformanceMode() {
+            CheckBox enableHighPerformance = (CheckBox)mContentView
+                    .findViewById(R.id.settings_high_performance_mode);
+            if (enableHighPerformance != null) {
+                enableHighPerformance.setChecked(!mSettingManager.enableHighPerformance());
+                enableHighPerformance.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        mSettingManager.setEnableHighPerformance(!isChecked);
+                    }
+                });
             }
         }
 

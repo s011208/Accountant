@@ -25,6 +25,8 @@ public class SettingManager {
 
     private static final String KEY_D_MODE = "developer_mode";
 
+    private static final String KEY_ENABLE_HIGH_PERFORMANCE = "enable_high_performance";
+
     private Context mContext;
 
     private SharedPreferences mPref;
@@ -53,6 +55,14 @@ public class SettingManager {
             mPref = mContext.getSharedPreferences(SHARE_PREF_NAME, Context.MODE_PRIVATE);
         }
         return mPref;
+    }
+
+    public boolean enableHighPerformance() {
+        return getSharPref().getBoolean(KEY_ENABLE_HIGH_PERFORMANCE, true);
+    }
+
+    public void setEnableHighPerformance(boolean open) {
+        getSharPref().edit().putBoolean(KEY_ENABLE_HIGH_PERFORMANCE, open).apply();
     }
 
     public boolean hasDModeOpened() {

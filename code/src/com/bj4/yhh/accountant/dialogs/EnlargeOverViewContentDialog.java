@@ -28,7 +28,7 @@ public class EnlargeOverViewContentDialog extends BaseDialog {
         Context context = getActivity();
         LayoutInflater inflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.enlarge_over_view_content_dialog, null);
+        mContentView = inflater.inflate(R.layout.enlarge_over_view_content_dialog, null);
         String fixedTitle = getResources().getString(GovLawParser.getTypeTextResource(mPlanType));
         StringBuilder title = new StringBuilder();
         title.append("\n");
@@ -45,10 +45,10 @@ public class EnlargeOverViewContentDialog extends BaseDialog {
             title.append(" ²Ä " + mLawAttrs.mSubSection + " ¥Ø ");
         }
         AlertDialog.Builder builder = getDialogBuilder();
-        TextView txt = (TextView)v.findViewById(R.id.enlarge_over_view_content);
+        TextView txt = (TextView)mContentView.findViewById(R.id.enlarge_over_view_content);
         txt.setText(mLawAttrs.mContent);
         builder.setTitle(fixedTitle + title.toString() + mLawAttrs.mLine).setCancelable(true)
-                .setView(v);
+                .setView(mContentView);
         return builder.create();
     }
 
