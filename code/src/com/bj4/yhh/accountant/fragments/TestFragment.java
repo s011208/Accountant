@@ -13,6 +13,7 @@ import com.bj4.yhh.accountant.activities.TestActivity;
 import com.bj4.yhh.accountant.database.DatabaseHelper;
 import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.utilities.GA;
 import com.bj4.yhh.accountant.utilities.MagicFuzzy;
 import com.bj4.yhh.accountant.utilities.ToastHelper;
 
@@ -107,6 +108,8 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         mTypeReview.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_TEST_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_TEST_REVIEW_PLAN, null, null);
                 int previousType = sTestType;
                 sTestType = TEST_TYPE_REVIEW;
                 mLawListAdapter.notifyDataSetChanged();
@@ -122,6 +125,8 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         mTypeByLaw.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_TEST_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_TEST_REVIEW_OVERALL, null, null);
                 int previousType = sTestType;
                 sTestType = TEST_TYPE_BY_LAW;
                 mLawListAdapter.notifyDataSetChanged();
@@ -137,6 +142,8 @@ public class TestFragment extends BaseFragment implements DatabaseHelper.Refresh
         mTypeByLawRandom.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_TEST_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_TEST_REVIEW_RANDOM, null, null);
                 int previousType = sTestType;
                 sTestType = TEST_TYPE_BY_LAW_RANDOM;
                 mLawListAdapter.notifyDataSetChanged();

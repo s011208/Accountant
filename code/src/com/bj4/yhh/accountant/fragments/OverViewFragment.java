@@ -13,6 +13,7 @@ import com.bj4.yhh.accountant.dialogs.ApiUnder16DialogHelper;
 import com.bj4.yhh.accountant.dialogs.EnlargeOverViewContentDialog;
 import com.bj4.yhh.accountant.dialogs.LawParagraphDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.utilities.GA;
 import com.bj4.yhh.accountant.utilities.MagicFuzzy;
 
 import android.animation.Animator;
@@ -138,6 +139,8 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 mSortType = arg2;
                 mLawContentAdapter.notifyDataSetChanged();
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_OVER_VIEW_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_OVERVIEW_SORT, null, null);
             }
 
             @Override
@@ -149,6 +152,8 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
 
             @Override
             public void onClick(View v) {
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_OVER_VIEW_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_SHOW_LAW_PARAGRAPH, null, null);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     new LawParagraphDialog(sDisplayContentType, new LawParagraphDialog.Callback() {
 
@@ -334,6 +339,8 @@ public class OverViewFragment extends BaseFragment implements DatabaseHelper.Ref
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_OVER_VIEW_FRAGMENT,
+                            GA.ACTIONS.ACTIONS_SHOW_LARGE_CONTENT, null, null);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         new EnlargeOverViewContentDialog(mLawContentAdapter.getItem(position),
                                 sDisplayContentType).show(getFragmentManager(), null);

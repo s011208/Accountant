@@ -5,5 +5,6 @@
     <issue id="InlinedApi" severity="ignore" />
     <issue id="NewApi" severity="ignore" />
     <issue id="UseSparseArrays" severity="ignore" />
+    <issue id="UseValueOf" severity="ignore" />
     <issue id="ValidFragment" severity="ignore" />
 </lint>

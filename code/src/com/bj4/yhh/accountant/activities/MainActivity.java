@@ -13,6 +13,7 @@ import com.bj4.yhh.accountant.fragments.TestFragment;
 import com.bj4.yhh.accountant.service.ParseService;
 import com.bj4.yhh.accountant.service.ParseServiceBinder;
 import com.bj4.yhh.accountant.service.ParseServiceCallback;
+import com.bj4.yhh.accountant.utilities.GA;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -30,6 +31,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
 
 public class MainActivity extends BaseActivity {
     public static final int MAIN_ENTRY_FRAGMENT = 1;
@@ -109,6 +112,18 @@ public class MainActivity extends BaseActivity {
     public void onPause() {
         super.onPause();
         unbindService(mConnection);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     public void bindService() {
@@ -224,12 +239,16 @@ public class MainActivity extends BaseActivity {
         switch (targetFragment) {
             case MAIN_ENTRY_FRAGMENT:
                 target = getMainEntryFragment();
+                GA.sendEvents(getApplicationContext(), GA.CATEGORY.CATEGORY_MAIN_ENRTY_FRAGMENT,
+                        null, null, null);
                 mCurrentFragment = MAIN_ENTRY_FRAGMENT;
                 animationIn = R.anim.fragment_slide_in_l_to_r;
                 animationOut = R.anim.fragment_slide_out_l_to_r;
                 break;
             case CREATE_PLAN_FRAGMENT:
                 target = getCreatePlanFragment();
+                GA.sendEvents(getApplicationContext(), GA.CATEGORY.CATEGORY_CREATE_PLAN_FRAGMENT,
+                        null, null, null);
                 if (animated == false && mPreviousDisplayChild != -1) {
                     getCreatePlanFragment().setDisplayedChild(mPreviousDisplayChild);
                 }
@@ -237,6 +256,8 @@ public class MainActivity extends BaseActivity {
                 break;
             case OVER_VIEW_FRAGMENT:
                 target = getOverViewFragment();
+                GA.sendEvents(getApplicationContext(), GA.CATEGORY.CATEGORY_OVER_VIEW_FRAGMENT,
+                        null, null, null);
                 if (animated == false && mPreviousDisplayChild != -1) {
                     getOverViewFragment().setDisplayedChild(mPreviousDisplayChild);
                 }
@@ -244,6 +265,8 @@ public class MainActivity extends BaseActivity {
                 break;
             case TEST_FRAGMENT:
                 target = getTestFragment();
+                GA.sendEvents(getApplicationContext(), GA.CATEGORY.CATEGORY_TEST_FRAGMENT, null,
+                        null, null);
                 if (animated == false && mPreviousDisplayChild != -1) {
                     getTestFragment().setDisplayedChild(mPreviousDisplayChild);
                 }

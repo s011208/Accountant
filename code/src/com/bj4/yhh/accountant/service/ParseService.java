@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.utilities.GA;
 import com.bj4.yhh.accountant.utilities.ToastHelper;
 
 import android.app.Service;
@@ -34,6 +35,8 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
 
     private int mCurrentLoadingProgress = 0;
 
+    private long mLoadingTimer = 0;
+
     private final RemoteCallbackList<ParseServiceCallback> mCallbacks = new RemoteCallbackList<ParseServiceCallback>();
 
     private ParseServiceBinder.Stub mBinder = new ParseServiceBinder.Stub() {
@@ -52,6 +55,7 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
     };
 
     private void startLoading() {
+        mLoadingTimer = System.currentTimeMillis();
         mCurrentLoadingProgress = 0;
         int i = mCallbacks.beginBroadcast();
         while (i > 0) {
@@ -100,6 +104,11 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
             }
         }
         mCallbacks.finishBroadcast();
+        mLoadingTimer = System.currentTimeMillis() - mLoadingTimer;
+        if (mHasFailed == false) {
+            GA.sendTiming(getApplicationContext(), GA.CATEGORY.CATEGORY_PARSE_DATA_TIME,
+                    mLoadingTimer, null, null);
+        }
     }
 
     public void onCreate() {
@@ -218,8 +227,8 @@ public class ParseService extends Service implements GovLawParser.ResultCallback
                         ToastHelper.makeToast(getApplicationContext(),
                                 ToastHelper.TOAST_TYPE_UPDATE_RESULT_OK).show();
                     }
-                    mHasFailed = false;
                     parseDone();
+                    mHasFailed = false;
                 }
             });
             System.gc();

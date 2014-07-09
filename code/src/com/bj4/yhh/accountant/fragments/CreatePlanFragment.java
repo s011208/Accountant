@@ -15,6 +15,7 @@ import com.bj4.yhh.accountant.dialogs.ApiUnder16DialogHelper;
 import com.bj4.yhh.accountant.dialogs.LawParagraphDialog;
 import com.bj4.yhh.accountant.dialogs.SettingDialog;
 import com.bj4.yhh.accountant.parser.GovLawParser;
+import com.bj4.yhh.accountant.utilities.GA;
 import com.bj4.yhh.accountant.utilities.ToastHelper;
 
 import android.app.AlertDialog;
@@ -150,6 +151,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
 
             @Override
             public void onClick(View v) {
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_CREATE_PLAN_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_ADD_NEW_PLAN, null, null);
                 if (mDatabaseHelper.getAllLawTypes().isEmpty()) {
                     ToastHelper.makeToast(mContext, ToastHelper.TOAST_TYPE_DOWNLOAD_LAWS_INADVANCE)
                             .show();
@@ -166,6 +169,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
 
             @Override
             public void onClick(View arg0) {
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_CREATE_PLAN_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_DELETE_PLAN, null, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(
                         mContext, android.R.style.Theme_Holo_Light_Dialog));
                 builder.setMessage(R.string.dialog_confirm_to_delete_all_msg);
@@ -216,6 +221,8 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position,
                     long id) {
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_CREATE_PLAN_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_DELETE_PLAN_FROM_LIST, null, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(
                         mContext, android.R.style.Theme_Holo_Light_Dialog));
                 String planType = GovLawParser.getTypeText(mContext,
@@ -318,11 +325,41 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                 @Override
                 public void onClick(View v) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        new LawParagraphDialog(plan.mPlanType, null).show(getFragmentManager(), null);
+                        new LawParagraphDialog(plan.mPlanType, null).show(getFragmentManager(),
+                                null);
                     } else {
                         ApiUnder16DialogHelper.LawParagraphDialog.getNewInstanceDialog(mContext,
                                 plan.mPlanType, null).show();
                     }
+                    String type = GA.LABELS.LABELS_COMPANY_LAW;
+                    switch (plan.mPlanType) {
+                        case GovLawParser.PARSE_TYPE_COMPANY:
+                            type = GA.LABELS.LABELS_COMPANY_LAW;
+                            break;
+                        case GovLawParser.PARSE_TYPE_LAND:
+                            type = GA.LABELS.LABELS_LAND_LAW;
+                            break;
+                        case GovLawParser.PARSE_TYPE_TAX_COLLECTION:
+                            type = GA.LABELS.LABELS_TAX_COLLECTIONS;
+                            break;
+                        case GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW:
+                            type = GA.LABELS.LABELS_VALUE_BUSINESS_LAW;
+                            break;
+                        case GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX:
+                            type = GA.LABELS.LABELS_ESTATE_GIFT_TAX_LAW;
+                            break;
+                        case GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING:
+                            type = GA.LABELS.LABELS_BUSINESS_ENTITY_ACCOUNTING_LAW;
+                            break;
+                        case GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE:
+                            type = GA.LABELS.LABELS_SECURITY_EXCHANGE_LAW;
+                            break;
+                        case GovLawParser.PARSE_TYPE_INCOME_TAX:
+                            type = GA.LABELS.LABELS_INCOME_TAX_LAW;
+                            break;
+                    }
+                    GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_CREATE_PLAN_FRAGMENT,
+                            GA.ACTIONS.ACTIONS_SHOW_LAW_PARAGRAPH, type, null);
                 }
             });
             return convertView;
@@ -406,6 +443,35 @@ public class CreatePlanFragment extends BaseFragment implements DatabaseHelper.R
                         .getSelectedItemPosition(), totalDay, 0, 0));
                 initLawOptionSpinner();
                 setDisplayedChild(CREATE_PLAN_MANAGE_PAGE);
+                String type = GA.LABELS.LABELS_COMPANY_LAW;
+                switch (planType) {
+                    case GovLawParser.PARSE_TYPE_COMPANY:
+                        type = GA.LABELS.LABELS_COMPANY_LAW;
+                        break;
+                    case GovLawParser.PARSE_TYPE_LAND:
+                        type = GA.LABELS.LABELS_LAND_LAW;
+                        break;
+                    case GovLawParser.PARSE_TYPE_TAX_COLLECTION:
+                        type = GA.LABELS.LABELS_TAX_COLLECTIONS;
+                        break;
+                    case GovLawParser.PARSE_TYPE_VALUE_BUSINESS_LAW:
+                        type = GA.LABELS.LABELS_VALUE_BUSINESS_LAW;
+                        break;
+                    case GovLawParser.PARSE_TYPE_ESTATE_GIFT_TAX:
+                        type = GA.LABELS.LABELS_ESTATE_GIFT_TAX_LAW;
+                        break;
+                    case GovLawParser.PARSE_TYPE_BUSINESS_ENTITY_ACCOUNTING:
+                        type = GA.LABELS.LABELS_BUSINESS_ENTITY_ACCOUNTING_LAW;
+                        break;
+                    case GovLawParser.PARSE_TYPE_SECURITY_EXCHANGE:
+                        type = GA.LABELS.LABELS_SECURITY_EXCHANGE_LAW;
+                        break;
+                    case GovLawParser.PARSE_TYPE_INCOME_TAX:
+                        type = GA.LABELS.LABELS_INCOME_TAX_LAW;
+                        break;
+                }
+                GA.sendEvents(mContext, GA.CATEGORY.CATEGORY_CREATE_PLAN_FRAGMENT,
+                        GA.ACTIONS.ACTIONS_ADD_NEW_PLAN, type, new Long(totalDay));
             }
         });
         mEstimateDays = (EditText)mContentView.findViewById(R.id.estimate_days);
